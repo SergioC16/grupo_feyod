@@ -1,0 +1,107 @@
+# ===== Base SPA (React Router) =====
+DirectoryIndex index.html
+Options -MultiViews
+
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteBase /
+
+  # Si el recurso existe (archivo o carpeta), sírvelo tal cual
+  RewriteCond %{REQUEST_FILENAME} -f [OR]
+  RewriteCond %{REQUEST_FILENAME} -d
+  RewriteRule ^ - [L]
+
+  # Si NO existe, enviar todo a index.html (SPA)
+  RewriteRule ^ index.html [QSA,L]
+</IfModule>
+
+# ===== Compresión =====
+# Brotli (si está disponible)
+<IfModule mod_brotli.c>
+  AddOutputFilterByType BROTLI_COMPRESS text/html text/plain text/css
+  AddOutputFilterByType BROTLI_COMPRESS application/javascript application/json
+  AddOutputFilterByType BROTLI_COMPRESS application/xml image/svg+xml
+</IfModule>
+
+# Gzip (fallback si no hay Brotli)
+<IfModule mod_deflate.c>
+  AddOutputFilterByType DEFLATE text/html text/plain text/css
+  AddOutputFilterByType DEFLATE application/javascript application/json
+  AddOutputFilterByType DEFLATE application/xml image/svg+xml
+  AddOutputFilterByType DEFLATE application/pdf
+</IfModule>
+
+# ===== Cache =====
+<IfModule mod_expires.c>
+  ExpiresActive On
+
+  # HTML: cache corto (index.html debe actualizar rápido)
+  ExpiresByType text/html "access plus 10 minutes"
+
+  # JS/CSS/Imágenes con nombres hasheados -> cache largo
+  ExpiresByType application/javascript "access plus 1 year"
+  ExpiresByType text/javascript         "access plus 1 year"
+  ExpiresByType text/css                "access plus 1 year"
+  ExpiresByType image/avif              "access plus 1 year"
+  ExpiresByType image/webp              "access plus 1 year"
+  ExpiresByType image/svg+xml           "access plus 1 year"
+  ExpiresByType image/x-icon            "access plus 1 year"
+  ExpiresByType image/png               "access plus 1 year"
+  ExpiresByType image/jpeg              "access plus 1 year"
+  ExpiresByType image/gif               "access plus 1 year"
+
+  # Fuentes
+  ExpiresByType font/woff2 "access plus 1 year"
+  ExpiresByType font/woff  "access plus 1 year"
+  ExpiresByType application/font-woff2 "access plus 1 year"
+  ExpiresByType application/font-woff  "access plus 1 year"
+
+  # Videos/PDF (ajusta si no quieres cache largo)
+  ExpiresByType video/mp4  "access plus 1 month"
+  ExpiresByType video/webm "access plus 1 month"
+  ExpiresByType video/ogg  "access plus 1 month"
+  ExpiresByType application/pdf "access plus 1 month"
+</IfModule>
+
+# Cache-Control (index.html no debe quedar pegado)
+<IfModule mod_headers.c>
+  <FilesMatch "\.(html)$">
+    Header set Cache-Control "no-cache, no-store, must-revalidate, max-age=0"
+    Header set Pragma "no-cache"
+    Header set Expires "0"
+  </FilesMatch>
+
+  # Estáticos (CRA/Vite generan nombres hasheados -> se pueden marcar como immutable)
+  <FilesMatch "\.(js|css|png|jpg|jpeg|gif|svg|webp|avif|woff|woff2)$">
+    Header set Cache-Control "public, max-age=31536000, immutable"
+  </FilesMatch>
+
+  # CORS para fuentes (evita bloqueos al servir desde subdominios/CDN)
+  <FilesMatch "\.(woff|woff2|ttf|eot|otf)$">
+    Header set Access-Control-Allow-Origin "*"
+  </FilesMatch>
+</IfModule>
+
+# ===== Tipos MIME útiles =====
+AddType application/pdf             pdf
+AddType video/mp4                   mp4
+AddType video/webm                  webm
+AddType video/ogg                   ogv
+AddType video/quicktime             mov
+AddType video/x-m4v                 m4v
+
+# ===== Seguridad razonable =====
+<IfModule mod_headers.c>
+  Header always set X-Content-Type-Options "nosniff"
+  Header always set X-Frame-Options "SAMEORIGIN"
+  Header always set Referrer-Policy "strict-origin-when-cross-origin"
+  # Activa HSTS solo si tu sitio ya carga SIEMPRE por HTTPS:
+  # Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains"
+</IfModule>
+
+# (Opcional) Forzar descarga de PDFs:
+# <IfModule mod_headers.c>
+#   <FilesMatch "\.(pdf)$">
+#     Header set Content-Disposition "attachment"
+#   </FilesMatch>
+# </IfModule>
