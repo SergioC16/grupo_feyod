@@ -1,70 +1,141 @@
-# Getting Started with Create React App
+# Grupo Feyod Website
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Sitio web del **Grupo Feyod** construido con **React + TailwindCSS** (configurado con **CRACO**) y desplegado en **Hostinger**.
 
-## Available Scripts
+> Este repositorio contiene el código fuente del _frontend_. Los artefactos de build y los archivos pesados (videos) **no** se versionan.
 
-In the project directory, you can run:
+---
 
-### `npm start`
+## 🧱 Estructura del proyecto
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+```
+Feyod1/
+├─ backend/                 # (si aplica)
+├─ frontend/
+│  ├─ public/
+│  ├─ src/
+│  ├─ tailwind.config.js
+│  ├─ postcss.config.js
+│  ├─ craco.config.js
+│  ├─ package.json
+│  └─ yarn.lock
+├─ .gitignore
+└─ README.md
+```
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+---
 
-### `npm test`
+## 🚀 Tecnologías
+- **React** (SPA)
+- **TailwindCSS** para estilos
+- **CRACO** para personalizar configuración de CRA
+- **Yarn** como gestor de paquetes
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+---
 
-### `npm run build`
+## ✅ Requisitos
+- **Node.js 18+**
+- **Yarn 1.x** (o NPM 8+)
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+> Verifica la versión: `node -v` y `yarn -v`.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+---
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## 🛠️ Instalación y ejecución local
 
-### `npm run eject`
+```bash
+# 1) Entrar al frontend
+cd frontend
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+# 2) Instalar dependencias
+yarn install
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+# 3) Ejecutar en modo desarrollo
+yarn start
+# Abre http://localhost:3000/
+```
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+---
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+## 🧩 Variables de entorno
+Si el proyecto consume APIs o URLs externas, crea un archivo `.env` en `frontend/`.
 
-## Learn More
+> **Create React App** requiere el prefijo `REACT_APP_`.
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+Ejemplo:
+```env
+# frontend/.env
+REACT_APP_API_BASE_URL=https://api.midominio.com
+REACT_APP_WHATSAPP_NUMBER=573001234567
+```
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+Nunca subas `.env` al repositorio (ya está ignorado en `.gitignore`).
 
-### Code Splitting
+---
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+## 🏗️ Build de producción
 
-### Analyzing the Bundle Size
+```bash
+cd frontend
+yarn build
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+Esto genera la carpeta `frontend/build/` con archivos estáticos optimizados.
 
-### Making a Progressive Web App
+> **Nota:** `build/` **no** se versiona en Git. Úsala solo para desplegar.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+---
 
-### Advanced Configuration
+## 🌐 Deploy en Hostinger (static hosting)
+1. Ejecuta `yarn build` en local.
+2. Sube el contenido de `frontend/build/` a `public_html/` (o al directorio raíz que use tu dominio) por **FTP** o **File Manager**.
+3. Para soportar rutas de SPA (React Router), usa un `.htaccess` con redirección a `index.html`:
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+```apache
+# public_html/.htaccess
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteBase /
+  RewriteRule ^index\.html$ - [L]
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteCond %{REQUEST_FILENAME} !-d
+  RewriteRule . /index.html [L]
+</IfModule>
+```
 
-### Deployment
+4. Limpia caché del navegador y prueba las rutas.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+---
 
-### `npm run build` fails to minify
+## 📜 Scripts disponibles (package.json)
+- `yarn start` – Modo desarrollo
+- `yarn build` – Compilación optimizada
+- `yarn test` – (si aplica)
+- `yarn lint` / `yarn format` – (si se configuran ESLint/Prettier)
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+---
+
+## 📁 Buenas prácticas de repo
+- Mantener `node_modules/`, `build/`, `dist/`, `*.mp4` fuera del control de versiones.
+- Los videos pesados publícalos en el hosting/CDN y referencia su **URL** desde el código.
+- Commits claros: `feat:`, `fix:`, `chore:`, `docs:`…
+
+---
+
+## 🤝 Contribuir
+1. Crea una rama desde `main` (`feat/nueva-seccion`, `fix/bug-header`, etc.)
+2. Haz commits pequeños y descriptivos.
+3. Abre un Pull Request.
+
+---
+
+## 🔐 Licencia
+Código **privado** – uso interno del Grupo Feyod.
+
+---
+
+## 🧭 Mantenimiento
+- Revisar dependencias cada mes (`yarn upgrade-interactive --latest`).
+- Probar el build antes de cada despliegue.
+- Mantener `.env` fuera del repo.
+
