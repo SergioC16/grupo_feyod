@@ -14,11 +14,11 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
-          node-version: 18
+          node-version: 20
           cache: yarn
           cache-dependency-path: frontend/yarn.lock
-      
-      - run: npm i -g yarn
+      - run: npm i -g yarn@1
+      - run: yarn --version
       - run: yarn install --frozen-lockfile
       - run: yarn build
 
