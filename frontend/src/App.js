@@ -1,51 +1,53 @@
-import React, { useEffect } from "react";
-import "./App.css";
+import React, { useEffect, Suspense, lazy } from "react";
 import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
-import { motion, AnimatePresence } from "framer-motion";
-
-// Components
+// Layout
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 import WhatsAppButton from "./components/WhatsAppButton";
 
-// Pages
-import Home from "./pages/Home";
-import Products from "./pages/Products";
-import Services from "./pages/Services";
-import About from "./pages/About";
-import Contact from "./pages/Contact";
+// Páginas (carga bajo demanda)
+const Home = lazy(() => import(/* webpackPrefetch: true */ "./pages/Home"));
+const Products = lazy(() => import(/* webpackPrefetch: true */ "./pages/Products"));
+const Services = lazy(() => import(/* webpackPrefetch: true */ "./pages/Services"));
+const Contact = lazy(() => import(/* webpackPrefetch: true */ "./pages/Contact"));
+const NotFound = lazy(() => import("./pages/NotFound")); // crea un componente sencillo
 
-// Scroll to top component
+// Volver al top al cambiar de ruta
 function ScrollToTop() {
   const { pathname } = useLocation();
-
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, [pathname]);
-
+  useEffect(() => { window.scrollTo(0, 0); }, [pathname]);
   return null;
 }
 
-function App() {
+export default function App() {
   return (
-    <div className="app min-h-screen bg-white">
-      <BrowserRouter>
-        <ScrollToTop />
-        <Header />
-        <AnimatePresence mode="wait">
+    <BrowserRouter>
+      <ScrollToTop />
+
+      {/* link para accesibilidad: saltar al contenido */}
+      <a
+        href="#contenido"
+        className="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:left-2 focus:bg-white focus:text-black focus:px-3 focus:py-2 focus:rounded"
+      >
+        Saltar al contenido
+      </a>
+
+      <Header />
+
+      <main id="contenido">
+        <Suspense fallback={<div className="p-6">Cargando…</div>}>
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/productos" element={<Products />} />
             <Route path="/servicios" element={<Services />} />
-            <Route path="/nosotros" element={<About />} />
             <Route path="/contacto" element={<Contact />} />
+            <Route path="*" element={<NotFound />} />
           </Routes>
-        </AnimatePresence>
-        <Footer />
-        <WhatsAppButton />
-      </BrowserRouter>
-    </div>
+        </Suspense>
+      </main>
+
+      <Footer />
+      <WhatsAppButton />
+    </BrowserRouter>
   );
 }
-
-export default App;
