@@ -1,5 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
+import { Helmet } from "react-helmet-async";
 import { Target, Eye, Heart, Users, Award, Lightbulb, Shield, Zap } from 'lucide-react';
 
 const About = () => {
@@ -27,6 +28,11 @@ const About = () => {
   ];
 
   return (
+    <Helmet>
+      <title>Sobre Nosotros — Grupo Feyod</title>
+      <meta name="description" content="Sobre Nosotros." />
+    </Helmet>,
+
     <motion.div
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}

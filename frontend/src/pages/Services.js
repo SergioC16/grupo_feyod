@@ -3,6 +3,8 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { X, ChevronLeft, ChevronRight } from 'lucide-react';
 import { servicesData } from '../data/servicesData';
 import DownloadButton from '../components/DownloadButton';
+import React from 'react';
+import { Helmet } from 'react-helmet-async';
 
 const Services = () => {
   const [selectedService, setSelectedService] = useState(null);
@@ -87,6 +89,10 @@ const Services = () => {
     if (!selectedService) return null;
 
     return (
+    <Helmet>
+      <title>Servicios — Grupo Feyod</title>
+      <meta name="description" content="Nuestros Servicios." />
+    </Helmet>,      
       <AnimatePresence>
         <motion.div
           initial={{ opacity: 0 }}

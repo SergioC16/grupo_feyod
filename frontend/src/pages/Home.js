@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { ArrowRight, Shield, Zap, Users, Award, CheckCircle, Star } from 'lucide-react';
 import DownloadButton from '../components/DownloadButton';
+import { Helmet } from 'react-helmet-async';
 
 const Home = () => {
    
@@ -83,6 +84,11 @@ const Home = () => {
       exit={{ opacity: 0 }}
       className="overflow-hidden"
     >
+      <Helmet>
+        <title>Inicio — Grupo Feyod</title>
+        <meta name="description" content="Inicio." />
+      </Helmet>
+
       {/* Hero Section */}
       <section className="relative min-h-screen flex items-center overflow-hidden">
         {/* Image Carousel Background */}

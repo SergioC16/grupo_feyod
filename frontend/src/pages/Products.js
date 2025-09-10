@@ -3,6 +3,8 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { X, Search, ChevronLeft, ChevronRight, ChevronUp } from 'lucide-react';
 import { productsData } from '../data/productsData';
 import DownloadButton from '../components/DownloadButton';
+import React from 'react';
+import { Helmet } from 'react-helmet-async';
 
 const Products = () => {
   const [selectedProduct, setSelectedProduct] = useState(null);
@@ -277,6 +279,10 @@ const media = useMemo(() => {
   }, [selectedProduct, media, currentImageIndex]);
 
   return (
+    <Helmet>
+      <title>Productos — Grupo Feyod</title>
+      <meta name="description" content="Nuestros Productos." />
+    </Helmet>,
     <div className="min-h-screen bg-gradient-to-br from-gray-50 to-white">
       {/* Hero Banner */}
       <section className="pt-32 pb-20 bg-gradient-to-r from-primary to-primary-600 text-white relative overflow-hidden">

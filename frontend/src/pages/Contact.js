@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Mail, Phone, MapPin, Clock, Send, CheckCircle, AlertCircle, Facebook, Instagram, Linkedin, X } from 'lucide-react';
+import React from 'react';
+import { Helmet } from 'react-helmet-async';
 
 // TikTok Icon Component
 const TikTokIcon = ({ className = "w-6 h-6" }) => (
@@ -330,6 +332,12 @@ const Contact = () => {
   ];
 
   return (
+
+    <Helmet>
+      <title>Contáctanos — Grupo Feyod</title>
+      <meta name="description" content="Contáctanos." />
+    </Helmet>,
+
     <motion.div
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
