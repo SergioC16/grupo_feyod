@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Mail, Phone, MapPin, Clock, Send, CheckCircle, AlertCircle, Facebook, Instagram, Linkedin, X } from 'lucide-react';
-import React from 'react';
 import { Helmet } from 'react-helmet-async';
 
 // TikTok Icon Component

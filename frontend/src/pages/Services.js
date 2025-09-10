@@ -3,7 +3,6 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { X, ChevronLeft, ChevronRight } from 'lucide-react';
 import { servicesData } from '../data/servicesData';
 import DownloadButton from '../components/DownloadButton';
-import React from 'react';
 import { Helmet } from 'react-helmet-async';
 
 const Services = () => {

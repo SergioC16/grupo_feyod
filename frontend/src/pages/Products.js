@@ -3,7 +3,6 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { X, Search, ChevronLeft, ChevronRight, ChevronUp } from 'lucide-react';
 import { productsData } from '../data/productsData';
 import DownloadButton from '../components/DownloadButton';
-import React from 'react';
 import { Helmet } from 'react-helmet-async';
 
 const Products = () => {
