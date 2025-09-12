@@ -58,7 +58,7 @@ const About = () => {
             </h1>
             <p className="font-nexa text-xl md:text-2xl text-gray-100 leading-relaxed">
               Pioneros en tecnología sanitaria inteligente, transformando el futuro 
-              de los espacios comerciales y residenciales con innovación sustentable.
+              de los espacios comerciales y residenciales con innovación sostenible.
             </p>
           </motion.div>
         </div>

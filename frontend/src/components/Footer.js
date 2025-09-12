@@ -35,9 +35,7 @@ const Footer = () => {
   ];
 
   const socialLinks = [
-    { icon: TikTokIcon, href: 'https://www.tiktok.com/', label: 'TikTok', color: 'hover:text-pink-500' },
-    { icon: Instagram, href: 'https://www.instagram.com/', label: 'Instagram', color: 'hover:text-pink-600' },
-    { icon: Facebook, href: 'https://www.facebook.com/', label: 'Facebook', color: 'hover:text-blue-600' },
+    { icon: Instagram, href: 'https://www.instagram.com/grupofeyodrd/', label: 'Instagram', color: 'hover:text-pink-600' },
     { icon: Linkedin, href: 'https://www.linkedin.com/', label: 'LinkedIn', color: 'hover:text-blue-700' }
   ];
 
@@ -61,7 +59,7 @@ const Footer = () => {
             </Link>
             <p className="text-white/80 font-nexa mb-6 leading-relaxed">
               Pioneros en tecnología sanitaria inteligente, transformando espacios 
-              con soluciones innovadoras y sustentables.
+              con soluciones innovadoras y sostenibles.
             </p>
             <div className="flex space-x-4">
               {socialLinks.map((social, index) => {

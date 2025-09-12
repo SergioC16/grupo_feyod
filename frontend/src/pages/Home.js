@@ -39,7 +39,7 @@ const Home = () => {
     {
       icon: Shield,
       title: 'Máxima Higiene',
-      description: 'Tecnología antibacterial y sensores sin contacto para una experiencia completamente higiénica.'
+      description: 'Tecnología de higiena avanzada, sensores sin contacto para una experiencia completamente higiénica.'
     },
     {
       icon: Zap,
@@ -61,7 +61,7 @@ const Home = () => {
   const stats = [
     { number: '500+', label: 'Instalaciones' },
     { number: '98%', label: 'Satisfacción' },
-    { number: '100%', label: 'Soporte' },
+    { number: '40%', label: 'Ahorro de Agua' },
     { number: '5.0', label: 'Calificación' }
   ];
 
@@ -199,7 +199,7 @@ const Home = () => {
             </h2>
             <p className="text-xl text-gray-600 font-nexa max-w-3xl mx-auto">
               Lideramos la innovación en tecnología sanitaria con soluciones que combinan 
-              inteligencia artificial, diseño premium y máxima funcionalidad.
+              innovación y tecnología, diseño premium y máxima funcionalidad.
             </p>
           </motion.div>
 

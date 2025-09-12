@@ -9,6 +9,7 @@ import WhatsAppButton from "./components/WhatsAppButton";
 const Home = lazy(() => import(/* webpackPrefetch: true */ "./pages/Home"));
 const Products = lazy(() => import(/* webpackPrefetch: true */ "./pages/Products"));
 const Services = lazy(() => import(/* webpackPrefetch: true */ "./pages/Services"));
+const About = lazy(() => import(/* webpackPrefetch: true */ "./pages/About"));
 const Contact = lazy(() => import(/* webpackPrefetch: true */ "./pages/Contact"));
 const NotFound = lazy(() => import("./pages/NotFound")); // crea un componente sencillo
 
@@ -40,6 +41,7 @@ export default function App() {
             <Route path="/" element={<Home />} />
             <Route path="/productos" element={<Products />} />
             <Route path="/servicios" element={<Services />} />
+            <Route path="/nosotros" element={<About />} />
             <Route path="/contacto" element={<Contact />} />
             <Route path="*" element={<NotFound />} />
           </Routes>

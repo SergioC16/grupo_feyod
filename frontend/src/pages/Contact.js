@@ -3,6 +3,8 @@ import { motion } from 'framer-motion';
 import { Mail, Phone, MapPin, Clock, Send, CheckCircle, AlertCircle, Facebook, Instagram, Linkedin, X } from 'lucide-react';
 import { Helmet } from 'react-helmet-async';
 
+
+
 // TikTok Icon Component
 const TikTokIcon = ({ className = "w-6 h-6" }) => (
   <svg
@@ -324,9 +326,7 @@ const Contact = () => {
   ];
 
   const socialLinks = [
-    { icon: TikTokIcon, href: 'https://www.tiktok.com/', label: 'TikTok', color: 'text-pink-500' },
-    { icon: Facebook, href: 'https://www.facebook.com/', label: 'Facebook', color: 'text-blue-600' },
-    { icon: Instagram, href: 'https://www.instagram.com/', label: 'Instagram', color: 'text-pink-600' },
+    { icon: Instagram, href: 'https://www.instagram.com/grupofeyodrd/', label: 'Instagram', color: 'text-pink-600' },
     { icon: Linkedin, href: 'https://www.linkedin.com', label: 'LinkedIn', color: 'text-blue-700' }
   ];
 
@@ -358,7 +358,7 @@ const Contact = () => {
                 className="text-center max-w-4xl mx-auto"
             >
                 <h1 className="font-neue font-bold text-4xl md:text-6xl mb-6">                  
-                  Contác<span className="text-accent">tanos</span>
+                  <span className="text-accent">Contáctanos</span>
                 </h1>
                 <p className="font-nexa text-xl md:text-2xl text-gray-100 leading-relaxed">
                   Si estás buscando la mejor opción para renovar o mejorar tus instalaciones, nuestro equipo está listo para asesorarte y ofrecerte la solución perfecta para tus necesidades.
@@ -697,16 +697,18 @@ const Contact = () => {
 
               <div className="bg-primary rounded-2xl p-8 text-white">
                 <h3 className="text-2xl font-neue font-bold mb-4">
-                  ¿Necesitas Soporte Inmediato?
+                  ¿Necesitas <span className="text-accent">Soporte</span> Inmediato?
                 </h3>
                 <p className="font-nexa mb-6">
                   Nuestro equipo técnico está disponible para emergencias 
                   y consultas urgentes.
                 </p>
-                <span className="bg-accent hover:bg-accent-600 text-white px-6 py-3 rounded-full font-nexa font-semibold inline-flex items-center space-x-2 transition-colors">
-                  <Phone className="w-5 h-5" />
-                  <span>+57 315 7258223</span>
+                <div className="flex items-center space-x-3">
+                <Phone className="w-5 h-5 text-accent" />
+                <span className="text-white/80 font-nexa">
+                  +57 315 725 8223
                 </span>
+              </div>
               </div>
             </motion.div>
           </div>

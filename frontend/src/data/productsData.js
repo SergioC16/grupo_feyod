@@ -49,7 +49,7 @@ export const productsData = {
       {
         id: 4,
         name: 'Orinal ECO',
-        description: 'Orinal básico ecológico.',
+        description: 'Orinal ecológico.',
         isDoubleCard: true,
         hasDetailsButton: false,        
         images: [
@@ -75,7 +75,7 @@ export const productsData = {
       {
         id: 6,
         name: 'Cartucho de Larga Duración',
-        description: 'Duración de 3–5 meses; ahorra hasta 140.000 litros de agua al año. Cartucho genérico para orinales de marca Corona y otras marcas.',
+        description: 'Duración de 3–5 meses; ahorra hasta 140.000 litros de agua al año. Cartucho especializado compatible con Orinales de marca Corona y otras marcas.',
         isDoubleCard: true,
         hasDetailsButton: true,
         hasTechnicalSheet: true,
@@ -90,24 +90,24 @@ export const productsData = {
         keywords: ['cartucho', 'ecológico', 'ahorro', 'agua', 'duración'],        
         category: 'Orinales y Cartuchos',        
       },
-      {
-        id: 7,
-        name: 'Cartucho de Larga Duración',
-        description: 'Cartucho especializado para sistemas de orinales ecológicos.',
-        isDoubleCard: true,
-        hasDetailsButton: false, 
-        hasTechnicalSheet: true,       
-        images: [
-          'images/products/orinalesycartuchos/cartucho-summing.png',
-        ],
-        pdf: '/pdfs/products/orinalesycartuchos/cartucho-summing.pdf',
-        keywords: ['cartucho', 'summing', 'orinal'],
-        category: 'Orinales y Cartuchos'
-      },
+      // {
+      //   id: 7,
+      //   name: 'Cartucho de Larga Duración',
+      //   description: 'Cartucho especializado para sistemas de orinales ecológicos.',
+      //   isDoubleCard: true,
+      //   hasDetailsButton: false, 
+      //   hasTechnicalSheet: true,       
+      //   images: [
+      //     'images/products/orinalesycartuchos/cartucho-summing.png',
+      //   ],
+      //   pdf: '/pdfs/products/orinalesycartuchos/cartucho-summing.pdf',
+      //   keywords: ['cartucho', 'summing', 'orinal'],
+      //   category: 'Orinales y Cartuchos'
+      // },
       {
         id: 8,
         name: 'Cartucho de Larga Duración',
-        description: 'Cartucho para sistemas de orinales ecológicos de marca Urimat.',
+        description: 'Cartucho especializado compatible con Orinales de marca Urimat.',
         isDoubleCard: true,
         hasDetailsButton: false,        
         images: [
@@ -121,6 +121,20 @@ export const productsData = {
   "Accesorios para Sanitarios": {
     description: "Accesorios especializados para mejorar la funcionalidad de sanitarios institucionales.",
     products: [
+      {
+        id: 7,
+        name: 'FlushID',
+        description: 'FlushID es un fluxómetro con doble sensor que identifica el tipo de residuo y ajusta la descarga de agua: 2.5 L para líquidos y 4.8 L para sólidos. Gracias a su sensor interno, garantiza máxima higiene y hasta un 40% de ahorro en consumo de agua.',
+        isDoubleCard: true,
+        hasDetailsButton: false, 
+        hasTechnicalSheet: true,       
+        images: [
+          'images/products/accesoriosparasanitarios/flushID.png'
+        ],
+        pdf: '/pdfs/products/accesoriosparasanitarios/flushID.pdf',
+        keywords: ['fluxometro', 'flush', 'flushID'],
+        category: 'Accesorios para Sanitarios'
+      },
       {
         id: 120,
         name: 'Sensor Power Light',
@@ -161,7 +175,10 @@ export const productsData = {
         hasDetailsButton: true,
         hasTechnicalSheet: true,
         images: [
-          'images/products/accesoriosparasanitarios/valvula-smart-cuadrada.png'
+          'images/products/accesoriosparasanitarios/valvula-smart-cuadrada.png',
+          'images/products/accesoriosparasanitarios/vidrio-color.jpg',
+          'images/products/accesoriosparasanitarios/corian.jpg',
+          'images/products/accesoriosparasanitarios/acero-inox.jpg',
         ],        
         videos: [
                   { src: 'videos/products/accesoriosparasanitarios/valvula-smart.mp4', poster: 'images/general/banner.jpg' },
@@ -612,10 +629,12 @@ export const productsData = {
         name: 'Sistema de Recirculación de Agua',
         description: 'Agua caliente al abrir la ducha; activación vía celular o Alexa.',
         isDoubleCard: true,
-        hasDetailsButton: false,
+        hasDetailsButton: true,        
         images: [
           'images/products/repuestos/sistema-de-recirculacion-de-agua.png'
         ],
+        video:'videos/products/repuestos/recirculacion.mp4',
+        videoPoster:'images/products/repuestos/sistema-de-recirculacion-de-agua.png',         
         keywords: ['sistema', 'recirculación', 'agua', 'caliente', 'alexa'],
         category: 'Repuestos'
       },
@@ -642,7 +661,7 @@ export const productsData = {
       { id: 73, name: 'Kit de Escudo Antivandálico para Push Corona sanitario', description: 'Kit de protección antivandálica.', isDoubleCard: true, hasDetailsButton: false, hasTechnicalSheet: true, images: ['images/products/repuestos/kit-de-escudo-antivandalico-para-push-corona-sanitario.png'], pdf: '/pdfs/products/repuestos/escudo-antivandalico.pdf', keywords: ['kit', 'escudo', 'antivandálico', 'push', 'corona'], category: 'Repuestos' },
       { id: 74, name: 'Kit Empaquetadura grifo y orinal Push Corona', description: 'Kit de empaquetadura especializado para grifos y orinales Push Corona.', isDoubleCard: true, hasDetailsButton: true, images: ['images/products/repuestos/kit-empaquetadura-grifo-y-orinal-push-corona.png'], video:'videos/products/repuestos/kit-reemplazo-empaquetadura-push-corona-sanitario.mp4', videoPoster:'images/general/banner.jpg', keywords: ['kit', 'empaquetadura', 'grifo', 'orinal', 'push', 'corona'], category: 'Repuestos' },
       { id: 76, name: 'Llave para Cartucho Ecológico', description: 'Llave especializada para cartuchos ecológicos.', isDoubleCard: true, hasDetailsButton: false, images: ['images/products/repuestos/llave-para-cartucho-ecologico.png'], keywords: ['llave', 'cartucho', 'ecológico'], category: 'Repuestos' },
-      { id: 77, name: 'Pibote y Conector para Jabonera Corona', description: 'Pivote y conector específico para jabonera Corona.', isDoubleCard: true, hasDetailsButton: false, images: ['images/products/repuestos/pibote-y-conector-para-jabonera-corona.png'], keywords: ['pivote', 'conector', 'jabonera', 'corona'], category: 'Repuestos' },
+      { id: 77, name: 'Pivote y Conector para Jabonera Corona', description: 'Pivote y conector específico para jabonera Corona.', isDoubleCard: true, hasDetailsButton: false, images: ['images/products/repuestos/pibote-y-conector-para-jabonera-corona.png'], keywords: ['pivote', 'conector', 'jabonera', 'corona'], category: 'Repuestos' },
       //{ id: 78, name: 'Kit Reemplazo para Grifos de Sensor', description: 'Kit completo de reemplazo para grifos con sensor.', isDoubleCard: true, hasDetailsButton: false, hasTechnicalSheet: true, images: ['images/products/repuestos/.png'], pdf: '/pdfs/products/kit-grifos-sensor.pdf', keywords: ['kit', 'reemplazo', 'grifos', 'sensor'], category: 'Repuestos' },
       { id: 79, name: 'Racor Plástico para Sanitarios', description: 'Racor plástico especializado para sanitarios.', isDoubleCard: true, hasDetailsButton: false, images: ['images/products/repuestos/racor-plastico-para-sanitarios.png'], keywords: ['racor', 'plástico', 'sanitarios'], category: 'Repuestos' },
       { id: 80, name: 'Racor Metálico para Sanitarios', description: 'Racor metálico de alta resistencia para sanitarios.', isDoubleCard: true, hasDetailsButton: false, images: ['images/products/repuestos/racor-metalico-para-sanitarios.png'], keywords: ['racor', 'metálico', 'sanitarios'], category: 'Repuestos' },
@@ -663,20 +682,20 @@ export const productsData = {
       { id: 96, name: 'Tarjeta Electrónica para Orinal', description: 'Tarjeta electrónica de repuesto para orinales automáticos.', isDoubleCard: true, hasDetailsButton: false, images: ['images/products/repuestos/tarjeta-electronica-orinal.png'], keywords: ['tarjeta', 'electrónica', 'repuesto'], category: 'Repuestos' },
       { id: 97, name: 'Luces Led', description: 'Luces LED para equipos sanitarios.', isDoubleCard: true, hasDetailsButton: false, images: ['images/products/repuestos/luces-led.png'], keywords: ['luces', 'led', 'sanitarios'], category: 'Repuestos' },
       { id: 98, name: 'Botón + Resorte', description: 'Conjunto de botón y resorte de repuesto.', isDoubleCard: true, hasDetailsButton: false, images: ['images/products/repuestos/boton-resorte.png'], keywords: ['botón', 'resorte', 'repuesto'], category: 'Repuestos' },
-      { id: 99, name: 'Fluxómetro para Orinal Infantil', description: 'Fluxómetro especializado para orinales infantiles.', isDoubleCard: true, hasDetailsButton: false, images: ['images/products/repuestos/fluxometro-para-orinal-infantil.png'], keywords: ['fluxómetro', 'orinal', 'infantil'], category: 'Repuestos' },
+      { id: 99, name: 'Fluxómetro para Orinal Infantil', description: 'Fluxómetro especializado para orinales infantiles.', isDoubleCard: true, hasDetailsButton: false, images: ['images/products/accesoriosparasanitarios/fluxometro-para-orinal-infantil.png'], keywords: ['fluxómetro', 'orinal', 'infantil'], category: 'Accesorios para Sanitarios' },
       { id: 100, name: 'Manguera Cromada', description: 'Manguera cromada para conexiones sanitarias.', isDoubleCard: true, hasDetailsButton: false, images: ['images/products/repuestos/manguera-cromada.png'], keywords: ['manguera', 'cromada', 'sanitaria'], category: 'Repuestos' },
       //{ id: 101, name: 'Cartucho Push', description: 'Cartucho Push de repuesto.', isDoubleCard: true, hasDetailsButton: false, images: ['images/products/repuestos/.png'], keywords: ['cartucho', 'push', 'repuesto'], category: 'Repuestos' },
       //{ id: 102, name: 'Tornillo + Ajuste de Tapa Registro', description: 'Tornillo y ajuste para tapa de registro.', isDoubleCard: true, hasDetailsButton: false, images: ['images/products/repuestos/.png'], keywords: ['tornillo', 'ajuste', 'tapa', 'registro'], category: 'Repuestos' },
-      { id: 103, name: 'Diafragma Sloan', description: 'Diafragma marca Sloan de repuesto.', isDoubleCard: true, hasDetailsButton: false, images: ['images/products/repuestos/diafragma-sloan.png'], keywords: ['diafragma', 'sloan', 'repuesto'], category: 'Repuestos' },
-      { id: 104, name: 'Diafragma Feyod', description: 'Diafragma marca Feyod de repuesto.', isDoubleCard: true, hasDetailsButton: false, images: ['images/products/repuestos/diafragma-feyod.png'], keywords: ['diafragma', 'feyod', 'repuesto'], category: 'Repuestos' },
+      { id: 103, name: 'Diafragma', description: 'Diafragma compatible con Fluxómetro Sloan.', isDoubleCard: true, hasDetailsButton: false, images: ['images/products/repuestos/diafragma-sloan.png'], keywords: ['diafragma', 'sloan', 'repuesto'], category: 'Repuestos' },
+      { id: 104, name: 'Diafragma Feyod', description: 'Diafragma para Fluxómetro Feyod.', isDoubleCard: true, hasDetailsButton: false, images: ['images/products/repuestos/diafragma-feyod.png'], keywords: ['diafragma', 'feyod', 'repuesto'], category: 'Repuestos' },
       { id: 105, name: 'Embolo', description: 'Émbolo de repuesto para equipos sanitarios.', isDoubleCard: true, hasDetailsButton: false, images: ['images/products/repuestos/embolo.png'], keywords: ['émbolo', 'repuesto', 'sanitario'], category: 'Repuestos' },
-      { id: 106, name: 'Bacun', description: 'Bacún de repuesto para sistemas sanitarios.', isDoubleCard: true, hasDetailsButton: false, images: ['images/products/repuestos/bacun.png'], keywords: ['bacún', 'repuesto', 'sanitario'], category: 'Repuestos' },
+      { id: 106, name: 'Bacún', description: 'Bacún de repuesto para sistemas sanitarios.', isDoubleCard: true, hasDetailsButton: false, images: ['images/products/repuestos/bacun.png'], keywords: ['bacún', 'repuesto', 'sanitario'], category: 'Repuestos' },
       { id: 107, name: 'Palanca Fluxómetro', description: 'Palanca de repuesto para fluxómetro.', isDoubleCard: true, hasDetailsButton: false, images: ['images/products/repuestos/palanca-fluxometro.png'], keywords: ['palanca', 'fluxómetro', 'repuesto'], category: 'Repuestos' },
       //{ id: 108, name: 'Baterías Lavamanos', description: 'Baterías de repuesto para lavamanos automáticos.', isDoubleCard: true, hasDetailsButton: false, images: ['images/products/repuestos/.png'], keywords: ['baterías', 'lavamanos', 'automático'], category: 'Repuestos' },
       { id: 109, name: 'Sensor para Grifo', description: 'Sensor de repuesto para grifo automático.', isDoubleCard: true, hasDetailsButton: false, images: ['images/products/repuestos/sensor-grifo.png'], keywords: ['sensor', 'grifo', 'automático'], category: 'Repuestos' },
       { id: 110, name: 'Botón Fluxómetro', description: 'Botón de repuesto para fluxómetro.', isDoubleCard: true, hasDetailsButton: false, images: ['images/products/repuestos/boton-fluxometro.png'], keywords: ['botón', 'fluxómetro', 'repuesto'], category: 'Repuestos' },
       { id: 111, name: 'Kit de Empaquetadura Piston', description: 'Empaquetadura Pistón de repuesto.', isDoubleCard: true, hasDetailsButton: false, images: ['images/products/repuestos/empaquetadura-piston.png'], keywords: ['fachada', 'repuesto', 'sanitario'], category: 'Repuestos' },
-      { id: 112, name: 'Pedal', description: 'Pedal de repuesto para equipos sanitarios.', isDoubleCard: true, hasDetailsButton: false, images: ['images/products/repuestos/pedal.png'], keywords: ['pedal', 'repuesto', 'sanitario'], category: 'Repuestos' },
+      { id: 112, name: 'Pedal', description: 'Pedal de repuesto para grifos.', isDoubleCard: true, hasDetailsButton: false, images: ['images/products/repuestos/pedal.png'], keywords: ['pedal', 'repuesto', 'sanitario'], category: 'Repuestos' },
       { id: 113, name: 'Adaptador', description: 'Adaptador universal para conexiones sanitarias.', isDoubleCard: true, hasDetailsButton: false, images: ['images/products/repuestos/adaptador.png'], keywords: ['adaptador', 'universal', 'sanitario'], category: 'Repuestos' },
       { id: 114, name: 'Bobina', description: 'Bobina de repuesto para equipos electrónicos.', isDoubleCard: true, hasDetailsButton: false, images: ['images/products/repuestos/bobina.png'], keywords: ['bobina', 'repuesto', 'electrónico'], category: 'Repuestos' },
       { id: 115, name: 'Control para Calibración de Fluxómetros', description: 'Control especializado para calibración de fluxómetros.', isDoubleCard: true, hasDetailsButton: false, images: ['images/products/repuestos/control-calibracion-fluxometro.png'], keywords: ['control', 'calibración', 'fluxómetros'], category: 'Repuestos' },
