@@ -57,4 +57,6 @@ export const useQuoteStore = () => {
   return ctx;
 };
 
+export const useQuote = useQuoteStore;
+
 export default QuoteProvider;

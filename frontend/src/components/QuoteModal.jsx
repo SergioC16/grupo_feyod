@@ -123,9 +123,10 @@ const QuoteModal = ({ isOpen, onClose }) => {
             ref={closeButtonRef}
             onClick={onClose}
             aria-label="Cerrar"
-            className="ml-4 text-gray-700 dark:text-gray-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary rounded-full px-3 py-2 text-2xl leading-none"
+            className="ml-4 bg-[#023047] text-white focus:outline-none focus-visible:ring-4 focus-visible:ring-[#023047]/40 rounded-full w-10 h-10 flex items-center justify-center text-2xl md:text-3xl translate-y-1"
+            title="Cerrar"
           >
-            ×
+            <span className="-translate-y-px">×</span>
           </button>
         </div>
 
