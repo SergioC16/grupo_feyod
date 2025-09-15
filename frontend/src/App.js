@@ -1,9 +1,11 @@
-import React, { useEffect, Suspense, lazy } from "react";
+import React, { useEffect, Suspense, lazy, useState } from "react";
 import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 // Layout
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 import WhatsAppButton from "./components/WhatsAppButton";
+import { QuoteProvider } from './contexts/QuoteContext';
+import { ToastProvider } from './components/ToastProvider';
 
 // Páginas (carga bajo demanda)
 const Home = lazy(() => import(/* webpackPrefetch: true */ "./pages/Home"));
@@ -21,8 +23,23 @@ function ScrollToTop() {
 }
 
 export default function App() {
+  const [appReady, setAppReady] = useState(false);
+
+  // Ensure we only show footer and other persistent UI after the page has fully loaded
+  useEffect(() => {
+    if (document.readyState === 'complete') {
+      setTimeout(() => setAppReady(true), 80);
+      return;
+    }
+    const onLoad = () => setTimeout(() => setAppReady(true), 80);
+    window.addEventListener('load', onLoad);
+    return () => window.removeEventListener('load', onLoad);
+  }, []);
+
   return (
-    <BrowserRouter>
+    <QuoteProvider>
+      <ToastProvider>
+        <BrowserRouter>
       <ScrollToTop />
 
       {/* link para accesibilidad: saltar al contenido */}
@@ -35,8 +52,23 @@ export default function App() {
 
       <Header />
 
+      {/* Full-screen Suspense fallback acts as splash screen during lazy loads */}
       <main id="contenido">
-        <Suspense fallback={<div className="p-6">Cargando…</div>}>
+        <Suspense
+          fallback={
+              <div
+                className="fixed inset-0 z-50 flex items-center justify-center bg-center bg-cover"
+                style={{ backgroundImage: "url('/images/general/banner.jpg')" }}
+              >
+                {/* overlay to match normal hero when not first image */}
+                <div className="absolute inset-0 bg-black/10" />
+                <div className="relative text-center">
+                  <div className="loader mb-4" />
+                  <div className="text-white font-neue font-bold">Cargando…</div>
+                </div>
+              </div>
+            }
+        >
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/productos" element={<Products />} />
@@ -48,8 +80,11 @@ export default function App() {
         </Suspense>
       </main>
 
-      <Footer />
-      <WhatsAppButton />
-    </BrowserRouter>
+      {/* Only render Footer and floating buttons after the page is ready to avoid flashes */}
+      {appReady && <Footer />}
+      {appReady && <WhatsAppButton />}
+        </BrowserRouter>
+      </ToastProvider>
+    </QuoteProvider>
   );
 }

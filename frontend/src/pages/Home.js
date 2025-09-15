@@ -6,15 +6,9 @@ import DownloadButton from '../components/DownloadButton';
 import { Helmet } from 'react-helmet-async';
 
 const Home = () => {
-   
-  // Splash state: show image-only for 2 seconds, then reveal hero/carousel with text
-  const [showSplash, setShowSplash] = useState(true);
-  useEffect(() => {
-    const t = setTimeout(() => setShowSplash(false), 1000);
-    return () => clearTimeout(t);
-  }, []);
-// Carousel state and functionality
+  // Carousel state and functionality
   const heroImages = [
+    '/images/general/banner.jpg',
     '/images/general/banner1.png',
     '/images/general/banner2.png',
     '/images/general/banner3.png',
@@ -25,16 +19,20 @@ const Home = () => {
 
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
-  // Auto-slide functionality
+  // Auto-slide functionality with custom duration for the first image
   useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentImageIndex((prevIndex) => 
-        prevIndex === heroImages.length - 1 ? 0 : prevIndex + 1
-      );
-    }, 4000); // Change image every 4 seconds
+    let timeoutId;
 
-    return () => clearInterval(interval);
-  }, [heroImages.length]);
+    const advance = () => {
+      setCurrentImageIndex((prevIndex) => (prevIndex === heroImages.length - 1 ? 0 : prevIndex + 1));
+    };
+
+    // If the current image is the first (index 0) use 2500ms, otherwise 4000ms
+    const duration = currentImageIndex === 0 ? 1300 : 4000;
+    timeoutId = setTimeout(advance, duration);
+
+    return () => clearTimeout(timeoutId);
+  }, [currentImageIndex, heroImages.length]);
   const benefits = [
     {
       icon: Shield,
@@ -65,18 +63,6 @@ const Home = () => {
     { number: '5.0', label: 'Calificación' }
   ];
 
-  if (showSplash) {
-  return (
-    <motion.section
-      className="fixed inset-0 z-50 bg-center bg-cover"
-      style={{ backgroundImage: "url('/images/general/banner.jpg')" }}
-      initial={{ opacity: 1 }}
-      animate={{ opacity: 0 }}
-      transition={{ duration: 0.6, delay: 1.6 }}
-    />
-  );
-}
-
   return (
     <motion.div
       initial={{ opacity: 0 }}
@@ -91,7 +77,7 @@ const Home = () => {
 
       {/* Hero Section */}
       <section className="relative min-h-screen flex items-center overflow-hidden">
-        {/* Image Carousel Background */}
+        {/* Carrusel con transición para todas las imágenes */}
         <div className="absolute inset-0">
           {heroImages.map((image, index) => (
             <div
@@ -102,66 +88,65 @@ const Home = () => {
               style={{ backgroundImage: `url(${image})` }}
             />
           ))}
-          <div className="hero-gradient absolute inset-0"></div>
+          {/* Solo mostrar el gradiente si NO es la primera imagen */}
+          {currentImageIndex !== 0 && <div className="hero-gradient absolute inset-0"></div>}
         </div>
-        
-        <div className="relative z-10 container mx-auto px-4 sm:px-6 lg:px-8 pt-20">
-          <div className="max-w-4xl">
-            <motion.h1
-              initial={{ y: 50, opacity: 0 }}
-              animate={{ y: 0, opacity: 1 }}
-              transition={{ delay: 0.2 }}
-              className="text-4xl md:text-6xl lg:text-7xl font-neue font-bold text-white mb-6 leading-tight"
-            >
-              El Futuro de los
-              <span className="text-accent block">Baños Inteligentes</span>
-            </motion.h1>
-            
-            <motion.p
-              initial={{ y: 30, opacity: 0 }}
-              animate={{ y: 0, opacity: 1 }}
-              transition={{ delay: 0.4 }}
-              className="text-xl md:text-2xl text-white/90 mb-8 font-nexa leading-relaxed"
-            >
-              Ofrecemos soluciones tecnológicas avanzadas para modernizar baños en todo tipo de espacios: sanitarios inteligentes, griferías automatizadas y más.
-            </motion.p>
-            
+        {/* Si es la primera imagen, no mostrar textos ni overlays */}
+        {currentImageIndex !== 0 && (
+          <>
+            <div className="relative z-10 container mx-auto px-4 sm:px-6 lg:px-8 pt-20">
+              <div className="max-w-4xl">
+                <motion.h1
+                  initial={{ y: 50, opacity: 0 }}
+                  animate={{ y: 0, opacity: 1 }}
+                  transition={{ delay: 0.2 }}
+                  className="text-4xl md:text-6xl lg:text-7xl font-neue font-bold text-white mb-6 leading-tight"
+                >
+                  El Futuro de los
+                  <span className="text-accent block">Baños Inteligentes</span>
+                </motion.h1>
+                <motion.p
+                  initial={{ y: 30, opacity: 0 }}
+                  animate={{ y: 0, opacity: 1 }}
+                  transition={{ delay: 0.4 }}
+                  className="text-xl md:text-2xl text-white/90 mb-8 font-nexa leading-relaxed"
+                >
+                  Ofrecemos soluciones tecnológicas avanzadas para modernizar baños en todo tipo de espacios: sanitarios inteligentes, griferías automatizadas y más.
+                </motion.p>
+                <motion.div
+                  initial={{ y: 30, opacity: 0 }}
+                  animate={{ y: 0, opacity: 1 }}
+                  transition={{ delay: 0.6 }}
+                  className="flex flex-col sm:flex-row gap-4"
+                >
+                  <Link
+                    to="/productos"
+                    className="btn-primary bg-accent hover:bg-accent-600 text-white px-8 py-4 rounded-full font-nexa font-semibold text-lg shadow-xl hover:shadow-2xl flex items-center justify-center group"
+                  >
+                    Ver Productos
+                    <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                  </Link>
+                  <Link
+                    to="/contacto"
+                    className="btn-primary border-2 border-white text-white hover:bg-white hover:text-primary px-8 py-4 rounded-full font-nexa font-semibold text-lg flex items-center justify-center"
+                  >
+                    Solicitar Cotización
+                  </Link>
+                </motion.div>
+              </div>
+            </div>
+            {/* Floating elements */}
             <motion.div
-              initial={{ y: 30, opacity: 0 }}
-              animate={{ y: 0, opacity: 1 }}
-              transition={{ delay: 0.6 }}
-              className="flex flex-col sm:flex-row gap-4"
+              animate={{ y: [0, -20, 0] }}
+              transition={{ duration: 4, repeat: Infinity }}
+              className="absolute bottom-10 left-1/2 transform -translate-x-1/2 text-white/70"
             >
-              <Link
-                to="/productos"
-                className="btn-primary bg-accent hover:bg-accent-600 text-white px-8 py-4 rounded-full font-nexa font-semibold text-lg shadow-xl hover:shadow-2xl flex items-center justify-center group"
-              >
-                Ver Productos
-                <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
-              </Link>
-              
-              <Link
-                to="/contacto"
-                className="btn-primary border-2 border-white text-white hover:bg-white hover:text-primary px-8 py-4 rounded-full font-nexa font-semibold text-lg flex items-center justify-center"
-              >
-                Solicitar Cotización
-              </Link>
+              <div className="w-6 h-10 border-2 border-white/30 rounded-full p-1">
+                <div className="w-1 h-3 bg-white/50 rounded-full mx-auto animate-bounce"></div>
+              </div>
             </motion.div>
-          </div>
-        </div>
-
-        {/* Carousel Indicators - REMOVED as requested */}
-
-        {/* Floating elements */}
-        <motion.div
-          animate={{ y: [0, -20, 0] }}
-          transition={{ duration: 4, repeat: Infinity }}
-          className="absolute bottom-10 left-1/2 transform -translate-x-1/2 text-white/70"
-        >
-          <div className="w-6 h-10 border-2 border-white/30 rounded-full p-1">
-            <div className="w-1 h-3 bg-white/50 rounded-full mx-auto animate-bounce"></div>
-          </div>
-        </motion.div>
+          </>
+        )}
       </section>
 
       {/* Stats Section */}

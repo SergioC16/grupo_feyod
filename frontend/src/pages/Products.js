@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { X, Search, ChevronLeft, ChevronRight, ChevronUp } from 'lucide-react';
 import { productsData } from '../data/productsData';
 import DownloadButton from '../components/DownloadButton';
+import AddToQuoteButton from '../components/AddToQuoteButton';
 import { Helmet } from 'react-helmet-async';
 
 const Products = () => {
@@ -116,9 +117,10 @@ const Products = () => {
         <img
           src={product.images ? product.images[0] : product.image}
           alt={product.name}
-          className="w-full h-40 object-cover"
+          className="w-full h-auto sm:h-40 object-contain sm:object-cover"
           loading="lazy"
         />
+  <AddToQuoteButton product={product} />
         {/* Show category only in "Todos" view */}
         {activeCategory === 'Todos' && (
           <div className="absolute top-3 right-3 bg-accent text-primary px-2 py-1 sm:px-3 sm:py-1 rounded-full font-nexa font-semibold text-xs sm:text-sm">
@@ -131,14 +133,17 @@ const Products = () => {
         <h3 className="font-neue font-bold text-lg sm:text-xl text-primary mb-2 sm:mb-3">
           {product.name}
         </h3>
-        <p className="text-gray-600 font-nexa text-sm sm:text-base line-clamp-3 leading-relaxed flex-1">
-          {product.description}
-        </p>
-        
-        {/* Button container - handles both Ver Detalles and Ficha Técnica */}
-        {(product.hasDetailsButton || product.hasTechnicalSheet) && (
-          <div className="flex gap-2 mt-auto pt-4 mb-5 ml-5">
-            {/* Ficha Técnica button */}
+        {/* Descripción: área con altura fija y scroll interno para mantener los botones en el fondo */}
+        <div className="h-20 sm:h-24 md:h-28 overflow-y-auto pr-2">
+          <p className="text-gray-600 font-nexa text-sm sm:text-base leading-relaxed">
+            {product.description}
+          </p>
+        </div>
+        {/* Button container - bottom-right fixed */}
+          {(product.hasDetailsButton || product.hasTechnicalSheet) && (
+            <div className="flex gap-2 mt-auto pt-4 mb-5 w-full justify-end md:justify-center px-4 md:px-6">
+            {/* Shared button classes: misma altura/anchura, esquinas redondeadas, centrado */}
+            {/* Usamos flex-1 en ambos botones cuando hay dos para que compartan el ancho; cuando solo hay uno, ocupa todo */}
             {product.hasTechnicalSheet && (
               <DownloadButton
                 pdfPath={product.pdf}
@@ -146,18 +151,14 @@ const Products = () => {
                 buttonText="Ficha Técnica"
                 variant="secondary"
                 size="sm"
-                className="bg-[#cc7722] hover:bg-[#c8911e] text-white font-nexa font-medium transition-colors text-xs sm:text-s py-2 px-4 rounded inline-block text-center"
+                className={`bg-[#cc7722] hover-c8911e text-white transition-colors ${product.hasDetailsButton ? 'w-36' : 'w-full'}`}
                 icon={false}
               />
             )}
-            
-            {/* Ver Detalles button */}
             {product.hasDetailsButton && (
-              <button 
+              <button
                 onClick={() => handleProductSelect(product)}
-                className={`bg-primary hover:bg-primary-600 text-white px-3 py-2 h-10 rounded-lg font-nexa font-medium transition-colors text-xs sm:text-sm ${
-                  product.hasTechnicalSheet ? 'flex-1' : 'ml-auto'
-                }`}
+                className={`h-11 px-4 py-2 rounded-lg font-nexa font-medium text-xs sm:text-sm flex items-center justify-center bg-primary hover:bg-primary-600 text-white transition-colors ${product.hasTechnicalSheet ? 'w-36' : 'w-full'}`}
               >
                 Ver Detalles
               </button>
@@ -175,9 +176,10 @@ const Products = () => {
         <img
           src={product.images ? product.images[0] : product.image}
           alt={product.name}
-          className="w-full h-40 sm:h-full object-cover"
+          className="w-full h-auto sm:h-full object-contain sm:object-cover"
           loading="lazy"
         />
+  <AddToQuoteButton product={product} />
         {/* Show category only in "Todos" view */}
         {activeCategory === 'Todos' && (
           <div className="absolute top-3 right-3 bg-accent text-white px-2 py-1 sm:px-3 sm:py-1 rounded-full font-nexa font-semibold text-xs sm:text-sm">
@@ -190,9 +192,11 @@ const Products = () => {
         <h3 className="font-neue font-bold text-xl sm:text-2xl text-primary mb-3 sm:mb-4">
           {product.name}
         </h3>
-        <p className="text-gray-600 font-nexa text-sm sm:text-lg leading-relaxed mb-4 flex-1">
-          {product.description}
-        </p>
+        <div className="h-24 sm:h-28 md:h-32 overflow-y-auto pr-2 mb-4 flex-1">
+          <p className="text-gray-600 font-nexa text-sm sm:text-lg leading-relaxed">
+            {product.description}
+          </p>
+        </div>
         
         {/* Variants for cartridge products */}
         {product.variants && (
@@ -208,7 +212,7 @@ const Products = () => {
         
         {/* Buttons */}
         {(product.hasDetailsButton || product.hasTechnicalSheet) && (
-          <div className="flex gap-2 mt-auto pt-4 mb-5 ml-5">
+            <div className="flex gap-2 mt-auto pt-4 mb-5 w-full justify-end md:justify-center px-4 md:px-6">
             {product.hasTechnicalSheet && (
               <DownloadButton
                  pdfPath={product.pdf}
@@ -216,16 +220,14 @@ const Products = () => {
                  buttonText="Ficha Técnica"
                  variant="secondary"
                  size="sm"
-                 className="!bg-[#cc7722] hover:bg-[#c8911e] text-white font-bold py-2 px-4 rounded inline-block text-center"
+                 className={`!bg-[#cc7722] hover-c8911e text-white font-bold ${product.hasDetailsButton ? 'w-36' : 'w-full'}`}
                  icon={false}
               />
             )}
             {product.hasDetailsButton && (
               <button 
                 onClick={() => handleProductSelect(product)}
-                className={`bg-primary hover:bg-primary-600 text-white px-4 py-2 h-11 rounded-lg font-nexa font-medium transition-colors text-xs sm:text-sm ${
-                  product.hasTechnicalSheet ? 'flex-1' : 'ml-auto'
-                }`}
+                className={`h-11 px-4 py-2 rounded-lg font-nexa font-medium text-xs sm:text-sm flex items-center justify-center bg-primary hover:bg-primary-600 text-white transition-colors ${product.hasTechnicalSheet ? 'w-36' : 'ml-auto w-full'}`}
               >
                 Ver Detalles
               </button>
@@ -444,7 +446,7 @@ const media = useMemo(() => {
                         transition={{ duration: 0.8, ease: "easeOut" }}
                         src={media[currentImageIndex].src}
                         alt={`${selectedProduct.name} ${currentImageIndex + 1}`}
-                        className="w-full h-full object-cover"
+                        className="w-full h-full object-contain"
                       />
                     ) : (
                       <motion.div
@@ -457,7 +459,7 @@ const media = useMemo(() => {
                         <video
                           src={media[currentImageIndex].src}
                           poster={media[currentImageIndex].poster}
-                          className="w-full h-full object-cover"
+                          className="w-full h-full object-contain"
                           autoPlay
                           muted
                           controls

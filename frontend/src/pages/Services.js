@@ -55,7 +55,7 @@ const Services = () => {
           <img
             src={service.images[0]}
             alt={service.name}
-            className="w-full h-full object-cover"
+            className="w-full h-auto object-contain sm:object-cover"
             loading="lazy"
           />
         </div>
@@ -130,7 +130,7 @@ const Services = () => {
                   transition={{ duration: 0.8, ease: "easeOut" }}
                   src={selectedService.images[currentImageIndex]}
                   alt={`${selectedService.name} ${currentImageIndex + 1}`}
-                  className="w-full h-full object-cover"
+                  className="w-full h-full object-contain"
                 />
               </div>
               

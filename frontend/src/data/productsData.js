@@ -3,6 +3,27 @@ export const productsData = {
     description: "Cero consumo de agua, ahorra 140.000 litros de agua potable al año; cero olores desagradables; viene con su cartucho de duración promedio de 3 a 6 meses.",
     products: [
       {
+        id: 9,
+        name: 'Válvula Smart',
+        description: 'Sensor con doble descarga (37 × 34 cm), pantalla LED: azul al detectar, verde al descargar líquido, rojo al sólido; fachada en acero inoxidable satinado o vidrio templado (negro o blanco, touch).',
+        isDoubleCard: true,
+        hasDetailsButton: true,
+        hasTechnicalSheet: true,
+        images: [
+          'images/products/accesoriosparasanitarios/valvula-smart-cuadrada.png',
+          'images/products/accesoriosparasanitarios/vidrio-color.jpg',
+          'images/products/accesoriosparasanitarios/corian.jpg',
+          'images/products/accesoriosparasanitarios/acero-inox.jpg',
+        ],        
+        videos: [
+                  { src: 'videos/products/accesoriosparasanitarios/valvula-smart.mp4', poster: 'images/general/banner.jpg' },
+                  { src: 'videos/products/accesoriosparasanitarios/funcionamiento-fluxometro.mp4', poster: 'images/general/banner.jpg' },
+                ],
+        pdf: '/pdfs/products/accesoriosparasanitarios/valvula-smart.pdf',
+        keywords: ['válvula', 'smart', 'cuadrada', 'LED', 'touch'],
+        category: 'Accesorios para Sanitarios'
+      },
+      {
         id: 1,
         name: 'Válvula de Descarga para Orinal',
         description: 'Válvula de sensor de doble descarga para orinal. Descarga calibrada desde 0,5 L hasta 3,8 L. Fachada en acero inoxidable y descarga manual opcional.',
@@ -89,21 +110,7 @@ export const productsData = {
         pdf: '/pdfs/products/orinalesycartuchos/cartucho-ecologico.pdf',
         keywords: ['cartucho', 'ecológico', 'ahorro', 'agua', 'duración'],        
         category: 'Orinales y Cartuchos',        
-      },
-      // {
-      //   id: 7,
-      //   name: 'Cartucho de Larga Duración',
-      //   description: 'Cartucho especializado para sistemas de orinales ecológicos.',
-      //   isDoubleCard: true,
-      //   hasDetailsButton: false, 
-      //   hasTechnicalSheet: true,       
-      //   images: [
-      //     'images/products/orinalesycartuchos/cartucho-summing.png',
-      //   ],
-      //   pdf: '/pdfs/products/orinalesycartuchos/cartucho-summing.pdf',
-      //   keywords: ['cartucho', 'summing', 'orinal'],
-      //   category: 'Orinales y Cartuchos'
-      // },
+      },      
       {
         id: 8,
         name: 'Cartucho de Larga Duración',
@@ -120,21 +127,7 @@ export const productsData = {
   },
   "Accesorios para Sanitarios": {
     description: "Accesorios especializados para mejorar la funcionalidad de sanitarios institucionales.",
-    products: [
-      {
-        id: 7,
-        name: 'FlushID',
-        description: 'FlushID es un fluxómetro con doble sensor que identifica el tipo de residuo y ajusta la descarga de agua: 2.5 L para líquidos y 4.8 L para sólidos. Gracias a su sensor interno, garantiza máxima higiene y hasta un 40% de ahorro en consumo de agua.',
-        isDoubleCard: true,
-        hasDetailsButton: false, 
-        hasTechnicalSheet: true,       
-        images: [
-          'images/products/accesoriosparasanitarios/flushID.png'
-        ],
-        pdf: '/pdfs/products/accesoriosparasanitarios/flushID.pdf',
-        keywords: ['fluxometro', 'flush', 'flushID'],
-        category: 'Accesorios para Sanitarios'
-      },
+    products: [      
       {
         id: 120,
         name: 'Sensor Power Light',
@@ -152,6 +145,20 @@ export const productsData = {
         category: 'Accesorios para Sanitarios'
       },
       {
+        id: 7,
+        name: 'FlushID',
+        description: 'FlushID es un fluxómetro con doble sensor que identifica el tipo de residuo y ajusta la descarga de agua: 2.5 L para líquidos y 4.8 L para sólidos. Gracias a su sensor interno, garantiza máxima higiene y hasta un 40% de ahorro en consumo de agua.',
+        isDoubleCard: true,
+        hasDetailsButton: false, 
+        hasTechnicalSheet: true,       
+        images: [
+          'images/products/accesoriosparasanitarios/flushID.png'
+        ],
+        pdf: '/pdfs/products/accesoriosparasanitarios/flushID.pdf',
+        keywords: ['fluxometro', 'flush', 'flushID'],
+        category: 'Accesorios para Sanitarios'
+      },
+      {
         id: 121,
         name: 'Cobertor Manual para Sanitarios Institucionales',
         description: 'Protector biodegradable en paquetes de 120 o 240 unidades; dispensador en acero inoxidable satinado.',
@@ -166,42 +173,8 @@ export const productsData = {
         pdf: '/pdfs/products/accesoriosparasanitarios/cobertor-sanitario.pdf',
         keywords: ['cobertor', 'protector', 'biodegradable', 'dispensador'],
         category: 'Accesorios para Sanitarios'
-      },
-      {
-        id: 9,
-        name: 'Válvula Smart',
-        description: 'Sensor con doble descarga (37 × 34 cm), pantalla LED: azul al detectar, verde al descargar líquido, rojo al sólido; fachada en acero inoxidable satinado o vidrio templado (negro o blanco, touch).',
-        isDoubleCard: true,
-        hasDetailsButton: true,
-        hasTechnicalSheet: true,
-        images: [
-          'images/products/accesoriosparasanitarios/valvula-smart-cuadrada.png',
-          'images/products/accesoriosparasanitarios/vidrio-color.jpg',
-          'images/products/accesoriosparasanitarios/corian.jpg',
-          'images/products/accesoriosparasanitarios/acero-inox.jpg',
-        ],        
-        videos: [
-                  { src: 'videos/products/accesoriosparasanitarios/valvula-smart.mp4', poster: 'images/general/banner.jpg' },
-                  { src: 'videos/products/accesoriosparasanitarios/funcionamiento-fluxometro.mp4', poster: 'images/general/banner.jpg' },
-                ],
-        pdf: '/pdfs/products/accesoriosparasanitarios/valvula-smart.pdf',
-        keywords: ['válvula', 'smart', 'cuadrada', 'LED', 'touch'],
-        category: 'Accesorios para Sanitarios'
-      },
-      {
-        id: 10,
-        name: 'Hygiene Box para Sanitarios',
-        description: 'Desinfección de taza por alcohol atomizado, agua y ozono; añade fragancia y simulación de sonido de agua.',
-        isDoubleCard: true,
-        hasDetailsButton: true,
-        images: [
-          'images/products/accesoriosparasanitarios/hygiene-box-para-sanitarios.png'
-        ],
-        video:'videos/products/accesoriosparasanitarios/funcionamiento-hygiene-box.MP4',
-        videoPoster:'images/general/banner.jpg',
-        keywords: ['hygiene', 'box', 'desinfección', 'ozono', 'fragancia'],
-        category: 'Accesorios para Sanitarios'
-      },
+      },      
+      { id: 99, name: 'Fluxómetro para Orinal Infantil', description: 'Fluxómetro especializado para orinales infantiles.', isDoubleCard: true, hasDetailsButton: false, images: ['images/products/accesoriosparasanitarios/fluxometro-para-orinal-infantil.png'], keywords: ['fluxómetro', 'orinal', 'infantil'], category: 'Accesorios para Sanitarios' },      
       {
         id: 11,
         name: 'Informador de Estado de Cubículos',
@@ -209,7 +182,7 @@ export const productsData = {
         isDoubleCard: true,
         hasDetailsButton: false,        
         images: [
-          'images/products/accesoriosparasanitarios/informador-de-estado-de-cubiculos-de-baños-publicos.png'
+          'images/products/accesoriosparasanitarios/informador.png'
         ],
         keywords: ['informador', 'estado', 'cubículo', 'luz', 'puerta'],
         category: 'Accesorios para Sanitarios'
@@ -240,20 +213,42 @@ export const productsData = {
         keywords: ['asiento', 'elongado', 'sin', 'tapa'],
         category: 'Accesorios para Sanitarios'
       },
-      // {
-      //   id: 119,
-      //   name: 'Dispensador de Cobertor en Acero Inoxidable',
-      //   description: 'Dispensador de cobertor desechable fabricado en acero inoxidable para máxima durabilidad e higiene.',
-      //   isDoubleCard: true,
-      //   hasDetailsButton: false,
-      //   images: [
-      //     'https://images.unsplash.com/photo-1596180744474-200229e5acc5',
-      //     'https://images.unsplash.com/photo-1596180744691-d19a1b90b53c',
-      //     'https://images.pexels.com/photos/7562116/pexels-photo-7562116.jpeg'
-      //   ],
-      //   keywords: ['dispensador', 'cobertor', 'acero', 'inoxidable', 'higiene'],
-      //   category: 'Accesorios para Sanitarios'
-      // }
+      { id: 78, 
+        name: 'Barra para Discapacitados Tipo Hogar',
+        description: '',
+        isDoubleCard: true,
+        hasDetailsButton: false,
+        hasTechnicalSheet: false,
+        images: [
+          'images/products/accesoriosparasanitarios/barra-hogar.png'
+        ],
+        keywords: ['barra', 'discapacitados', 'hogar'],
+        category: 'Accesorios para Sanitarios'
+      },      
+      { id: 101, 
+        name: 'Barra para Discapacitados Tipo B',
+        description: '',
+        isDoubleCard: true,
+        hasDetailsButton: false,
+        hasTechnicalSheet: false,
+        images: [
+          'images/products/accesoriosparasanitarios/barra-tipo-b.png'
+        ],
+        keywords: ['barra', 'discapacitados', 'b'],
+        category: 'Accesorios para Sanitarios'
+      },
+      { id: 102, 
+        name: 'Barra para Discapacitados Tipo H',
+        description: '',
+        isDoubleCard: true,
+        hasDetailsButton: false,
+        hasTechnicalSheet: false,
+        images: [
+          'images/products/accesoriosparasanitarios/barra-tipo-h.png'
+        ],
+        keywords: ['barra', 'discapacitados', 'h'],
+        category: 'Accesorios para Sanitarios'
+      },
     ]
   },
   "Dispensadores": {
@@ -350,22 +345,7 @@ export const productsData = {
         pdf: '/pdfs/products/dispensadores/dispensador-aguawave.pdf',
         keywords: ['dispensador', 'agua', 'wave', 'exterior', 'termos'],
         category: 'Dispensadores'
-      },
-      // {
-      //   id: 21,
-      //   name: 'Dispensador de jabón de mesón (manija acero 304, capacidad 1 L)',
-      //   description: 'Dispensador con manija de acero 304 y capacidad de 1 litro.',
-      //   isDoubleCard: true,
-      //   hasDetailsButton: false,
-      //   hasTechnicalSheet: true,
-      //   images: [
-      //     'https://images.unsplash.com/photo-1596180744474-200229e5acc5',
-      //     'https://images.unsplash.com/photo-1596180744691-d19a1b90b53c',
-      //     'https://images.pexels.com/photos/7562116/pexels-photo-7562116.jpeg'
-      //   ],
-      //   keywords: ['dispensador', 'jabón', 'mesón', 'acero', '304'],
-      //   category: 'Dispensadores'
-      // },      
+      },           
       {
         id: 22,
         name: 'Dispensador de Sensor de Jabón en Espuma',
@@ -384,19 +364,7 @@ export const productsData = {
   },
   "Grifería Push": {
     description: "Grifería de Accionamiento Manual Tipo Push.",
-    products: [
-      // {
-      //   id: 23,
-      //   name: 'Grifo lavamanos Push LEED (Docol)',
-      //   description: 'Grifo push certificado LEED marca Docol.',
-      //   isDoubleCard: true,
-      //   hasDetailsButton: false,        
-      //   images: [
-      //     'images/products/dispensadores/dispensador-de-jabon-en-espuma'
-      //   ],
-      //   keywords: ['grifo', 'lavamanos', 'push', 'LEED', 'docol'],
-      //   category: 'Grifería Push'
-      // },
+    products: [      
       {
         id: 24,
         name: 'Grifo Lavamanos Push (Docol)',
@@ -442,7 +410,36 @@ export const productsData = {
     subcategories: {
       "Grifería de mesón": {
         products: [
-          { id: 27, name: 'Grifo Squadra', description: 'Grifo de sensor modelo Squadra.', isDoubleCard: true, hasDetailsButton: false, images: ['images/products/griferiayduchasdesensor/grifo-squadra.png'], keywords: ['grifo', 'squadra', 'mesón'], category: 'Grifería y Duchas de Sensor' },
+          {
+            id: 21,
+            name: 'Grifo Sensor Manos Libres',
+            description: 'Grifo automático manos libres para lavamanos que brinda comodidad, higiene y eficiencia, ideal para la conservación del agua.',
+            isDoubleCard: true,
+            hasDetailsButton: false,
+            hasTechnicalSheet: true,
+            images: [              
+              'images/products/griferiayduchasdesensor/grifo-sensor-manos-libres.png'
+            ],
+            pdf: '/pdfs/products/griferiayduchasdesensor/grifo-manos-libres.pdf',
+            keywords: ['grifo', 'libres', 'manos', 'sensor', 'automático'],
+            category: 'Grifería y Duchas de Sensor'
+          }, 
+          {
+            id: 23,
+            name: 'Grifo Squadra',
+            description: 'Incluye Grifo, caja controladora y 1 manguera. Cuenta con iluminación por detras de la placa',
+            isDoubleCard: true,
+            hasDetailsButton: false,
+            hasTechnicalSheet: true,        
+            images: [
+              'images/products/griferiayduchasdesensor/grifo-squadra.png'
+            ],
+            pdf: '/pdfs/products/griferiayduchasdesensor/grifo-squadra.pdf',
+            keywords: ['grifo', 'lavamanos', 'push', 'LEED', 'docol'],
+            category: 'Grifería y Duchas de Sensor'
+         },
+          { id: 27, name: 'Grifo Squadra 2', description: 'Grifo de sensor modelo Squadra Tipo 2.', isDoubleCard: true, hasDetailsButton: false, images: ['images/products/griferiayduchasdesensor/grifo-squadra-2.png'], keywords: ['grifo', 'squadra', 'mesón'], category: 'Grifería y Duchas de Sensor' },
+          { id: 37, name: 'Grifo Squadra 3', description: 'Grifo de sensor modelo Squadra Tipo 3.', isDoubleCard: true, hasDetailsButton: false, images: ['images/products/griferiayduchasdesensor/grifo-squadra-3.png'], keywords: ['grifo', 'squadra'], category: 'Grifería y Duchas de Sensor' },
           { id: 28, name: 'Grifo y Jabonera Block', description: 'Conjunto de grifo y jabonera modelo Block.', isDoubleCard: true, hasDetailsButton: false, images: ['images/products/griferiayduchasdesensor/grifo-y-jabonera-block.png'], keywords: ['grifo', 'jabonera', 'block'], category: 'Grifería y Duchas de Sensor' },
           { id: 29, name: 'Grifo Cuello de Ganso', description: 'Grifo con diseño de cuello de ganso.', isDoubleCard: true, hasDetailsButton: false, images: ['images/products/griferiayduchasdesensor/grifo-cuello-ganzo.png'], keywords: ['grifo', 'cuello', 'ganso'], category: 'Grifería y Duchas de Sensor' },
           { id: 30, name: 'Grifo Dato', description: 'Grifo de sensor modelo Dato.', isDoubleCard: true, hasDetailsButton: false, images: ['images/products/griferiayduchasdesensor/grifo-dato.png'], keywords: ['grifo', 'dato'], category: 'Grifería y Duchas de Sensor' },
@@ -450,9 +447,9 @@ export const productsData = {
           { id: 32, name: 'Grifo L', description: 'Grifo de sensor modelo L.', isDoubleCard: true, hasDetailsButton: false, images: ['images/products/griferiayduchasdesensor/grifo-l.png'], keywords: ['grifo', 'L'], category: 'Grifería y Duchas de Sensor' },
           { id: 33, name: 'Grifo Andrew', description: 'Grifo de sensor modelo Andrew.', isDoubleCard: true, hasDetailsButton: false, hasTechnicalSheet: true, images: ['images/products/griferiayduchasdesensor/grifo-andrew.png'],  pdf: '/pdfs/products/griferiayduchasdesensor/grifo-andrew.pdf', keywords: ['grifo', 'andrew'], category: 'Grifería y Duchas de Sensor' },
           { id: 34, name: 'Grifo Diamond', description: 'Grifo de sensor modelo Diamond.', isDoubleCard: true, hasDetailsButton: false, images: ['images/products/griferiayduchasdesensor/grifo-diamond.png'], keywords: ['grifo', 'diamond'], category: 'Grifería y Duchas de Sensor' },
-          { id: 35, name: 'Grifo Du‑Plo (quirúrgico)', description: 'Grifo especial para uso quirúrgico.', isDoubleCard: true, hasDetailsButton: false, images: ['images/products/griferiayduchasdesensor/grifo-duplo.png'], keywords: ['grifo', 'duplo', 'quirúrgico'], category: 'Grifería y Duchas de Sensor' },
-          { id: 36, name: 'Grifo Quatro', description: 'Grifo de sensor modelo Quatro.', isDoubleCard: true, hasDetailsButton: false, images: ['images/products/griferiayduchasdesensor/grifo-quatro.png'], keywords: ['grifo', 'quatro'], category: 'Grifería y Duchas de Sensor' },
-          { id: 37, name: 'Grifo Escuadra', description: 'Grifo de sensor modelo Escuadra.', isDoubleCard: true, hasDetailsButton: false, images: ['images/products/griferiayduchasdesensor/grifo-escuadra.png'], keywords: ['grifo', 'escuadra'], category: 'Grifería y Duchas de Sensor' }
+          { id: 35, name: 'Grifo Du‑Plo (Quirúrgico)', description: 'Grifo especial para uso quirúrgico.', isDoubleCard: true, hasDetailsButton: false, images: ['images/products/griferiayduchasdesensor/grifo-duplo.png'], keywords: ['grifo', 'duplo', 'quirúrgico'], category: 'Grifería y Duchas de Sensor' },
+          //{ id: 36, name: 'Grifo Quatro', description: 'Grifo de sensor modelo Quatro.', isDoubleCard: true, hasDetailsButton: false, images: ['images/products/griferiayduchasdesensor/grifo-quatro.png'], keywords: ['grifo', 'quatro'], category: 'Grifería y Duchas de Sensor' },
+          
         ]
       },
       "Grifería de mesón Personalizables": {
@@ -494,9 +491,44 @@ export const productsData = {
     description: "Secadores automáticos de alta eficiencia.",
     products: [
       {
+        id: 10,
+        name: 'Secador de Manos Horizontal Vento.',
+        description: '',
+        isDoubleCard: true,
+        hasDetailsButton: false,
+        images: [
+          'images/products/secadoresdemanos/secador-vento.png'
+        ],        
+        keywords: ['secador', 'manos', 'horizontal', 'vento'],
+        category: 'Secadores de Manos'
+      },
+      {
+        id: 119,
+        name: 'Secador de Manos Automático AeroDry.',
+        description: '',
+        isDoubleCard: true,
+        hasDetailsButton: false,
+        images: [
+          'images/products/secadoresdemanos/secador-aerodry.png'
+        ],        
+        keywords: ['secador', 'manos', 'horizontal', 'aerodry'],
+        category: 'Secadores de Manos'
+      },
+      { id: 108, 
+        name: 'Secador de Manos Automático Tornado.',
+        description: '',
+        isDoubleCard: true,
+        hasDetailsButton: false,
+        images: [
+          'images/products/secadoresdemanos/secador-tornado.png'
+        ],        
+        keywords: ['secador', 'manos', 'horizontal', 'tornado'],
+        category: 'Secadores de Manos'
+      },
+      {
         id: 58,
         name: 'Secador de Manos Automático Cóncavo',
-        description: 'Infrarrojo con sonido y velocidad ajustable.',
+        description: '',
         isDoubleCard: true,
         hasDetailsButton: false,
         hasTechnicalSheet: true,
@@ -510,7 +542,7 @@ export const productsData = {
       {
         id: 59,
         name: 'Secador de Manos Automático Vertical Prisma',
-        description: 'Plástico ABS con filtro HEPA y secado rápido.',
+        description: '',
         isDoubleCard: true,
         hasDetailsButton: false,        
         images: [
@@ -522,7 +554,7 @@ export const productsData = {
       {
         id: 60,
         name: 'Secador de Manos Automático Vertical Slim',
-        description: 'Filtrado HEPA y secado rápido.',
+        description: '',
         isDoubleCard: true,
         hasDetailsButton: false,
         hasTechnicalSheet: true,        
@@ -567,6 +599,20 @@ export const productsData = {
   "Higienización": {
     description: "Sistemas de Desinfección y Higienización.",
     products: [
+      {
+        id: 141,
+        name: 'Sistema de Higienización de Aire con UV para Baños Aerus',
+        description: 'Dispositivo UV para baños públicos que elimina olores, bacterias y virus, activándose automáticamente por sensor y optimizando energía al usarse solo cuando el baño está en uso.',
+        isDoubleCard: true,
+        hasDetailsButton: false,
+        hasTechnicalSheet: true,
+        images: [
+          'images/products/higienizacion/sis-higiene.png'
+        ],
+        pdf: '/pdfs/products/higienizacion/sistema-uv.pdf',
+        keywords: ['sistema', 'higienización', 'uv','higiene'],
+        category: 'Higienización'
+      },
       {
         id: 63,
         name: 'Cámara UV de Desinfección (tipo 1)',
@@ -661,8 +707,7 @@ export const productsData = {
       { id: 73, name: 'Kit de Escudo Antivandálico para Push Corona sanitario', description: 'Kit de protección antivandálica.', isDoubleCard: true, hasDetailsButton: false, hasTechnicalSheet: true, images: ['images/products/repuestos/kit-de-escudo-antivandalico-para-push-corona-sanitario.png'], pdf: '/pdfs/products/repuestos/escudo-antivandalico.pdf', keywords: ['kit', 'escudo', 'antivandálico', 'push', 'corona'], category: 'Repuestos' },
       { id: 74, name: 'Kit Empaquetadura grifo y orinal Push Corona', description: 'Kit de empaquetadura especializado para grifos y orinales Push Corona.', isDoubleCard: true, hasDetailsButton: true, images: ['images/products/repuestos/kit-empaquetadura-grifo-y-orinal-push-corona.png'], video:'videos/products/repuestos/kit-reemplazo-empaquetadura-push-corona-sanitario.mp4', videoPoster:'images/general/banner.jpg', keywords: ['kit', 'empaquetadura', 'grifo', 'orinal', 'push', 'corona'], category: 'Repuestos' },
       { id: 76, name: 'Llave para Cartucho Ecológico', description: 'Llave especializada para cartuchos ecológicos.', isDoubleCard: true, hasDetailsButton: false, images: ['images/products/repuestos/llave-para-cartucho-ecologico.png'], keywords: ['llave', 'cartucho', 'ecológico'], category: 'Repuestos' },
-      { id: 77, name: 'Pivote y Conector para Jabonera Corona', description: 'Pivote y conector específico para jabonera Corona.', isDoubleCard: true, hasDetailsButton: false, images: ['images/products/repuestos/pibote-y-conector-para-jabonera-corona.png'], keywords: ['pivote', 'conector', 'jabonera', 'corona'], category: 'Repuestos' },
-      //{ id: 78, name: 'Kit Reemplazo para Grifos de Sensor', description: 'Kit completo de reemplazo para grifos con sensor.', isDoubleCard: true, hasDetailsButton: false, hasTechnicalSheet: true, images: ['images/products/repuestos/.png'], pdf: '/pdfs/products/kit-grifos-sensor.pdf', keywords: ['kit', 'reemplazo', 'grifos', 'sensor'], category: 'Repuestos' },
+      { id: 77, name: 'Pivote y Conector para Jabonera Corona', description: '', isDoubleCard: true, hasDetailsButton: false, images: ['images/products/repuestos/pibote-y-conector-para-jabonera-corona.png'], keywords: ['pivote', 'conector', 'jabonera', 'corona'], category: 'Repuestos' },
       { id: 79, name: 'Racor Plástico para Sanitarios', description: 'Racor plástico especializado para sanitarios.', isDoubleCard: true, hasDetailsButton: false, images: ['images/products/repuestos/racor-plastico-para-sanitarios.png'], keywords: ['racor', 'plástico', 'sanitarios'], category: 'Repuestos' },
       { id: 80, name: 'Racor Metálico para Sanitarios', description: 'Racor metálico de alta resistencia para sanitarios.', isDoubleCard: true, hasDetailsButton: false, images: ['images/products/repuestos/racor-metalico-para-sanitarios.png'], keywords: ['racor', 'metálico', 'sanitarios'], category: 'Repuestos' },
       { id: 81, name: 'Bobina para Fluxómetro Duplex Corona', description: 'Bobina de repuesto para fluxómetro duplex Corona.', isDoubleCard: true, hasDetailsButton: false, images: ['images/products/repuestos/bobina-para-fluxometro-duplex-corona.png'], keywords: ['bobina', 'fluxómetro', 'duplex', 'corona'], category: 'Repuestos' },
@@ -681,17 +726,13 @@ export const productsData = {
       { id: 95, name: 'Válvula para Orinal y Grifo', description: 'Válvula de repuesto para orinal.', isDoubleCard: true, hasDetailsButton: false, images: ['images/products/repuestos/valvula-para-orinal-y-grifo.png'], keywords: ['válvula', 'orinal', 'repuesto'], category: 'Repuestos' },
       { id: 96, name: 'Tarjeta Electrónica para Orinal', description: 'Tarjeta electrónica de repuesto para orinales automáticos.', isDoubleCard: true, hasDetailsButton: false, images: ['images/products/repuestos/tarjeta-electronica-orinal.png'], keywords: ['tarjeta', 'electrónica', 'repuesto'], category: 'Repuestos' },
       { id: 97, name: 'Luces Led', description: 'Luces LED para equipos sanitarios.', isDoubleCard: true, hasDetailsButton: false, images: ['images/products/repuestos/luces-led.png'], keywords: ['luces', 'led', 'sanitarios'], category: 'Repuestos' },
-      { id: 98, name: 'Botón + Resorte', description: 'Conjunto de botón y resorte de repuesto.', isDoubleCard: true, hasDetailsButton: false, images: ['images/products/repuestos/boton-resorte.png'], keywords: ['botón', 'resorte', 'repuesto'], category: 'Repuestos' },
-      { id: 99, name: 'Fluxómetro para Orinal Infantil', description: 'Fluxómetro especializado para orinales infantiles.', isDoubleCard: true, hasDetailsButton: false, images: ['images/products/accesoriosparasanitarios/fluxometro-para-orinal-infantil.png'], keywords: ['fluxómetro', 'orinal', 'infantil'], category: 'Accesorios para Sanitarios' },
+      { id: 98, name: 'Botón + Resorte', description: 'Conjunto de botón y resorte de repuesto.', isDoubleCard: true, hasDetailsButton: false, images: ['images/products/repuestos/boton-resorte.png'], keywords: ['botón', 'resorte', 'repuesto'], category: 'Repuestos' },      
       { id: 100, name: 'Manguera Cromada', description: 'Manguera cromada para conexiones sanitarias.', isDoubleCard: true, hasDetailsButton: false, images: ['images/products/repuestos/manguera-cromada.png'], keywords: ['manguera', 'cromada', 'sanitaria'], category: 'Repuestos' },
-      //{ id: 101, name: 'Cartucho Push', description: 'Cartucho Push de repuesto.', isDoubleCard: true, hasDetailsButton: false, images: ['images/products/repuestos/.png'], keywords: ['cartucho', 'push', 'repuesto'], category: 'Repuestos' },
-      //{ id: 102, name: 'Tornillo + Ajuste de Tapa Registro', description: 'Tornillo y ajuste para tapa de registro.', isDoubleCard: true, hasDetailsButton: false, images: ['images/products/repuestos/.png'], keywords: ['tornillo', 'ajuste', 'tapa', 'registro'], category: 'Repuestos' },
       { id: 103, name: 'Diafragma', description: 'Diafragma compatible con Fluxómetro Sloan.', isDoubleCard: true, hasDetailsButton: false, images: ['images/products/repuestos/diafragma-sloan.png'], keywords: ['diafragma', 'sloan', 'repuesto'], category: 'Repuestos' },
       { id: 104, name: 'Diafragma Feyod', description: 'Diafragma para Fluxómetro Feyod.', isDoubleCard: true, hasDetailsButton: false, images: ['images/products/repuestos/diafragma-feyod.png'], keywords: ['diafragma', 'feyod', 'repuesto'], category: 'Repuestos' },
       { id: 105, name: 'Embolo', description: 'Émbolo de repuesto para equipos sanitarios.', isDoubleCard: true, hasDetailsButton: false, images: ['images/products/repuestos/embolo.png'], keywords: ['émbolo', 'repuesto', 'sanitario'], category: 'Repuestos' },
       { id: 106, name: 'Bacún', description: 'Bacún de repuesto para sistemas sanitarios.', isDoubleCard: true, hasDetailsButton: false, images: ['images/products/repuestos/bacun.png'], keywords: ['bacún', 'repuesto', 'sanitario'], category: 'Repuestos' },
-      { id: 107, name: 'Palanca Fluxómetro', description: 'Palanca de repuesto para fluxómetro.', isDoubleCard: true, hasDetailsButton: false, images: ['images/products/repuestos/palanca-fluxometro.png'], keywords: ['palanca', 'fluxómetro', 'repuesto'], category: 'Repuestos' },
-      //{ id: 108, name: 'Baterías Lavamanos', description: 'Baterías de repuesto para lavamanos automáticos.', isDoubleCard: true, hasDetailsButton: false, images: ['images/products/repuestos/.png'], keywords: ['baterías', 'lavamanos', 'automático'], category: 'Repuestos' },
+      { id: 107, name: 'Palanca Fluxómetro', description: 'Palanca de repuesto para fluxómetro.', isDoubleCard: true, hasDetailsButton: false, images: ['images/products/repuestos/palanca-fluxometro.png'], keywords: ['palanca', 'fluxómetro', 'repuesto'], category: 'Repuestos' },      
       { id: 109, name: 'Sensor para Grifo', description: 'Sensor de repuesto para grifo automático.', isDoubleCard: true, hasDetailsButton: false, images: ['images/products/repuestos/sensor-grifo.png'], keywords: ['sensor', 'grifo', 'automático'], category: 'Repuestos' },
       { id: 110, name: 'Botón Fluxómetro', description: 'Botón de repuesto para fluxómetro.', isDoubleCard: true, hasDetailsButton: false, images: ['images/products/repuestos/boton-fluxometro.png'], keywords: ['botón', 'fluxómetro', 'repuesto'], category: 'Repuestos' },
       { id: 111, name: 'Kit de Empaquetadura Piston', description: 'Empaquetadura Pistón de repuesto.', isDoubleCard: true, hasDetailsButton: false, images: ['images/products/repuestos/empaquetadura-piston.png'], keywords: ['fachada', 'repuesto', 'sanitario'], category: 'Repuestos' },

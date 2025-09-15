@@ -15,3 +15,8 @@ code {
     font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
         monospace;
 }
+
+/* Custom utility: hover background color for ficha técnica (fallback when Tailwind JIT doesn't generate arbitrary hover classes) */
+.hover-c8911e:hover {
+    background-color: #c8911e !important;
+}

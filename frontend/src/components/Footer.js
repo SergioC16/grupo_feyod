@@ -55,7 +55,9 @@ const Footer = () => {
                 />
               </div> */}
               
-              <img src="/images/general/logo2.png" alt="Grupo Feyod" className="h-8 sm:h-10 w-auto" />
+              <div className="h-8 sm:h-10 w-auto">
+                <img src="/images/general/logo2.png" alt="Grupo Feyod" className="w-full h-full object-contain" />
+              </div>
             </Link>
             <p className="text-white/80 font-nexa mb-6 leading-relaxed">
               Pioneros en tecnología sanitaria inteligente, transformando espacios 

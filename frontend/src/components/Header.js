@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { Menu, X, Home, Package, Users, Phone, Settings } from 'lucide-react';
+import QuoteModal from './QuoteModal';
 
 const Header = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -25,6 +26,7 @@ const Header = () => {
   ];
 
   const isContactPage = location.pathname === '/contacto';
+  const [isQuoteOpen, setIsQuoteOpen] = useState(false);
 
   return (
     <motion.header
@@ -40,14 +42,10 @@ const Header = () => {
         <div className="flex items-center justify-between h-16 lg:h-20">
           {/* Logo */}
           <Link to="/" className="flex items-center space-x-2 flex-shrink-0">
-            <div className="w-8 h-8 sm:w-10 sm:h-10 flex items-center justify-center">
-              {/* <img 
-                src="/images/general/isologo.png" 
-                alt="Grupo Feyod" 
-                className="w-full h-full object-contain"
-              /> */}
+            {/* responsive logo container to match Footer.js */}
+            <div className="h-8 sm:h-10 w-auto">
+              <img src="/images/general/logo.png" alt="Grupo Feyod" className="w-full h-full object-contain" />
             </div>
-            <img src="/images/general/logo.png" alt="Grupo Feyod" className="h-8 sm:h-10 w-auto" />
           </Link>
 
           {/* Desktop Navigation */}
@@ -73,20 +71,21 @@ const Header = () => {
           </nav>
 
           {/* CTA Button - Hidden on Contact page */}
-          {!isContactPage && (
+            {/* CTA Button - keep visible always and centered */}
             <motion.div
               className="hidden md:block"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
             >
-              <Link
-                to="/contacto"
+              <button
+                onClick={() => setIsQuoteOpen(true)}
                 className="btn-primary bg-accent hover:bg-accent-600 text-white px-6 py-3 rounded-full font-nexa font-semibold shadow-lg hover:shadow-xl"
+                aria-haspopup="dialog"
               >
                 Cotizar Ahora
-              </Link>
+              </button>
             </motion.div>
-          )}
+          
 
           {/* Mobile menu button */}
           <button
@@ -135,6 +134,7 @@ const Header = () => {
             )}
           </div>
         </motion.div>
+    <QuoteModal isOpen={isQuoteOpen} onClose={() => setIsQuoteOpen(false)} />
       </div>
     </motion.header>
   );
