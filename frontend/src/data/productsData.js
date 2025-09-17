@@ -87,7 +87,7 @@ export const productsData = {
         hasDetailsButton: false,
         hasTechnicalSheet: true,
         images: [
-          'images/products/orinalesycartuchos/cartucho-helvex.png'
+          'images/products/orinalesycartuchos/helvex-cartucho.png'
         ],
         pdf: '/pdfs/products/orinalesycartuchos/cartucho-helvex.pdf',
         keywords: ['cartucho', 'gobi', 'helvex', 'duración'],
