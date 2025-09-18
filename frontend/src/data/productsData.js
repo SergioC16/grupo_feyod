@@ -144,20 +144,20 @@ export const productsData = {
         keywords: ['sensor', 'power', 'light', 'sanitario', 'acero'],
         category: 'Accesorios para Sanitarios'
       },
-      {
-        id: 7,
-        name: 'FlushID',
-        description: 'FlushID es un fluxómetro con doble sensor que identifica el tipo de residuo y ajusta la descarga de agua: 2.5 L para líquidos y 4.8 L para sólidos. Gracias a su sensor interno, garantiza máxima higiene y hasta un 40% de ahorro en consumo de agua.',
-        isDoubleCard: true,
-        hasDetailsButton: false, 
-        hasTechnicalSheet: true,       
-        images: [
-          'images/products/accesoriosparasanitarios/flushID.png'
-        ],
-        pdf: '/pdfs/products/accesoriosparasanitarios/flushID.pdf',
-        keywords: ['fluxometro', 'flush', 'flushID'],
-        category: 'Accesorios para Sanitarios'
-      },
+      // {
+      //   id: 7,
+      //   name: 'FlushID',
+      //   description: 'FlushID es un fluxómetro con doble sensor que identifica el tipo de residuo y ajusta la descarga de agua: 2.5 L para líquidos y 4.8 L para sólidos. Gracias a su sensor interno, garantiza máxima higiene y hasta un 40% de ahorro en consumo de agua.',
+      //   isDoubleCard: true,
+      //   hasDetailsButton: false, 
+      //   hasTechnicalSheet: true,       
+      //   images: [
+      //     'images/products/accesoriosparasanitarios/flushID.png'
+      //   ],
+      //   pdf: '/pdfs/products/accesoriosparasanitarios/flushID.pdf',
+      //   keywords: ['fluxometro', 'flush', 'flushID'],
+      //   category: 'Accesorios para Sanitarios'
+      // },
       {
         id: 121,
         name: 'Cobertor Manual para Sanitarios Institucionales',

@@ -114,28 +114,41 @@ const Products = () => {
   const ProductCard = React.memo(({ product }) => (
     <div className="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300 h-96 flex flex-col">
       <div className="relative overflow-hidden flex-shrink-0">
-        <img
-          src={product.images ? product.images[0] : product.image}
-          alt={product.name}
-          className="w-full h-auto sm:h-40 object-contain sm:object-cover"
-          loading="lazy"
-        />
+  <img
+    src={product.images ? product.images[0] : product.image}
+    alt={product.name}
+    className="w-full object-contain h-56 sm:h-40 md:h-44 lg:h-48 sm:object-cover"
+    loading="lazy"
+  />
+
+  {/* Botón LUPEAR/AGRANDAR (abajo derecha) */}
+  <button
+    type="button"
+    onClick={() => setZoomSrc(product.images ? product.images[0] : product.image)}
+    aria-label="Ver imagen en grande"
+    className="absolute bottom-2 right-2 z-10 inline-flex items-center justify-center rounded-full bg-white/90 backdrop-blur px-2.5 py-2 shadow-lg hover:bg-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-400"
+  >
+    <Search size={18} className="text-gray-900" />
+  </button>
+
   <AddToQuoteButton product={product} />
-        {/* Show category only in "Todos" view */}
-        {activeCategory === 'Todos' && (
-          <div className="absolute top-3 right-3 bg-accent text-primary px-2 py-1 sm:px-3 sm:py-1 rounded-full font-nexa font-semibold text-xs sm:text-sm">
-            {product.category}
-          </div>
-        )}
-      </div>
+
+  {/* Show category only in "Todos" view */}
+  {activeCategory === 'Todos' && (
+    <div className="absolute top-3 right-3 bg-accent text-primary px-2 py-1 sm:px-3 sm:py-1 rounded-full font-nexa font-semibold text-xs sm:text-sm">
+      {product.category}
+    </div>
+  )}
+</div>
+
       
       <div className="p-4 sm:p-6 relative flex-1 flex flex-col">
         <h3 className="font-neue font-bold text-lg sm:text-xl text-primary mb-2 sm:mb-3">
           {product.name}
         </h3>
         {/* Descripción: área con altura fija y scroll interno para mantener los botones en el fondo */}
-        <div className="h-20 sm:h-24 md:h-28 overflow-y-auto pr-2">
-          <p className="text-gray-600 font-nexa text-sm sm:text-base leading-relaxed">
+        <div className="hidden md:block h-24 md:h-28 overflow-y-auto pr-2">
+          <p className="text-gray-600 font-nexa text-sm leading-relaxed">
             {product.description}
           </p>
         </div>
@@ -173,30 +186,42 @@ const Products = () => {
   const ProductDoubleCard = React.memo(({ product }) => (
     <div className="bg-white rounded-2xl shadow-lg overflow-hidden relative col-span-1 sm:col-span-2 h-96 flex flex-col sm:flex-row">
       <div className="w-full sm:w-1/2 relative overflow-hidden">
-        <img
-          src={product.images ? product.images[0] : product.image}
-          alt={product.name}
-          className="w-full h-auto sm:h-full object-contain sm:object-cover"
-          loading="lazy"
-        />
+  <img
+    src={product.images ? product.images[0] : product.image}
+    alt={product.name}
+    className="w-full object-contain h-56 sm:h-full sm:object-cover"
+    loading="lazy"
+  />
+
+  {/* Botón LUPEAR/AGRANDAR (abajo derecha) */}
+  <button
+    type="button"
+    onClick={() => setZoomSrc(product.images ? product.images[0] : product.image)}
+    aria-label="Ver imagen en grande"
+    className="absolute bottom-2 right-2 z-10 inline-flex items-center justify-center rounded-full bg-white/90 backdrop-blur px-2.5 py-2 shadow-lg hover:bg-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-400"
+  >
+    <Search size={18} className="text-gray-900" />
+  </button>
+
   <AddToQuoteButton product={product} />
-        {/* Show category only in "Todos" view */}
-        {activeCategory === 'Todos' && (
-          <div className="absolute top-3 right-3 bg-accent text-white px-2 py-1 sm:px-3 sm:py-1 rounded-full font-nexa font-semibold text-xs sm:text-sm">
-            {product.category}
-          </div>
-        )}
-      </div>
+
+  {/* Show category only in "Todos" view */}
+  {activeCategory === 'Todos' && (
+    <div className="absolute top-3 right-3 bg-accent text-white px-2 py-1 sm:px-3 sm:py-1 rounded-full font-nexa font-semibold text-xs sm:text-sm">
+      {product.category}
+    </div>
+  )}
+</div>
       
       <div className="w-full sm:w-1/2 p-4 sm:p-8 relative flex-1 flex flex-col">
         <h3 className="font-neue font-bold text-xl sm:text-2xl text-primary mb-3 sm:mb-4">
           {product.name}
         </h3>
-        <div className="h-24 sm:h-28 md:h-32 overflow-y-auto pr-2 mb-4 flex-1">
-          <p className="text-gray-600 font-nexa text-sm sm:text-lg leading-relaxed">
-            {product.description}
+        <div className="hidden md:block h-28 md:h-32 overflow-y-auto pr-2 mb-4">
+          <p className="text-gray-600 font-nexa text-sm leading-relaxed">
+           {product.description}
           </p>
-        </div>
+        </div>  
         
         {/* Variants for cartridge products */}
         {product.variants && (
@@ -278,6 +303,8 @@ const media = useMemo(() => {
     }, 5000);
     return () => clearTimeout(t);
   }, [selectedProduct, media, currentImageIndex]);
+
+  const [zoomSrc, setZoomSrc] = useState(null);
 
   return (
     <Helmet>
@@ -404,6 +431,36 @@ const media = useMemo(() => {
         )}
       </AnimatePresence>
 
+      {/* === MODAL DE ZOOM DE IMAGEN (simple) === */}
+{zoomSrc && (
+  <div
+    className="fixed inset-0 z-[70] bg-black/70 backdrop-blur-sm flex items-center justify-center p-4"
+    onClick={() => setZoomSrc(null)} // Cierra al hacer click fuera
+  >
+    <div
+      className="relative bg-white rounded-2xl shadow-2xl max-w-3xl w-full overflow-hidden"
+      onClick={(e) => e.stopPropagation()} // Evita cierre al click dentro
+    >
+      {/* Botón X para cerrar */}
+      <button
+        type="button"
+        aria-label="Cerrar"
+        onClick={() => setZoomSrc(null)}
+        className="absolute top-3 right-3 inline-flex h-9 w-9 items-center justify-center rounded-full bg-white/90 backdrop-blur shadow hover:bg-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-400"
+      >
+        <X size={18} className="text-gray-700" />
+      </button>
+
+      {/* Imagen en grande */}
+      <img
+        src={zoomSrc}
+        alt="Vista ampliada"
+        className="w-full h-auto object-contain max-h-[80vh] bg-black"
+        loading="lazy"
+      />
+    </div>
+  </div>
+)}
       {/* Product Modal with Image/Video Carousel */}
       <AnimatePresence>
         {selectedProduct && (
