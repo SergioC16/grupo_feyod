@@ -4,7 +4,11 @@ import { X, Search, ChevronLeft, ChevronRight, ChevronUp } from 'lucide-react';
 import { productsData } from '../data/productsData';
 import DownloadButton from '../components/DownloadButton';
 import AddToQuoteButton from '../components/AddToQuoteButton';
+import QuoteModal from '../components/QuoteModal';
+import Modal from '../components/ui/Modal';
 import { Helmet } from 'react-helmet-async';
+import { useLocation, useNavigate } from 'react-router-dom';
+
 
 const Products = () => {
   const [selectedProduct, setSelectedProduct] = useState(null);
@@ -13,6 +17,23 @@ const Products = () => {
   const [activeCategory, setActiveCategory] = useState('Todos');
   const [showScrollTop, setShowScrollTop] = useState(false);
 
+  // Estado para abrir/cerrar el modal de cotizar y sus items
+  const [quoteOpen, setQuoteOpen] = useState(false);
+  const [quoteItems, setQuoteItems] = useState([]);
+
+  // Ejemplo de handler: agrega el producto actual a la lista y abre el modal
+  const handleAddToQuote = (product) => {
+    setQuoteItems((prev) => {
+      const exists = prev.find((p) => (p.id ?? p.name) === (product.id ?? product.name));
+      if (exists) return prev; // evita duplicados; ajusta a tu gusto
+      return [...prev, { ...product, image: product.image || product.images?.[0] }];
+    });
+    setQuoteOpen(true);
+  };
+
+  const handleRemoveFromQuote = (idOrName) => {
+    setQuoteItems((prev) => prev.filter((p) => (p.id ?? p.name) !== idOrName));
+  };
   // Reset scroll position when category changes
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -72,7 +93,7 @@ const Products = () => {
       filtered = filtered.filter(product => {
         const matchesName = product.name.toLowerCase().includes(searchLower);
         const matchesDescription = product.description.toLowerCase().includes(searchLower);
-        const matchesKeywords = product.keywords && product.keywords.some(keyword => 
+        const matchesKeywords = product.keywords && product.keywords.some(keyword =>
           keyword.toLowerCase().includes(searchLower)
         );
         return matchesName || matchesDescription || matchesKeywords;
@@ -81,6 +102,22 @@ const Products = () => {
 
     return filtered;
   }, [allProducts, activeCategory, searchTerm]);
+
+  const location = useLocation();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const params = new URLSearchParams(location.search);
+    if (params.get('cotizar') === '1') {
+      setQuoteOpen(true);
+    }
+  }, [location.search]);
+
+  const clearCotizarQuery = useCallback(() => {
+    if (location.search.includes('cotizar=1')) {
+      navigate(location.pathname, { replace: true });
+    }
+  }, [location, navigate]);
 
   const handleProductSelect = useCallback((product) => {
     setSelectedProduct(product);
@@ -114,34 +151,37 @@ const Products = () => {
   const ProductCard = React.memo(({ product }) => (
     <div className="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300 h-96 flex flex-col">
       <div className="relative overflow-hidden flex-shrink-0">
-  <img
-    src={product.images ? product.images[0] : product.image}
-    alt={product.name}
-    className="w-full object-contain h-56 sm:h-40 md:h-44 lg:h-48 sm:object-cover"
-    loading="lazy"
-  />
+        <img
+          src={product.images ? product.images[0] : product.image}
+          alt={product.name}
+          className="w-full h-auto sm:h-40 object-contain sm:object-cover"
+          loading="lazy"
+        />
 
-  {/* Botón LUPEAR/AGRANDAR (abajo derecha) */}
-  <button
-    type="button"
-    onClick={() => setZoomSrc(product.images ? product.images[0] : product.image)}
-    aria-label="Ver imagen en grande"
-    className="absolute bottom-2 right-2 z-10 inline-flex items-center justify-center rounded-full bg-white/90 backdrop-blur px-2.5 py-2 shadow-lg hover:bg-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-400"
-  >
-    <Search size={18} className="text-gray-900" />
-  </button>
+        {/* --- BOTONES SOBRE LA IMAGEN (DENTRO DEL WRAPPER RELATIVE) --- */}
+        {/* IZQ: “+” (z-50) */}
+        <AddToQuoteButton onClick={() => handleAddToQuote(product)} />
+        {/* DER: lupa (z-40) */}
+        <button
+          type="button"
+          onClick={() => setZoomSrc(product.images ? product.images[0] : product.image)}
+          aria-label="Ampliar imagen"
+          className="absolute bottom-3 right-3 z-40 inline-flex items-center justify-center rounded-full bg-white/90 backdrop-blur px-2.5 py-2 shadow-lg hover:bg-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-400"
+        >
+          <img src="/images/general/agrandar.png" alt="Ampliar" className="h-7 w-6 object-contain" />
+        </button>
+        {/* --- FIN BOTONES --- */}
 
-  <AddToQuoteButton product={product} />
+        {/* Show category only in "Todos" view */}
 
-  {/* Show category only in "Todos" view */}
-  {activeCategory === 'Todos' && (
-    <div className="absolute top-3 right-3 bg-accent text-primary px-2 py-1 sm:px-3 sm:py-1 rounded-full font-nexa font-semibold text-xs sm:text-sm">
-      {product.category}
-    </div>
-  )}
-</div>
+        {activeCategory === 'Todos' && (
+          <div className="absolute top-3 right-3 bg-accent text-primary px-2 py-1 sm:px-3 sm:py-1 rounded-full font-nexa font-semibold text-xs sm:text-sm">
+            {product.category}
+          </div>
+        )}
+      </div>
 
-      
+
       <div className="p-4 sm:p-6 relative flex-1 flex flex-col">
         <h3 className="font-neue font-bold text-lg sm:text-xl text-primary mb-2 sm:mb-3">
           {product.name}
@@ -153,8 +193,8 @@ const Products = () => {
           </p>
         </div>
         {/* Button container - bottom-right fixed */}
-          {(product.hasDetailsButton || product.hasTechnicalSheet) && (
-            <div className="flex gap-2 mt-auto pt-4 mb-5 w-full justify-end md:justify-center px-4 md:px-6">
+        {(product.hasDetailsButton || product.hasTechnicalSheet) && (
+          <div className="flex gap-2 mt-auto pt-4 mb-5 w-full justify-end md:justify-center px-4 md:px-6">
             {/* Shared button classes: misma altura/anchura, esquinas redondeadas, centrado */}
             {/* Usamos flex-1 en ambos botones cuando hay dos para que compartan el ancho; cuando solo hay uno, ocupa todo */}
             {product.hasTechnicalSheet && (
@@ -186,43 +226,46 @@ const Products = () => {
   const ProductDoubleCard = React.memo(({ product }) => (
     <div className="bg-white rounded-2xl shadow-lg overflow-hidden relative col-span-1 sm:col-span-2 h-96 flex flex-col sm:flex-row">
       <div className="w-full sm:w-1/2 relative overflow-hidden">
-  <img
-    src={product.images ? product.images[0] : product.image}
-    alt={product.name}
-    className="w-full object-contain h-56 sm:h-full sm:object-cover"
-    loading="lazy"
-  />
+        <img
+          src={product.images ? product.images[0] : product.image}
+          alt={product.name}
+          className="w-full h-auto sm:h-full object-contain sm:object-cover"
+          loading="lazy"
+        />
 
-  {/* Botón LUPEAR/AGRANDAR (abajo derecha) */}
-  <button
-    type="button"
-    onClick={() => setZoomSrc(product.images ? product.images[0] : product.image)}
-    aria-label="Ver imagen en grande"
-    className="absolute bottom-2 right-2 z-10 inline-flex items-center justify-center rounded-full bg-white/90 backdrop-blur px-2.5 py-2 shadow-lg hover:bg-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-400"
-  >
-    <Search size={18} className="text-gray-900" />
-  </button>
+        {/* --- BOTONES SOBRE LA IMAGEN (DENTRO DEL WRAPPER RELATIVE) --- */}
+        {/* IZQ: “+” (z-50) */}
+        <AddToQuoteButton onClick={() => handleAddToQuote(product)} />
+        {/* DER: lupa (z-40) */}
+        <button
+          type="button"
+          onClick={() => setZoomSrc(product.images ? product.images[0] : product.image)}
+          aria-label="Ampliar imagen"
+          className="absolute bottom-3 right-3 z-40 inline-flex items-center justify-center rounded-full bg-white/90 backdrop-blur px-2.5 py-2 shadow-lg hover:bg-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-400"
+        >
+          <img src="/images/general/agrandar.png" alt="Ampliar" className="h-7 w-6 object-contain" />
+        </button>
+        {/* --- FIN BOTONES --- */}
 
-  <AddToQuoteButton product={product} />
+        {/* Show category only in "Todos" view */}
 
-  {/* Show category only in "Todos" view */}
-  {activeCategory === 'Todos' && (
-    <div className="absolute top-3 right-3 bg-accent text-white px-2 py-1 sm:px-3 sm:py-1 rounded-full font-nexa font-semibold text-xs sm:text-sm">
-      {product.category}
-    </div>
-  )}
-</div>
-      
+        {activeCategory === 'Todos' && (
+          <div className="absolute top-3 right-3 bg-accent text-white px-2 py-1 sm:px-3 sm:py-1 rounded-full font-nexa font-semibold text-xs sm:text-sm">
+            {product.category}
+          </div>
+        )}
+      </div>
+
       <div className="w-full sm:w-1/2 p-4 sm:p-8 relative flex-1 flex flex-col">
         <h3 className="font-neue font-bold text-xl sm:text-2xl text-primary mb-3 sm:mb-4">
           {product.name}
         </h3>
         <div className="hidden md:block h-28 md:h-32 overflow-y-auto pr-2 mb-4">
           <p className="text-gray-600 font-nexa text-sm leading-relaxed">
-           {product.description}
+            {product.description}
           </p>
-        </div>  
-        
+        </div>
+
         {/* Variants for cartridge products */}
         {product.variants && (
           <div className="mb-4">
@@ -234,23 +277,23 @@ const Products = () => {
             </ul>
           </div>
         )}
-        
+
         {/* Buttons */}
         {(product.hasDetailsButton || product.hasTechnicalSheet) && (
-            <div className="flex gap-2 mt-auto pt-4 mb-5 w-full justify-end md:justify-center px-4 md:px-6">
+          <div className="flex gap-2 mt-auto pt-4 mb-5 w-full justify-end md:justify-center px-4 md:px-6">
             {product.hasTechnicalSheet && (
               <DownloadButton
-                 pdfPath={product.pdf}
-                 fileName={`Ficha Técnica - ${product.name}.pdf`}
-                 buttonText="Ficha Técnica"
-                 variant="secondary"
-                 size="sm"
-                 className={`!bg-[#cc7722] hover-c8911e text-white font-bold ${product.hasDetailsButton ? 'w-36' : 'w-full'}`}
-                 icon={false}
+                pdfPath={product.pdf}
+                fileName={`Ficha Técnica - ${product.name}.pdf`}
+                buttonText="Ficha Técnica"
+                variant="secondary"
+                size="sm"
+                className={`!bg-[#cc7722] hover-c8911e text-white font-bold ${product.hasDetailsButton ? 'w-36' : 'w-full'}`}
+                icon={false}
               />
             )}
             {product.hasDetailsButton && (
-              <button 
+              <button
                 onClick={() => handleProductSelect(product)}
                 className={`h-11 px-4 py-2 rounded-lg font-nexa font-medium text-xs sm:text-sm flex items-center justify-center bg-primary hover:bg-primary-600 text-white transition-colors ${product.hasTechnicalSheet ? 'w-36' : 'ml-auto w-full'}`}
               >
@@ -264,33 +307,33 @@ const Products = () => {
   ));
 
   // ---------- MEDIA (images + video(s)) FOR MODAL ----------
-const media = useMemo(() => {
-  if (!selectedProduct) return [];
+  const media = useMemo(() => {
+    if (!selectedProduct) return [];
 
-  // Imágenes
-  const imgs = (selectedProduct.images || []).map((src) => ({
-    type: 'image',
-    src,
-  }));
+    // Imágenes
+    const imgs = (selectedProduct.images || []).map((src) => ({
+      type: 'image',
+      src,
+    }));
 
-  // Videos: soporta ambos esquemas
-  const vids =
-    (selectedProduct.videos?.map((v) => ({
-      type: 'video',
-      src: v.src,
-      poster: v.poster || (selectedProduct.images?.[0] ?? undefined),
-    }))) ||
-    (selectedProduct.video
-      ? [{
+    // Videos: soporta ambos esquemas
+    const vids =
+      (selectedProduct.videos?.map((v) => ({
+        type: 'video',
+        src: v.src,
+        poster: v.poster || (selectedProduct.images?.[0] ?? undefined),
+      }))) ||
+      (selectedProduct.video
+        ? [{
           type: 'video',
           src: selectedProduct.video,
           poster: selectedProduct.videoPoster || (selectedProduct.images?.[0] ?? undefined),
         }]
-      : []);
+        : []);
 
-  // Orden: primero TODAS las imágenes, después los videos
-  return [...imgs, ...vids];
-}, [selectedProduct]);
+    // Orden: primero TODAS las imágenes, después los videos
+    return [...imgs, ...vids];
+  }, [selectedProduct]);
 
 
   // Auto-slide for modal: image -> auto advance; video -> wait for onEnded
@@ -319,7 +362,7 @@ const media = useMemo(() => {
           <div className="absolute top-10 left-10 w-64 h-64 bg-white rounded-full blur-3xl" />
           <div className="absolute bottom-10 right-10 w-96 h-96 bg-accent rounded-full blur-3xl" />
         </div>
-        
+
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
@@ -330,7 +373,7 @@ const media = useMemo(() => {
               Nuestros <span className="text-accent">Productos</span>
             </h1>
             <p className="font-nexa text-xl md:text-2xl text-gray-100 leading-relaxed">
-              Descubre nuestra línea completa de soluciones sanitarias inteligentes, 
+              Descubre nuestra línea completa de soluciones sanitarias inteligentes,
               diseñadas para transformar cualquier espacio con tecnología de vanguardia.
             </p>
           </motion.div>
@@ -348,11 +391,10 @@ const media = useMemo(() => {
                 <button
                   key={category}
                   onClick={() => handleCategoryChange(category)}
-                  className={`px-3 py-2 sm:px-6 sm:py-3 rounded-full font-nexa font-medium transition-all duration-300 text-sm sm:text-base ${
-                    activeCategory === category
-                      ? 'bg-primary text-white shadow-lg'
-                      : 'bg-white text-primary hover:bg-primary/10 shadow-md'
-                  }`}
+                  className={`px-3 py-2 sm:px-6 sm:py-3 rounded-full font-nexa font-medium transition-all duration-300 text-sm sm:text-base ${activeCategory === category
+                    ? 'bg-primary text-white shadow-lg'
+                    : 'bg-white text-primary hover:bg-primary/10 shadow-md'
+                    }`}
                 >
                   {category}
                 </button>
@@ -432,65 +474,55 @@ const media = useMemo(() => {
       </AnimatePresence>
 
       {/* === MODAL DE ZOOM DE IMAGEN (simple) === */}
-{zoomSrc && (
-  <div
-    className="fixed inset-0 z-[70] bg-black/70 backdrop-blur-sm flex items-center justify-center p-4"
-    onClick={() => setZoomSrc(null)} // Cierra al hacer click fuera
-  >
-    <div
-      className="relative bg-white rounded-2xl shadow-2xl max-w-3xl w-full overflow-hidden"
-      onClick={(e) => e.stopPropagation()} // Evita cierre al click dentro
-    >
-      {/* Botón X para cerrar */}
-      <button
-        type="button"
-        aria-label="Cerrar"
-        onClick={() => setZoomSrc(null)}
-        className="absolute top-3 right-3 inline-flex h-9 w-9 items-center justify-center rounded-full bg-white/90 backdrop-blur shadow hover:bg-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-400"
-      >
-        <X size={18} className="text-gray-700" />
-      </button>
+      {zoomSrc && (
+        <div
+          className="fixed inset-0 z-[70] bg-black/70 backdrop-blur-sm flex items-center justify-center p-4"
+          onClick={() => setZoomSrc(null)} // Cierra al hacer click fuera
+        >
+          <div
+            className="relative bg-white rounded-2xl shadow-2xl max-w-3xl w-full overflow-hidden"
+            onClick={(e) => e.stopPropagation()} // Evita cierre al click dentro
+          >
+            {/* Botón X para cerrar */}
+            <button
+              type="button"
+              aria-label="Cerrar"
+              onClick={() => setZoomSrc(null)}
+              className="absolute top-3 right-3 inline-flex h-9 w-9 items-center justify-center rounded-full bg-white/90 backdrop-blur shadow hover:bg-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-400"
+            >
+              <X size={18} className="text-gray-700" />
+            </button>
 
-      {/* Imagen en grande */}
-      <img
-        src={zoomSrc}
-        alt="Vista ampliada"
-        className="w-full h-auto object-contain max-h-[80vh] bg-black"
-        loading="lazy"
-      />
-    </div>
-  </div>
-)}
-      {/* Product Modal with Image/Video Carousel */}
+            {/* Imagen en grande */}
+            <img
+              src={zoomSrc}
+              alt="Vista ampliada"
+              className="w-full h-auto object-contain max-h-[80vh] bg-black"
+              loading="lazy"
+            />
+          </div>
+        </div>
+      )}
+      {/* Product Modal with Image/Video Carousel (usando Modal base con scroll interno) */}
       <AnimatePresence>
         {selectedProduct && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="fixed inset-0 bg-black/80 backdrop-blur-sm z-[60] flex items-center justify-center p-4"
-            onClick={handleCloseModal}
-          >
-            <motion.div
-              initial={{ scale: 0.8, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              exit={{ scale: 0.8, opacity: 0 }}
-              className="bg-white rounded-3xl max-w-4xl w-full max-h-[90vh] overflow-y-auto"
-              onClick={(e) => e.stopPropagation()}
-            >
-              {/* Modal Header */}
-              <div className="relative p-6 border-b border-gray-100">
-                <h2 className="font-neue font-bold text-2xl text-primary pr-10">
-                  {selectedProduct.name}
-                </h2>
-                <button
-                  onClick={handleCloseModal}
-                  className="absolute top-6 right-6 p-2 hover:bg-gray-100 rounded-full transition-colors"
-                >
-                  <X size={24} className="text-gray-600" />
-                </button>
-              </div>
+          <Modal open={true} onClose={handleCloseModal} ariaLabel="Detalle de producto" maxWidth="max-w-4xl">
+            {/* Header (fijo) */}
+            <div className="relative p-6 border-b border-gray-100">
+              <h2 className="font-neue font-bold text-2xl text-primary pr-12">
+                {selectedProduct.name}
+              </h2>
+              <button
+                onClick={handleCloseModal}
+                aria-label="Cerrar"
+                className="absolute top-6 right-6 inline-flex h-9 w-9 items-center justify-center rounded-full bg-white/90 backdrop-blur shadow hover:bg-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-400"
+              >
+                <X size={18} className="text-gray-700" />
+              </button>
+            </div>
 
+            {/* Cuerpo con scroll interno */}
+            <div className="max-h-[calc(80vh-6rem)] overflow-y-auto">
               {/* Image/Video Carousel */}
               <div className="relative">
                 <div className="aspect-video overflow-hidden">
@@ -529,23 +561,21 @@ const media = useMemo(() => {
                     )
                   )}
                 </div>
-                
+
                 {/* Navigation Buttons */}
                 {media.length > 1 && (
                   <>
                     <button
-                      onClick={() => setCurrentImageIndex((prev) => 
-                        prev === 0 ? media.length - 1 : prev - 1
-                      )}
+                      onClick={() => setCurrentImageIndex((prev) => prev === 0 ? media.length - 1 : prev - 1)}
                       className="absolute left-4 top-1/2 -translate-y-1/2 bg-white/90 hover:bg-white p-2 rounded-full shadow-lg transition-all duration-300 hover:scale-110"
+                      aria-label="Anterior"
                     >
                       <ChevronLeft size={24} className="text-primary" />
                     </button>
                     <button
-                      onClick={() => setCurrentImageIndex((prev) => 
-                        (prev + 1) % media.length
-                      )}
+                      onClick={() => setCurrentImageIndex((prev) => (prev + 1) % media.length)}
                       className="absolute right-4 top-1/2 -translate-y-1/2 bg-white/90 hover:bg-white p-2 rounded-full shadow-lg transition-all duration-300 hover:scale-110"
+                      aria-label="Siguiente"
                     >
                       <ChevronRight size={24} className="text-primary" />
                     </button>
@@ -559,11 +589,9 @@ const media = useMemo(() => {
                       <button
                         key={`dot-${index}`}
                         onClick={() => setCurrentImageIndex(index)}
-                        className={`w-3 h-3 rounded-full transition-all duration-300 ${
-                          index === currentImageIndex
-                            ? 'bg-white shadow-lg'
-                            : 'bg-white/50 hover:bg-white/80'
-                        }`}
+                        className={`w-3 h-3 rounded-full transition-all duration-300 ${index === currentImageIndex ? 'bg-white shadow-lg' : 'bg-white/50 hover:bg-white/80'
+                          }`}
+                        aria-label={`Ir al elemento ${index + 1}`}
                       />
                     ))}
                   </div>
@@ -583,9 +611,7 @@ const media = useMemo(() => {
 
                 {selectedProduct.variants && (
                   <div className="mb-6">
-                    <h3 className="font-neue font-bold text-lg text-primary mb-3">
-                      Variantes Disponibles
-                    </h3>
+                    <h3 className="font-neue font-bold text-lg text-primary mb-3">Variantes Disponibles</h3>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                       {selectedProduct.variants.map((variant) => (
                         <div key={variant} className="bg-gray-50 p-3 rounded-lg">
@@ -596,10 +622,20 @@ const media = useMemo(() => {
                   </div>
                 )}
               </div>
-            </motion.div>
-          </motion.div>
+            </div>
+          </Modal>
         )}
       </AnimatePresence>
+
+      {/* Quote Modal (usa el Modal base; altura fija y scroll interno) */}
+      <QuoteModal
+        open={quoteOpen}
+        onClose={() => { setQuoteOpen(false); clearCotizarQuery(); }}
+        items={quoteItems}
+        onRemoveItem={handleRemoveFromQuote}
+        onSubmit={() => { setQuoteOpen(false); clearCotizarQuery(); }}
+      />
+
     </div>
   );
 };

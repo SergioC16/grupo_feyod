@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { Menu, X, Home, Package, Users, Phone, Settings } from 'lucide-react';
-import QuoteModal from './QuoteModal';
+
 
 const Header = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -26,7 +26,8 @@ const Header = () => {
   ];
 
   const isContactPage = location.pathname === '/contacto';
-  const [isQuoteOpen, setIsQuoteOpen] = useState(false);
+  const navigate = useNavigate();
+  
 
   return (
     <motion.header
@@ -72,19 +73,20 @@ const Header = () => {
 
           {/* CTA Button - Hidden on Contact page */}
             {/* CTA Button - keep visible always and centered */}
-            <motion.div
+          <motion.div
               className="hidden md:block"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
             >
-              <button
-                onClick={() => setIsQuoteOpen(true)}
-                className="btn-primary bg-accent hover:bg-accent-600 text-white px-6 py-3 rounded-full font-nexa font-semibold shadow-lg hover:shadow-xl"
-                aria-haspopup="dialog"
-              >
-                Cotizar Ahora
-              </button>
-            </motion.div>
+            <button
+              onClick={() => navigate('/productos?cotizar=1')}
+              className="btn-primary bg-accent hover:bg-accent-600 text-white px-6 py-3 rounded-full font-nexa font-semibold shadow-lg hover:shadow-xl"
+              aria-label="Abrir cotización"
+            >
+            Cotizar Ahora
+            </button>
+          </motion.div>
+
           
 
           {/* Mobile menu button */}
@@ -125,16 +127,17 @@ const Header = () => {
             })}
             {!isContactPage && (
               <Link
-                to="/contacto"
+                to="/productos?cotizar=1"
                 onClick={() => setIsOpen(false)}
+                aria-label="Abrir cotización"
                 className="block w-auto mx-2 mt-4 bg-accent hover:bg-accent-600 text-primary px-4 py-3 rounded-lg font-nexa font-semibold text-center shadow-md"
               >
                 Cotizar Ahora
               </Link>
-            )}
+          )}
           </div>
         </motion.div>
-    <QuoteModal isOpen={isQuoteOpen} onClose={() => setIsQuoteOpen(false)} />
+    
       </div>
     </motion.header>
   );
