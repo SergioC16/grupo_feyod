@@ -111,7 +111,7 @@ const Home = () => {
                   transition={{ delay: 0.4 }}
                   className="text-xl md:text-2xl text-white/90 mb-8 font-nexa leading-relaxed"
                 >
-                  Ofrecemos soluciones tecnológicas avanzadas para modernizar baños en todo tipo de espacios: sanitarios inteligentes, griferís automatizadas y más.
+                  Ofrecemos soluciones tecnológicas avanzadas para modernizar baños en todo tipo de espacios: sanitarios inteligentes, griferías automatizadas y más.
                 </motion.p>
                 <motion.div
                   initial={{ y: 30, opacity: 0 }}

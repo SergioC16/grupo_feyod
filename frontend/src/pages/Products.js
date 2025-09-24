@@ -139,11 +139,11 @@ const Products = () => {
           onClick={() => {
             const exists = items.some(p => (p.id ?? p.name) === (product.id ?? product.name));
             if (exists) {
-              showToast({ type: 'info', message: 'Este producto ya estÃ¡ en la cotizaciÃ³n' });
+              showToast({ type: 'info', message: 'Este producto ya está en la cotización' });
               return;
             }
             addItem({ ...product, image: product.image || product.images?.[0] });
-            showToast({ type: 'success', message: 'âœ“ Agregado a cotizaciÃ³n' });
+            showToast({ type: 'success', message: 'âœ“ Agregado a cotización' });
           }}
         />
         {/* DER: lupa (z-40) */}
@@ -185,8 +185,8 @@ const Products = () => {
             {product.hasTechnicalSheet && (
               <DownloadButton
                 pdfPath={product.pdf}
-                fileName={`Ficha TÃ©cnica - ${product.name}.pdf`}
-                buttonText="Ficha TÃ©cnica"
+                fileName={`Ficha Técnica - ${product.name}.pdf`}
+                buttonText="Ficha Técnica"
                 variant="secondary"
                 size="sm"
                 className={`bg-[#cc7722] hover-c8911e text-white transition-colors ${product.hasDetailsButton ? 'w-36' : 'w-full'}`}
@@ -220,16 +220,15 @@ const Products = () => {
 
         {/* --- BOTONES SOBRE LA IMAGEN (DENTRO DEL WRAPPER RELATIVE) --- */}
         {/* IZQ: â€œ+â€ (z-50) */}
-        {/* IZQ: â€œ+â€ (z-50) */}
         <AddToQuoteButton
           onClick={() => {
             const exists = items.some(p => (p.id ?? p.name) === (product.id ?? product.name));
             if (exists) {
-              showToast({ type: 'info', message: 'Este producto ya estÃ¡ en la cotizaciÃ³n' });
+              showToast({ type: 'info', message: 'Este producto ya está en la cotización' });
               return;
             }
             addItem({ ...product, image: product.image || product.images?.[0] });
-            showToast({ type: 'success', message: 'âœ“ Agregado a cotizaciÃ³n' });
+            showToast({ type: 'success', message: 'Agregado a cotización' });
           }}
         />
         {/* DER: lupa (z-40) */}
@@ -281,8 +280,8 @@ const Products = () => {
             {product.hasTechnicalSheet && (
               <DownloadButton
                 pdfPath={product.pdf}
-                fileName={`Ficha TÃ©cnica - ${product.name}.pdf`}
-                buttonText="Ficha TÃ©cnica"
+                fileName={`Ficha Técnica - ${product.name}.pdf`}
+                buttonText="Ficha Técnica"
                 variant="secondary"
                 size="sm"
                 className={`!bg-[#cc7722] hover-c8911e text-white font-bold ${product.hasDetailsButton ? 'w-36' : 'w-full'}`}
@@ -414,7 +413,7 @@ const Products = () => {
                 <button
                   onClick={handleClearSearch}
                   className="ml-2 w-8 h-8 sm:w-10 sm:h-10 bg-gray-200 hover:bg-gray-300 rounded-lg flex items-center justify-center transition-colors"
-                  aria-label="Limpiar bÃºsqueda"
+                  aria-label="Limpiar búsqueda"
                 >
                   <X size={16} className="text-gray-600 sm:hidden" />
                   <X size={20} className="text-gray-600 hidden sm:block" />

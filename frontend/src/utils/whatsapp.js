@@ -67,7 +67,7 @@ function formatWhatsAppQuoteMessageFromIdentity({ items = [], fullName = '', com
 }
 
 function openWhatsAppWithText(text, mode = 'wa') {
-  const phone = '573142003863';
+  const phone = '573157258223';
   const encoded = encodeURIComponent(text);
   const url =
     mode === 'api'

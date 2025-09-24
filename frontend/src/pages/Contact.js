@@ -4,6 +4,23 @@ import { Mail, Phone, MapPin, Clock, Send, CheckCircle, AlertCircle, Facebook, I
 import { Helmet } from 'react-helmet-async';
 import { formatWhatsAppQuoteMessage, openWhatsAppWithText } from '@/utils/whatsapp';
 
+// --- Helper local para armar el mensaje a WhatsApp (Contacto) ---
+function formatWhatsAppContactMessage({ name, email, phone, company, message }) {
+  const safe = (v = '') => String(v || '').trim();
+
+  const lines = [
+    'Mensaje del usuario:',
+    safe(message),
+    '',
+    `Nombre: ${safe(name)}`,
+    `Email: ${safe(email)}`,
+    `Teléfono: ${safe(phone)}`,
+    `Empresa/Organización: ${safe(company)}`, // ⬅️ aquí agregamos Empresa
+  ];
+
+  return lines.join('\n');
+}
+
 // TikTok Icon Component
 const TikTokIcon = ({ className = "w-6 h-6" }) => (
   <svg
@@ -12,7 +29,7 @@ const TikTokIcon = ({ className = "w-6 h-6" }) => (
     fill="currentColor"
     xmlns="http://www.w3.org/2000/svg"
   >
-    <path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1-.1z"/>
+    <path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1-.1z" />
   </svg>
 );
 
@@ -36,7 +53,7 @@ const Contact = () => {
     "Orinales y Cartuchos": [
       "Válvula de descarga para orinal",
       "Orinal ECOSPHERE",
-      "Orinal ECOINOQ", 
+      "Orinal ECOINOQ",
       "Orinal ECO",
       "Cartucho de larga duración para orinal Gobi (Helvex)",
       "Cartucho para orinales ecológicos"
@@ -184,10 +201,10 @@ const Contact = () => {
   const handleProductToggle = (product) => {
     const category = formData.selectedCategory; // Categoria actual
     const productWithCategory = `${product} (${category})`;
-    
+
     setFormData(prev => {
       const isAlreadySelected = prev.selectedProducts.some(p => p.startsWith(product));
-      
+
       return {
         ...prev,
         selectedProducts: isAlreadySelected
@@ -207,7 +224,7 @@ const Contact = () => {
   // Define quotation service check
   const isQuotationService = formData.service === 'cotizacion';
 
-    // Placeholder dinÃ¡mico segÃºn el tipo de servicio
+  // Placeholder dinÃ¡mico segÃºn el tipo de servicio
   const placeholderMessage =
     isQuotationService
       ? 'Cuéntanos que necesitas cotizar (detalles, cantidades, características, plazos)...'
@@ -224,14 +241,14 @@ const Contact = () => {
     if (isQuotationService && formData.selectedProducts.length > 0) {
       const productsList = formData.selectedProducts.map(product => `- ${product}`).join('\n');
       const template = `Productos a consultar:\n${productsList}\n\n`;
-      
+
       // Extract any manual text (text after the last product template)
       const currentMessage = formData.message;
       const templateRegex = /^Productos a consultar:[\s\S]*?\n\n/;
       const manualText = currentMessage.replace(templateRegex, '').trim();
-      
+
       const newMessage = template + (manualText || '');
-      
+
       // Only update if the message actually changed to avoid infinite loops
       if (formData.message !== newMessage) {
         setFormData(prev => ({
@@ -244,7 +261,7 @@ const Contact = () => {
       const currentMessage = formData.message;
       const templateRegex = /^Productos a consultar:[\s\S]*?\n\n/;
       const manualText = currentMessage.replace(templateRegex, '').trim();
-      
+
       if (formData.message !== manualText || formData.selectedProducts.length > 0) {
         setFormData(prev => ({
           ...prev,
@@ -254,7 +271,7 @@ const Contact = () => {
         }));
       }
     }
-    }, [formData.selectedProducts, isQuotationService, formData.service]);
+  }, [formData.selectedProducts, isQuotationService, formData.service]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -271,57 +288,81 @@ const Contact = () => {
     const collapseBlankLines = (s) => s.replace(/\r/g, '').replace(/\n{3,}/g, '\n\n').trim();
 
     // 2) ConstrucciÃ³n del mensaje para WhatsApp segÃºn el servicio
+    // 2) Construcción del mensaje para WhatsApp según el servicio
     let fullMessage = '';
 
     if (formData.service === 'cotizacion') {
-      // --- Flujo: Solicitar CotizaciÃ³n -> incluir plantilla base + Ã­tems ---
+      // --- Flujo: Solicitar Cotización -> incluir plantilla base + ítems ---
       const productsForWA = (formData.selectedProducts || []).map((s) => {
-        // s viene como "Producto (CategorÃ­a)" segÃºn tu estado actual
         const m = String(s).match(/^(.*)\s+\((.*)\)\s*$/);
         return m ? { name: m[1].trim(), category: m[2].trim() } : { name: String(s).trim() };
       });
 
       const base = formatWhatsAppQuoteMessage(productsForWA);
 
-      const extra = [
-        '',
-        'Mensaje del usuario:',
-        formData.message || '(sin mensaje)',
-        '',
-        `Nombre: ${formData.name}`,
-        `Email: ${formData.email}`,
-        `Teléfono: ${formData.phone}`
-      ].join('\n');
+      // ⬇️ Usa el helper para añadir Empresa/Organización (y el resto de datos)
+      const extra = formatWhatsAppContactMessage({
+        name: formData.name,
+        email: formData.email,
+        phone: formData.phone,
+        company: formData.company,
+        message: formData.message || '(sin mensaje)',
+      });
 
       fullMessage = `${base}\n\n${extra}`;
     } else {
       // --- Flujo: otros servicios -> NO incluir la plantilla base ---
-      fullMessage = [
-        'Mensaje del usuario:',
-        formData.message || '(sin mensaje)',
-        '',
-        `Nombre: ${formData.name}`,
-        `Email: ${formData.email}`,
-        `Teléfono: ${formData.phone}`
-      ].join('\n');
+      fullMessage = formatWhatsAppContactMessage({
+        name: formData.name,
+        email: formData.email,
+        phone: formData.phone,
+        company: formData.company,
+        message: formData.message || '(sin mensaje)',
+      });
     }
+
 
     fullMessage = collapseBlankLines(fullMessage);
 
     try {
-      // 3) Abrir WhatsApp primero (mejor para pop-up blockers)
-      openWhatsAppWithText(fullMessage);
-
-      // 4) EnvÃ­o a tu backend (igual que antes)
-      const contactFormData = {
+      // === Snapshot para no perder datos al resetear inmediatamente ===
+      const snapshot = {
         name: formData.name,
         email: formData.email,
         phone: formData.phone || '',
         company: formData.company || '',
         serviceType: formData.service,
-        selectedProducts: formData.selectedProducts,
-        message: formData.message
+        selectedProducts: [...(formData.selectedProducts || [])],
+        message: formData.message,
       };
+
+      // 3) Abrir WhatsApp primero (mejor para pop-up blockers)
+      openWhatsAppWithText(fullMessage);
+
+      // 3.1) ✅ Reset inmediato del formulario tras abrir WhatsApp
+      setFormData({
+        name: '',
+        email: '',
+        phone: '',
+        company: '',
+        message: '',
+        service: 'consulta',
+        selectedCategory: '',
+        selectedProducts: []
+      });
+      setAvailableProducts([]);
+
+      // 4) Envío a tu backend usando el snapshot (no el estado ya reseteado)
+      const contactFormData = {
+        name: snapshot.name,
+        email: snapshot.email,
+        phone: snapshot.phone,
+        company: snapshot.company,
+        serviceType: snapshot.serviceType,
+        selectedProducts: snapshot.selectedProducts,
+        message: snapshot.message
+      };
+
 
       const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/contact`, {
         method: 'POST',
@@ -402,7 +443,7 @@ const Contact = () => {
     { icon: Linkedin, href: 'https://www.linkedin.com', label: 'LinkedIn', color: 'text-blue-700' }
   ];
 
-  
+
 
   return (
 
@@ -426,19 +467,19 @@ const Contact = () => {
         </div>
 
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-            <motion.div
-                initial={{ opacity: 0, y: 30 }}
-                animate={{ opacity: 1, y: 0 }}
-                className="text-center max-w-4xl mx-auto"
-            >
-                <h1 className="font-neue font-bold text-4xl md:text-6xl mb-6">                  
-                  <span className="text-accent">Contáctanos</span>
-                </h1>
-                <p className="font-nexa text-xl md:text-2xl text-gray-100 leading-relaxed">
-                  Si estás buscando la mejor opción para renovar o mejorar tus instalaciones, nuestro equipo está listo para asesorarte y ofrecerte la solución perfecta para tus necesidades.
-                  </p>
-              </motion.div>
-          </div>
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="text-center max-w-4xl mx-auto"
+          >
+            <h1 className="font-neue font-bold text-4xl md:text-6xl mb-6">
+              <span className="text-accent">Contáctanos</span>
+            </h1>
+            <p className="font-nexa text-xl md:text-2xl text-gray-100 leading-relaxed">
+              Si estás buscando la mejor opción para renovar o mejorar tus instalaciones, nuestro equipo está listo para asesorarte y ofrecerte la solución perfecta para tus necesidades.
+            </p>
+          </motion.div>
+        </div>
       </section>
 
       {/* Contact Info Cards */}
@@ -487,7 +528,7 @@ const Contact = () => {
               <h2 className="text-2xl sm:text-3xl md:text-4xl font-neue font-bold text-primary mb-6 sm:mb-8">
                 Envínos un Mensaje
               </h2>
-              
+
               {/* Success Message */}
               {submitStatus === 'success' && (
                 <motion.div
@@ -698,11 +739,10 @@ const Contact = () => {
                   aria-label="Enviar por WhatsApp"
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
-                  className={`w-full py-3 sm:py-4 rounded-lg font-nexa font-semibold text-base sm:text-lg transition-all flex items-center justify-center space-x-2 ${
-                    isSubmitting
-                      ? 'bg-gray-400 cursor-not-allowed'
-                      : 'bg-accent hover:bg-accent-600 shadow-lg hover:shadow-xl'
-                  } text-white`}
+                  className={`w-full py-3 sm:py-4 rounded-lg font-nexa font-semibold text-base sm:text-lg transition-all flex items-center justify-center space-x-2 ${isSubmitting
+                    ? 'bg-gray-400 cursor-not-allowed'
+                    : 'bg-accent hover:bg-accent-600 shadow-lg hover:shadow-xl'
+                    } text-white`}
                 >
                   {isSubmitting ? (
                     <>
@@ -775,15 +815,15 @@ const Contact = () => {
                   ¿Necesitas <span className="text-accent">Soporte</span> Inmediato?
                 </h3>
                 <p className="font-nexa mb-6">
-                  Nuestro equipo técnico está disponible para emergencias 
+                  Nuestro equipo técnico está disponible para emergencias
                   y consultas urgentes.
                 </p>
                 <div className="flex items-center space-x-3">
-                <Phone className="w-5 h-5 text-accent" />
-                <span className="text-white/80 font-nexa">
-                  +57 315 725 8223
-                </span>
-              </div>
+                  <Phone className="w-5 h-5 text-accent" />
+                  <span className="text-white/80 font-nexa">
+                    +57 315 725 8223
+                  </span>
+                </div>
               </div>
             </motion.div>
           </div>

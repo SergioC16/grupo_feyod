@@ -35,7 +35,7 @@ const QuoteModal = ({
   const [fullName, setFullName] = React.useState('');
   const [company, setCompany] = React.useState('');
 
-  // === NUEVO: Limpiar cotizaciÃ³n ===
+  // === NUEVO: Limpiar cotización ===
   const handleClearQuote = () => {
     if (isEmpty) return;
     if (typeof onRemoveItem === 'function') {
@@ -58,7 +58,7 @@ const QuoteModal = ({
     const companyOk = String(company || '').trim();
 
     if (isEmpty) {
-      alert('No hay productos en la cotizaciÃ³n.');
+      alert('No hay productos en la cotización.');
       return;
     }
     if (!nameOk || !companyOk) {
@@ -77,7 +77,7 @@ const QuoteModal = ({
     openWhatsAppWithText(message);
 
     // Lanza toast de Ã©xito
-    showToast({ type: 'success', message: 'CotizaciÃ³n enviada' });
+    showToast({ type: 'success', message: 'Cotización enviada' });
     handleClearQuote();
 
     // Reinicia inputs locales
@@ -90,11 +90,11 @@ const QuoteModal = ({
 
 
   return (
-    <Modal open={open} onClose={onClose} ariaLabel="CotizaciÃ³n" maxWidth="max-w-4xl">
+    <Modal open={open} onClose={onClose} ariaLabel="Cotización" maxWidth="max-w-4xl">
 
       {/* Header */}
       <div className="relative p-6 border-b border-gray-100">
-        <h2 className="font-neue font-bold text-2xl text-primary pr-12">CotizaciÃ³n</h2>
+        <h2 className="font-neue font-bold text-2xl text-primary pr-12">Cotización</h2>
         <button
           type="button"
           aria-label="Cerrar"
@@ -110,7 +110,7 @@ const QuoteModal = ({
         {/* Grid responsive de productos */}
         <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
           {items.length === 0 && (
-            <div className="col-span-full text-gray-500 font-nexa">No hay productos en la cotizaciÃ³n.</div>
+            <div className="col-span-full text-gray-500 font-nexa">No hay productos en la cotización.</div>
           )}
 
           {items.map((it) => (
@@ -142,7 +142,7 @@ const QuoteModal = ({
                       className="inline-flex items-center justify-center rounded-xl px-3 py-2 text-xs sm:text-sm font-nexa
                       bg-[#d41407] text-white hover:opacity-90
                       focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#d41407]"
-                      aria-label="Eliminar de la cotizaciÃ³n"
+                      aria-label="Eliminar de la cotización"
                     >
                       Quitar
                     </button>
@@ -161,7 +161,7 @@ const QuoteModal = ({
           <button
             type="button"
             onClick={handleClearQuote}
-            aria-label="Limpiar cotizaciÃ³n"
+            aria-label="Limpiar cotización"
             // âš ï¸ IMPORTANTE: Usa EXACTAMENTE las mismas clases de tu botÃ³n "Ver Detalles" (azul + texto blanco).
             // Si el botÃ³n "Ver Detalles" usa otras clases en tu proyecto, reemplaza el className de abajo por esas MISMAS clases.
             className="inline-flex items-center justify-center rounded-xl bg-primary text-white px-4 py-2 text-sm font-nexa hover:bg-primary-600"
@@ -213,9 +213,9 @@ const QuoteModal = ({
                 ? "bg-gray-200 text-gray-500 cursor-not-allowed"
                 : "bg-accent text-white hover:bg-primary-600")
             }
-            title="Enviar cotizaciÃ³n por WhatsApp"
+            title="Enviar cotización por WhatsApp"
           >
-            Enviar CotizaciÃ³n
+            Enviar Cotización
           </button>
         </div>
       </div>
