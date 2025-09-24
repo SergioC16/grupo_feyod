@@ -1,4 +1,4 @@
-import React from 'react';
+﻿import React from 'react';
 import { motion } from 'framer-motion';
 import { Helmet } from "react-helmet-async";
 import { Target, Eye, Heart, Users, Award, Lightbulb, Shield, Zap } from 'lucide-react';
@@ -29,7 +29,7 @@ const About = () => {
 
   return (
     <Helmet>
-      <title>Sobre Nosotros — Grupo Feyod</title>
+      <title>Sobre Nosotros - Grupo Feyod</title>
       <meta name="description" content="Sobre Nosotros." />
     </Helmet>,
 
@@ -37,7 +37,7 @@ const About = () => {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      className="min-h-screen bg-gradient-to-br from-gray-50 to-white"
+      className="min-h-screen min-h-screen-ios bg-gradient-to-br from-gray-50 to-white"
     >
       {/* Hero Banner */}
       <section className="pt-32 pb-20 bg-gradient-to-r from-primary to-primary-600 text-white relative overflow-hidden">
@@ -134,7 +134,7 @@ const About = () => {
             </h2>
             <p className="text-xl text-gray-600 font-nexa max-w-3xl mx-auto">
               Los principios que guían cada decisión y acción en Grupo Feyod, 
-              definiendo quiénes somos y cómo trabajamos día a día.
+              definiendo quienes somos y como trabajamos día a día.
             </p>
           </motion.div>
 
@@ -191,7 +191,7 @@ const About = () => {
                 <div className="flex-1">
                   <h3 className="text-2xl font-neue font-bold text-white mb-3">Nace Grupo Feyod</h3>
                   <p className="text-white/90 font-nexa text-lg leading-relaxed">
-                    Comenzamos nuestro camino con una línea de productos para bebés, explorando el diseño funcional y la fabricación a pequeña escala. Sin experiencia, pero con determinación, dimos nuestros primeros pasos en el mundo del diseño funcional, apostando por productos hechos con detalle y propósito. Era el inicio de una historia construida con cuidado, creatividad y visión emprendedora.
+                    Comenzamos nuestro camino con una línea de productos para babes, explorando el diseño funcional y la fabricación a pequeña escala. Sin experiencia, pero con determinación, dimos nuestros primeros pasos en el mundo del diseño funcional, apostando por productos hechos con detalle y propósito. Era el inicio de una historia construida con cuidado, creatividad y visión emprendedora.
                   </p>
                 </div>
               </motion.div>
@@ -207,7 +207,7 @@ const About = () => {
                 <div className="flex-1">
                   <h3 className="text-2xl font-neue font-bold text-white mb-3">Nuestros primeros espacios</h3>
                   <p className="text-white/90 font-nexa text-lg leading-relaxed">
-                    Poco a poco fuimos abriéndonos camino. Desarrollamos válvulas de descarga controladas y logramos instalarlas en baños públicos de Bogotá, incluyendo lugares emblemáticos como Andrés Carne de Res. Ver nuestros productos funcionando fuera del taller fue la confirmación de que íbamos por el camino correcto.
+                    Poco a poco fuimos abriéndonos camino. Desarrollamos válvulas de descarga controladas y logramos instalarlas en baños públicos de Bogotá, incluyendo lugares emblemáticos como Andrés Carne de Res. Ver nuestros productos funcionando fuera del taller fue la confirmación de que íamos por el camino correcto.
                   </p>
                 </div>
               </motion.div>
@@ -223,7 +223,7 @@ const About = () => {
                 <div className="flex-1">
                   <h3 className="text-2xl font-neue font-bold text-white mb-3">El primer gran impulso</h3>
                   <p className="text-white/90 font-nexa text-lg leading-relaxed">
-                    Ese año ganamos el premio Destapa Futuro de Bavaria, un hito que nos permitió fortalecer el desarrollo de moldes y mejorar significativamente la calidad de nuestros acabados. Un salto clave hacia la profesionalización de nuestros productos.
+                    Ese año ganamos el premio Destapa Futuro de Bavaria, un hito que nos permitiría fortalecer el desarrollo de moldes y mejorar significativamente la calidad de nuestros acabados. Un salto clave hacia la profesionalización de nuestros productos.
                   </p>
                 </div>
               </motion.div>
@@ -258,7 +258,7 @@ const About = () => {
                 <div className="flex-1">
                   <h3 className="text-2xl font-neue font-bold text-white mb-3">Renacer desde las cenizas</h3>
                   <p className="text-white/90 font-nexa text-lg leading-relaxed mb-3">
-                    <strong>Agosto – Diciembre 2012</strong>
+                    <strong>Agosto - Diciembre 2012</strong>
                   </p>
                   <p className="text-white/90 font-nexa text-lg leading-relaxed">
                     El incendio no apagó nuestras ganas de crear. Al contrario, encendió una nueva etapa. En medio de la pérdida, sin taller, sin recursos, pero con más fuerza que nunca, nos volcamos al diseño y desarrollo de un producto que marcaría nuestro rumbo. Diseñamos y fabricamos los primeros cartuchos de larga duración para orinales ecológicos, apostando por la sostenibilidad como nuevo norte. Así nació una nueva etapa, con la sostenibilidad como guía y la resiliencia como motor.
@@ -277,7 +277,7 @@ const About = () => {
                 <div className="flex-1">
                   <h3 className="text-2xl font-neue font-bold text-white mb-3">Innovar con conciencia</h3>
                   <p className="text-white/90 font-nexa text-lg leading-relaxed mb-3">
-                    <strong>2013 – 2015</strong>
+                    <strong>2013 - 2015</strong>
                   </p>
                   <p className="text-white/90 font-nexa text-lg leading-relaxed">
                     Inspirados por el impacto positivo del ahorro de agua, comenzamos a crear grifos con sensor, pensados para equilibrar tecnología, diseño y eficiencia hídrica. Empezamos a exportar a Costa Rica y Ecuador. En cada producto buscamos algo más que funcionalidad: buscamos propósito e impacto.
@@ -296,7 +296,7 @@ const About = () => {
                 <div className="flex-1">
                   <h3 className="text-2xl font-neue font-bold text-white mb-3">Seguimos soñando en verde</h3>
                   <p className="text-white/90 font-nexa text-lg leading-relaxed">
-                    Hoy, desde Colombia, seguimos imaginando soluciones que transforman espacios esenciales en experiencias más humanas y responsables. Con presencia a nivel nacional e internacional, creemos que el cambio empieza en lo invisible… y se instala gota a gota. <em><strong>Seguimos caminando. Porque lo esencial, también transforma.</strong></em>
+                    Hoy, desde Colombia, seguimos imaginando soluciones que transforman espacios esenciales en experiencias más humanas y responsables. Con presencia a nivel nacional e internacional, creemos que el cambio empieza en lo invisible... y se instala gota a gota. <em><strong>Seguimos caminando. Porque lo esencial, también transforma.</strong></em>
                   </p>
                 </div>
               </motion.div>

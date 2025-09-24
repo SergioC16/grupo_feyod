@@ -1,4 +1,4 @@
-import React, { useEffect, useCallback } from 'react';
+﻿import React, { useEffect, useCallback } from 'react';
 
 /**
  * Modal reutilizable con:
@@ -12,10 +12,10 @@ const Modal = ({
   open,
   onClose,
   children,
-  ariaLabel = 'Diálogo',
+  ariaLabel = 'DiÃ¡logo',
   maxWidth = 'max-w-4xl', // puedes usar 'max-w-3xl' o 'max-w-5xl'
 }) => {
-  // Bloquear scroll del body mientras el modal esté abierto
+  // Bloquear scroll del body mientras el modal estÃ© abierto
   useEffect(() => {
     if (!open) return;
     const { overflow } = document.body.style;
@@ -49,7 +49,7 @@ const Modal = ({
       onClick={onClose} // clic fuera cierra
     >
       <div
-        className={`relative w-full ${maxWidth} max-h-[80vh] overflow-hidden rounded-2xl bg-white shadow-2xl`}
+        className={`relative w-full ${maxWidth} max-h-[80vh] max-h-ios-80 overflow-hidden rounded-2xl bg-white shadow-2xl flex flex-col`}
         onClick={(e) => e.stopPropagation()} // evita cierre si se hace click dentro
       >
         {children}
@@ -59,3 +59,4 @@ const Modal = ({
 };
 
 export default Modal;
+

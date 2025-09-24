@@ -27,7 +27,7 @@ const AddToQuoteButton = ({ onClick, ariaLabel = 'Agregar a cotización', classN
         type="button"
         onClick={handleClick}
         aria-label={ariaLabel}
-        className={`group absolute bottom-3 left-3 z-50
+        className={`group absolute bottom-3 left-3 z-30
         h-10 w-10 rounded-full
         bg-white/90 backdrop-blur shadow-lg hover:bg-white
         focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-400
@@ -68,7 +68,7 @@ const AddToQuoteButton = ({ onClick, ariaLabel = 'Agregar a cotización', classN
 
       {/* Toast "Agregado" */}
       <div
-        className={`pointer-events-none absolute bottom-14 left-3 z-50
+        className={`pointer-events-none absolute bottom-14 left-3 z-30
                     rounded-md px-2 py-1 text-xs md:text-sm
                     bg-black/80 text-white shadow-md
                     transition-all duration-300

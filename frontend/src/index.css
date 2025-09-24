@@ -1,4 +1,4 @@
-@tailwind base;
+﻿@tailwind base;
 @tailwind components;
 @tailwind utilities;
 
@@ -16,7 +16,52 @@ code {
         monospace;
 }
 
-/* Custom utility: hover background color for ficha técnica (fallback when Tailwind JIT doesn't generate arbitrary hover classes) */
+/* Custom utility: hover background color for ficha tÃ©cnica (fallback when Tailwind JIT doesn't generate arbitrary hover classes) */
 .hover-c8911e:hover {
     background-color: #c8911e !important;
 }
+
+:root {
+    --app-vh: 1vh;
+}
+
+@layer utilities {
+    .min-h-screen-ios {
+        min-height: calc(var(--app-vh, 1vh) * 100);
+    }
+
+    .max-h-ios-80 {
+        max-height: calc(var(--app-vh, 1vh) * 80);
+    }
+
+    .max-h-ios-90 {
+        max-height: calc(var(--app-vh, 1vh) * 90);
+    }
+
+    .max-h-ios-body {
+        max-height: calc((var(--app-vh, 1vh) * 80) - 6rem);
+    }
+
+    .bottom-safe {
+        bottom: calc(env(safe-area-inset-bottom, 0px) + 1.5rem) !important;
+    }
+
+    .pt-safe {
+        padding-top: env(safe-area-inset-top, 0px);
+    }
+}
+@layer components {
+    .hero-banner-initial {
+        background-color: #000;
+        background-position: center;
+        background-size: contain;
+        background-repeat: no-repeat;
+    }
+}
+
+@media (min-width: 768px) {
+    .hero-banner-initial {
+        background-size: cover;
+    }
+}
+

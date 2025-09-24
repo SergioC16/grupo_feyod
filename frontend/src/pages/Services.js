@@ -1,4 +1,4 @@
-import React, { useState, useMemo, useCallback } from 'react';
+﻿import React, { useState, useMemo, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, ChevronLeft, ChevronRight } from 'lucide-react';
 import { servicesData } from '../data/servicesData';
@@ -89,7 +89,7 @@ const Services = () => {
 
     return (
     <Helmet>
-      <title>Servicios — Grupo Feyod</title>
+      <title>Servicios - Grupo Feyod</title>
       <meta name="description" content="Nuestros Servicios." />
     </Helmet>,      
       <AnimatePresence>
@@ -104,7 +104,7 @@ const Services = () => {
             initial={{ scale: 0.8, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
             exit={{ scale: 0.8, opacity: 0 }}
-            className="bg-white rounded-3xl max-w-4xl w-full max-h-[90vh] overflow-y-auto"
+            className="bg-white rounded-3xl max-w-4xl w-full max-h-[90vh] max-h-ios-90 overflow-y-auto"
             onClick={(e) => e.stopPropagation()}
           >
             {/* Modal Header */}
@@ -224,7 +224,7 @@ const Services = () => {
   }, [selectedService, currentImageIndex, closeModal, nextImage, prevImage]);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-white">
+    <div className="min-h-screen min-h-screen-ios bg-gradient-to-br from-gray-50 to-white">
       {/* Hero Banner */}
       <section className="pt-32 pb-20 bg-gradient-to-r from-primary to-primary-600 text-white relative overflow-hidden">
         <div className="absolute inset-0 bg-black/20" />
@@ -280,3 +280,4 @@ const Services = () => {
 };
 
 export default Services;
+

@@ -1,88 +1,134 @@
-import React, { useEffect, Suspense, lazy, useState } from "react";
+﻿import React, { useEffect, Suspense, lazy, useState, useCallback } from "react";
 import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 // Layout
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 import WhatsAppButton from "./components/WhatsAppButton";
-import { QuoteProvider } from './contexts/QuoteContext';
-import { ToastProvider } from './components/ToastProvider';
+import { QuoteProvider } from "./contexts/QuoteContext";
+import { ToastProvider } from "./components/ToastProvider";
 
-// Páginas (carga bajo demanda)
+// Modal host
+import QuoteModal from "./components/QuoteModal";
+import { useQuoteStore } from "./contexts/QuoteContext";
+
+// Pages (lazy loaded)
 const Home = lazy(() => import(/* webpackPrefetch: true */ "./pages/Home"));
 const Products = lazy(() => import(/* webpackPrefetch: true */ "./pages/Products"));
 const Services = lazy(() => import(/* webpackPrefetch: true */ "./pages/Services"));
 const About = lazy(() => import(/* webpackPrefetch: true */ "./pages/About"));
 const Contact = lazy(() => import(/* webpackPrefetch: true */ "./pages/Contact"));
-const NotFound = lazy(() => import("./pages/NotFound")); // crea un componente sencillo
+const NotFound = lazy(() => import("./pages/NotFound"));
 
-// Volver al top al cambiar de ruta
+// Reset scroll position on route change
 function ScrollToTop() {
   const { pathname } = useLocation();
-  useEffect(() => { window.scrollTo(0, 0); }, [pathname]);
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [pathname]);
   return null;
+}
+
+// Single modal instance
+function QuoteModalHost() {
+  const { isOpen, closeModal, items, removeItem } = useQuoteStore();
+  const handleSubmit = useCallback(() => {
+    closeModal();
+  }, [closeModal]);
+
+  return (
+    <QuoteModal
+      open={isOpen}
+      onClose={closeModal}
+      items={items}
+      onRemoveItem={removeItem}
+      onSubmit={handleSubmit}
+    />
+  );
 }
 
 export default function App() {
   const [appReady, setAppReady] = useState(false);
 
+  // Adjust viewport height for iOS Safari dynamic address bar
+  useEffect(() => {
+    const setViewportHeight = () => {
+      const vh = window.innerHeight * 0.01;
+      document.documentElement.style.setProperty("--app-vh", `${vh}px`);
+    };
+
+    setViewportHeight();
+    window.addEventListener("resize", setViewportHeight);
+    window.addEventListener("orientationchange", setViewportHeight);
+    window.addEventListener("focus", setViewportHeight);
+
+    return () => {
+      window.removeEventListener("resize", setViewportHeight);
+      window.removeEventListener("orientationchange", setViewportHeight);
+      window.removeEventListener("focus", setViewportHeight);
+    };
+  }, []);
+
   // Ensure we only show footer and other persistent UI after the page has fully loaded
   useEffect(() => {
-    if (document.readyState === 'complete') {
+    if (document.readyState === "complete") {
       setTimeout(() => setAppReady(true), 80);
       return;
     }
     const onLoad = () => setTimeout(() => setAppReady(true), 80);
-    window.addEventListener('load', onLoad);
-    return () => window.removeEventListener('load', onLoad);
+    window.addEventListener("load", onLoad);
+    return () => window.removeEventListener("load", onLoad);
   }, []);
 
   return (
     <QuoteProvider>
       <ToastProvider>
         <BrowserRouter>
-      <ScrollToTop />
+          <ScrollToTop />
 
-      {/* link para accesibilidad: saltar al contenido */}
-      <a
-        href="#contenido"
-        className="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:left-2 focus:bg-white focus:text-black focus:px-3 focus:py-2 focus:rounded"
-      >
-        Saltar al contenido
-      </a>
+          {/* accessibility skip link */}
+          <a
+            href="#contenido"
+            className="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:left-2 focus:bg-white focus:text-black focus:px-3 focus:py-2 focus:rounded"
+          >
+            Saltar al contenido
+          </a>
 
-      <Header />
+          <Header />
 
-      {/* Full-screen Suspense fallback acts as splash screen during lazy loads */}
-      <main id="contenido">
-        <Suspense
-          fallback={
-              <div
-                className="fixed inset-0 z-50 flex items-center justify-center bg-center bg-cover"
-                style={{ backgroundImage: "url('/images/general/banner.jpg')" }}
-              >
-                {/* overlay to match normal hero when not first image */}
-                <div className="absolute inset-0 bg-black/10" />
-                <div className="relative text-center">
-                  <div className="loader mb-4" />
-                  <div className="text-white font-neue font-bold">Cargando…</div>
+          {/* Full-screen Suspense fallback acts as splash screen during lazy loads */}
+          <main id="contenido">
+            <Suspense
+              fallback={
+                <div
+                  className="fixed inset-0 z-50 flex items-center justify-center bg-center bg-cover"
+                  style={{ backgroundImage: "url('/images/general/banner.jpg')" }}
+                >
+                  {/* overlay to match normal hero when not first image */}
+                  <div className="absolute inset-0 bg-black/10" />
+                  <div className="relative text-center">
+                    <div className="loader mb-4" />
+                    <div className="text-white font-neue font-bold">Cargando...</div>
+                  </div>
                 </div>
-              </div>
-            }
-        >
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/productos" element={<Products />} />
-            <Route path="/servicios" element={<Services />} />
-            <Route path="/nosotros" element={<About />} />
-            <Route path="/contacto" element={<Contact />} />
-            <Route path="*" element={<NotFound />} />
-          </Routes>
-        </Suspense>
-      </main>
+              }
+            >
+              <Routes>
+                <Route path="/" element={<Home />} />
+                <Route path="/productos" element={<Products />} />
+                <Route path="/servicios" element={<Services />} />
+                <Route path="/nosotros" element={<About />} />
+                <Route path="/contacto" element={<Contact />} />
+                <Route path="*" element={<NotFound />} />
+              </Routes>
+            </Suspense>
+          </main>
 
-      {/* Only render Footer and floating buttons after the page is ready to avoid flashes */}
-      {appReady && <Footer />}
-      {appReady && <WhatsAppButton />}
+          {/* Global quote modal (inside provider) */}
+          <QuoteModalHost />
+
+          {/* Only render Footer and floating buttons after the page is ready to avoid flashes */}
+          {appReady && <Footer />}
+          {appReady && <WhatsAppButton />}
         </BrowserRouter>
       </ToastProvider>
     </QuoteProvider>

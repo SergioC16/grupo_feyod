@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+﻿import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { ArrowRight, Shield, Zap, Users, Award, CheckCircle, Star } from 'lucide-react';
@@ -60,7 +60,7 @@ const Home = () => {
     { number: '500+', label: 'Instalaciones' },
     { number: '98%', label: 'Satisfacción' },
     { number: '40%', label: 'Ahorro de Agua' },
-    { number: '5.0', label: 'Calificación' }
+    { number: '5.0', label: 'CalificaciÃ³n' }
   ];
 
   return (
@@ -71,13 +71,13 @@ const Home = () => {
       className="overflow-hidden"
     >
       <Helmet>
-        <title>Inicio — Grupo Feyod</title>
+        <title>Inicio - Grupo Feyod</title>
         <meta name="description" content="Inicio." />
       </Helmet>
 
       {/* Hero Section */}
-      <section className="relative min-h-screen flex items-center overflow-hidden">
-        {/* Carrusel con transición para todas las imágenes */}
+      <section className="relative min-h-screen min-h-screen-ios flex items-center overflow-hidden">
+        {/* Carrusel con transiciÃ³n para todas las imÃ¡genes */}
         <div className="absolute inset-0">
           {heroImages.map((image, index) => (
             <div
@@ -111,7 +111,7 @@ const Home = () => {
                   transition={{ delay: 0.4 }}
                   className="text-xl md:text-2xl text-white/90 mb-8 font-nexa leading-relaxed"
                 >
-                  Ofrecemos soluciones tecnológicas avanzadas para modernizar baños en todo tipo de espacios: sanitarios inteligentes, griferías automatizadas y más.
+                  Ofrecemos soluciones tecnológicas avanzadas para modernizar baños en todo tipo de espacios: sanitarios inteligentes, griferís automatizadas y más.
                 </motion.p>
                 <motion.div
                   initial={{ y: 30, opacity: 0 }}

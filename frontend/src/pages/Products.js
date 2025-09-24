@@ -1,4 +1,4 @@
-import React, { useState, useMemo, useCallback, useEffect } from 'react';
+﻿import React, { useState, useMemo, useCallback, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, Search, ChevronLeft, ChevronRight, ChevronUp } from 'lucide-react';
 import { productsData } from '../data/productsData';
@@ -8,6 +8,9 @@ import QuoteModal from '../components/QuoteModal';
 import Modal from '../components/ui/Modal';
 import { Helmet } from 'react-helmet-async';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { useQuote } from '@/contexts/QuoteContext';
+import { useToast } from '@/components/ToastProvider';
+
 
 
 const Products = () => {
@@ -16,24 +19,9 @@ const Products = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [activeCategory, setActiveCategory] = useState('Todos');
   const [showScrollTop, setShowScrollTop] = useState(false);
+  const { items, addItem, removeItem } = useQuote();
+  const { showToast } = useToast();
 
-  // Estado para abrir/cerrar el modal de cotizar y sus items
-  const [quoteOpen, setQuoteOpen] = useState(false);
-  const [quoteItems, setQuoteItems] = useState([]);
-
-  // Ejemplo de handler: agrega el producto actual a la lista y abre el modal
-  const handleAddToQuote = (product) => {
-    setQuoteItems((prev) => {
-      const exists = prev.find((p) => (p.id ?? p.name) === (product.id ?? product.name));
-      if (exists) return prev; // evita duplicados; ajusta a tu gusto
-      return [...prev, { ...product, image: product.image || product.images?.[0] }];
-    });
-    setQuoteOpen(true);
-  };
-
-  const handleRemoveFromQuote = (idOrName) => {
-    setQuoteItems((prev) => prev.filter((p) => (p.id ?? p.name) !== idOrName));
-  };
   // Reset scroll position when category changes
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -105,21 +93,8 @@ const Products = () => {
 
   const location = useLocation();
   const navigate = useNavigate();
-
-  useEffect(() => {
-    const params = new URLSearchParams(location.search);
-    if (params.get('cotizar') === '1') {
-      setQuoteOpen(true);
-    }
-  }, [location.search]);
-
-  const clearCotizarQuery = useCallback(() => {
-    if (location.search.includes('cotizar=1')) {
-      navigate(location.pathname, { replace: true });
-    }
-  }, [location, navigate]);
-
   const handleProductSelect = useCallback((product) => {
+
     setSelectedProduct(product);
     setCurrentImageIndex(0);
   }, []);
@@ -159,8 +134,18 @@ const Products = () => {
         />
 
         {/* --- BOTONES SOBRE LA IMAGEN (DENTRO DEL WRAPPER RELATIVE) --- */}
-        {/* IZQ: “+” (z-50) */}
-        <AddToQuoteButton onClick={() => handleAddToQuote(product)} />
+        {/* IZQ: â€œ+â€ (z-50) */}
+        <AddToQuoteButton
+          onClick={() => {
+            const exists = items.some(p => (p.id ?? p.name) === (product.id ?? product.name));
+            if (exists) {
+              showToast({ type: 'info', message: 'Este producto ya estÃ¡ en la cotizaciÃ³n' });
+              return;
+            }
+            addItem({ ...product, image: product.image || product.images?.[0] });
+            showToast({ type: 'success', message: 'âœ“ Agregado a cotizaciÃ³n' });
+          }}
+        />
         {/* DER: lupa (z-40) */}
         <button
           type="button"
@@ -186,7 +171,7 @@ const Products = () => {
         <h3 className="font-neue font-bold text-lg sm:text-xl text-primary mb-2 sm:mb-3">
           {product.name}
         </h3>
-        {/* Descripción: área con altura fija y scroll interno para mantener los botones en el fondo */}
+        {/* DescripciÃ³n: Ã¡rea con altura fija y scroll interno para mantener los botones en el fondo */}
         <div className="hidden md:block h-24 md:h-28 overflow-y-auto pr-2">
           <p className="text-gray-600 font-nexa text-sm leading-relaxed">
             {product.description}
@@ -200,8 +185,8 @@ const Products = () => {
             {product.hasTechnicalSheet && (
               <DownloadButton
                 pdfPath={product.pdf}
-                fileName={`Ficha Técnica - ${product.name}.pdf`}
-                buttonText="Ficha Técnica"
+                fileName={`Ficha TÃ©cnica - ${product.name}.pdf`}
+                buttonText="Ficha TÃ©cnica"
                 variant="secondary"
                 size="sm"
                 className={`bg-[#cc7722] hover-c8911e text-white transition-colors ${product.hasDetailsButton ? 'w-36' : 'w-full'}`}
@@ -234,9 +219,21 @@ const Products = () => {
         />
 
         {/* --- BOTONES SOBRE LA IMAGEN (DENTRO DEL WRAPPER RELATIVE) --- */}
-        {/* IZQ: “+” (z-50) */}
-        <AddToQuoteButton onClick={() => handleAddToQuote(product)} />
+        {/* IZQ: â€œ+â€ (z-50) */}
+        {/* IZQ: â€œ+â€ (z-50) */}
+        <AddToQuoteButton
+          onClick={() => {
+            const exists = items.some(p => (p.id ?? p.name) === (product.id ?? product.name));
+            if (exists) {
+              showToast({ type: 'info', message: 'Este producto ya estÃ¡ en la cotizaciÃ³n' });
+              return;
+            }
+            addItem({ ...product, image: product.image || product.images?.[0] });
+            showToast({ type: 'success', message: 'âœ“ Agregado a cotizaciÃ³n' });
+          }}
+        />
         {/* DER: lupa (z-40) */}
+
         <button
           type="button"
           onClick={() => setZoomSrc(product.images ? product.images[0] : product.image)}
@@ -272,7 +269,7 @@ const Products = () => {
             <h4 className="font-nexa font-semibold text-primary mb-2 text-sm sm:text-base">Variantes disponibles:</h4>
             <ul className="space-y-1">
               {product.variants.map((variant) => (
-                <li key={variant} className="text-gray-600 font-nexa text-xs sm:text-sm">• {variant}</li>
+                <li key={variant} className="text-gray-600 font-nexa text-xs sm:text-sm">â€¢ {variant}</li>
               ))}
             </ul>
           </div>
@@ -284,8 +281,8 @@ const Products = () => {
             {product.hasTechnicalSheet && (
               <DownloadButton
                 pdfPath={product.pdf}
-                fileName={`Ficha Técnica - ${product.name}.pdf`}
-                buttonText="Ficha Técnica"
+                fileName={`Ficha TÃ©cnica - ${product.name}.pdf`}
+                buttonText="Ficha TÃ©cnica"
                 variant="secondary"
                 size="sm"
                 className={`!bg-[#cc7722] hover-c8911e text-white font-bold ${product.hasDetailsButton ? 'w-36' : 'w-full'}`}
@@ -310,7 +307,7 @@ const Products = () => {
   const media = useMemo(() => {
     if (!selectedProduct) return [];
 
-    // Imágenes
+    // ImÃ¡genes
     const imgs = (selectedProduct.images || []).map((src) => ({
       type: 'image',
       src,
@@ -331,7 +328,7 @@ const Products = () => {
         }]
         : []);
 
-    // Orden: primero TODAS las imágenes, después los videos
+    // Orden: primero TODAS las imÃ¡genes, despuÃ©s los videos
     return [...imgs, ...vids];
   }, [selectedProduct]);
 
@@ -351,10 +348,10 @@ const Products = () => {
 
   return (
     <Helmet>
-      <title>Productos — Grupo Feyod</title>
+      <title>Productos â€” Grupo Feyod</title>
       <meta name="description" content="Nuestros Productos." />
     </Helmet>,
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-white">
+    <div className="min-h-screen min-h-screen-ios bg-gradient-to-br from-gray-50 to-white">
       {/* Hero Banner */}
       <section className="pt-32 pb-20 bg-gradient-to-r from-primary to-primary-600 text-white relative overflow-hidden">
         <div className="absolute inset-0 bg-black/20" />
@@ -417,7 +414,7 @@ const Products = () => {
                 <button
                   onClick={handleClearSearch}
                   className="ml-2 w-8 h-8 sm:w-10 sm:h-10 bg-gray-200 hover:bg-gray-300 rounded-lg flex items-center justify-center transition-colors"
-                  aria-label="Limpiar búsqueda"
+                  aria-label="Limpiar bÃºsqueda"
                 >
                   <X size={16} className="text-gray-600 sm:hidden" />
                   <X size={20} className="text-gray-600 hidden sm:block" />
@@ -449,7 +446,7 @@ const Products = () => {
                 No se encontraron productos
               </h3>
               <p className="text-gray-500 font-nexa">
-                Intenta ajustar los filtros o buscar con otros términos.
+                Intenta ajustar los filtros o buscar con otros tÃ©rminos.
               </p>
             </div>
           )}
@@ -483,7 +480,7 @@ const Products = () => {
             className="relative bg-white rounded-2xl shadow-2xl max-w-3xl w-full overflow-hidden"
             onClick={(e) => e.stopPropagation()} // Evita cierre al click dentro
           >
-            {/* Botón X para cerrar */}
+            {/* BotÃ³n X para cerrar */}
             <button
               type="button"
               aria-label="Cerrar"
@@ -497,7 +494,7 @@ const Products = () => {
             <img
               src={zoomSrc}
               alt="Vista ampliada"
-              className="w-full h-auto object-contain max-h-[80vh] bg-black"
+              className="w-full h-auto object-contain max-h-[80vh] max-h-ios-80 bg-black"
               loading="lazy"
             />
           </div>
@@ -522,7 +519,7 @@ const Products = () => {
             </div>
 
             {/* Cuerpo con scroll interno */}
-            <div className="max-h-[calc(80vh-6rem)] overflow-y-auto">
+            <div className="max-h-[calc(80vh-6rem)] max-h-ios-body overflow-y-auto">
               {/* Image/Video Carousel */}
               <div className="relative">
                 <div className="aspect-video overflow-hidden">
@@ -615,7 +612,7 @@ const Products = () => {
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                       {selectedProduct.variants.map((variant) => (
                         <div key={variant} className="bg-gray-50 p-3 rounded-lg">
-                          <span className="text-gray-700 font-nexa">• {variant}</span>
+                          <span className="text-gray-700 font-nexa">â€¢ {variant}</span>
                         </div>
                       ))}
                     </div>
@@ -626,18 +623,10 @@ const Products = () => {
           </Modal>
         )}
       </AnimatePresence>
-
-      {/* Quote Modal (usa el Modal base; altura fija y scroll interno) */}
-      <QuoteModal
-        open={quoteOpen}
-        onClose={() => { setQuoteOpen(false); clearCotizarQuery(); }}
-        items={quoteItems}
-        onRemoveItem={handleRemoveFromQuote}
-        onSubmit={() => { setQuoteOpen(false); clearCotizarQuery(); }}
-      />
-
     </div>
   );
 };
 
 export default Products;
+
+

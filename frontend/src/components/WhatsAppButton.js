@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+﻿import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { MessageCircle, X } from 'lucide-react';
 
@@ -6,12 +6,12 @@ const WhatsAppButton = () => {
   const [showTooltip, setShowTooltip] = useState(false);
 
   const whatsappNumber = '+573002014127';
-  const message = '¡Hola! Me interesa conocer más sobre las soluciones sanitarias inteligentes.';
+  const message = 'Â¡Hola! Me interesa conocer mÃ¡s sobre las soluciones sanitarias inteligentes.';
   
   const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
 
   return (
-    <div className="fixed bottom-20 sm:bottom-24 right-6 z-50">
+    <div className="fixed right-6 z-50 bottom-20 bottom-safe sm:bottom-24">
       <AnimatePresence>
         {showTooltip && (
           <motion.div
@@ -29,10 +29,10 @@ const WhatsAppButton = () => {
               </button>
               <div className="pr-4">
                 <h3 className="font-neue font-bold text-primary mb-2">
-                  ¡Hablemos por WhatsApp!
+                  Â¡Hablemos por WhatsApp!
                 </h3>
                 <p className="text-gray-600 font-nexa text-sm mb-3">
-                  ¿Tienes preguntas sobre nuestros productos? Estamos aquí para ayudarte.
+                  Â¿Tienes preguntas sobre nuestros productos? Estamos aquÃ­ para ayudarte.
                 </p>
                 <a
                   href={whatsappUrl}

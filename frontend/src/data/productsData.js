@@ -18,6 +18,7 @@ export const productsData = {
         videos: [
                   { src: 'videos/products/accesoriosparasanitarios/valvula-smart.mp4', poster: 'images/general/banner.jpg' },
                   { src: 'videos/products/accesoriosparasanitarios/funcionamiento-fluxometro.mp4', poster: 'images/general/banner.jpg' },
+                  { src: 'videos/products/accesoriosparasanitarios/consumo-valvula-smart.mp4', poster: 'images/general/banner.jpg' },
                 ],
         pdf: '/pdfs/products/accesoriosparasanitarios/valvula-smart.pdf',
         keywords: ['válvula', 'smart', 'cuadrada', 'LED', 'touch'],
@@ -28,16 +29,16 @@ export const productsData = {
         name: 'Válvula de Descarga para Orinal',
         description: 'Válvula de sensor de doble descarga para orinal. Descarga calibrada desde 0,5 L hasta 3,8 L. Fachada en acero inoxidable y descarga manual opcional.',
         isDoubleCard: true,
-        hasDetailsButton: true, 
+        hasDetailsButton: false, 
         hasTechnicalSheet: true,       
         images: [
-          'images/products/orinalesycartuchos/valvula-de-descarga-para-orinal.png'
+          'images/products/accesoriosparasanitarios/valvula-de-descarga-para-orinal.png'
         ],
-        video:'videos/products/orinalesycartuchos/cosumo-valvula-smart.mp4',
-        videoPoster:'images/general/banner.jpg',
-        pdf: '/pdfs/products/orinalesycartuchos/valvula-descarga-orinal.pdf',
+        //video:'videos/products/accesoriosparasanitarios/cosumo-valvula-smart.mp4',
+        //videoPoster:'images/general/banner.jpg',
+        pdf: '/pdfs/products/accesoriosparasanitarios/valvula-descarga-orinal.pdf',
         keywords: ['válvula', 'descarga', 'orinal', 'sensor', 'acero', 'inoxidable'],
-        category: 'Orinales y Cartuchos'
+        category: 'Accesorios para Sanitarios'
       },
       {
         id: 2,

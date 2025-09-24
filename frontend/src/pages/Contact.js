@@ -1,9 +1,8 @@
-import React, { useState, useEffect } from 'react';
+﻿import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Mail, Phone, MapPin, Clock, Send, CheckCircle, AlertCircle, Facebook, Instagram, Linkedin, X } from 'lucide-react';
 import { Helmet } from 'react-helmet-async';
-
-
+import { formatWhatsAppQuoteMessage, openWhatsAppWithText } from '@/utils/whatsapp';
 
 // TikTok Icon Component
 const TikTokIcon = ({ className = "w-6 h-6" }) => (
@@ -77,10 +76,10 @@ const Contact = () => {
       "Grifo L",
       "Grifo Andrew",
       "Grifo Diamond",
-      "Grifo Du‑Plo (quirúrgico)",
+      "Grifo Duâ€‘Plo (quirÃºrgico)",
       "Grifo Quatro",
       "Grifo Escuadra",
-      "Grifo Vicaríolo",
+      "Grifo Vicariólo",
       "Grifo en bambú",
       "Grifo cascada en mármol",
       "Grifo Cascata",
@@ -94,7 +93,7 @@ const Contact = () => {
       "Grifo Curvesense",
       "Grifo Cascade",
       "Grifo Cascadal",
-      "Grifo Cilíndrico",
+      "Grifo Cilídrico",
       "Grifo Prisma",
       "Módulo de lavamanos 4 en 1",
       "Ducha Curve",
@@ -134,7 +133,7 @@ const Contact = () => {
       "Racor plástico para sanitarios",
       "Racor metálico para sanitarios",
       "Bobina para fluxómetro duplex Corona",
-      "Cartucho para Push Docol sanitario de 1 ¼″",
+      "Cartucho para Push Docol sanitario de 1 Â¼â€³",
       "Cartucho para Push sanitario Corona",
       "Aireador para grifo",
       "Manguera para jabonera de sensor Corona",
@@ -152,17 +151,35 @@ const Contact = () => {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
+
+    // === Reinicio total cuando cambia "Tipo de Servicio" ===
+    if (name === 'service') {
+      // Estado inicial para plantillas: mensaje vacÃ­o, sin categorÃ­a ni productos
+      setFormData(prev => ({
+        ...prev,
+        service: value,
+        message: '',
+        selectedCategory: '',
+        selectedProducts: []
+      }));
+      // Limpia el listado visible de productos disponibles
+      setAvailableProducts([]);
+      return; // Importante: salir aquÃ­ para no ejecutar el resto
+    }
+
+    // ActualizaciÃ³n estÃ¡ndar de cualquier otro campo
     setFormData(prev => ({
       ...prev,
       [name]: value
     }));
 
-    // Handle category change - NO eliminar productos seleccionados
+    // Cambio de categorÃ­a: cargar productos de esa categorÃ­a
     if (name === 'selectedCategory') {
       setAvailableProducts(productsData[value] || []);
-      // NO limpiar selectedProducts para mantener la acumulación
+      // OJO: mantenemos selectedProducts (acumulaciÃ³n) tal como pediste
     }
   };
+
 
   const handleProductToggle = (product) => {
     const category = formData.selectedCategory; // Categoria actual
@@ -189,6 +206,18 @@ const Contact = () => {
 
   // Define quotation service check
   const isQuotationService = formData.service === 'cotizacion';
+
+    // Placeholder dinÃ¡mico segÃºn el tipo de servicio
+  const placeholderMessage =
+    isQuotationService
+      ? 'Cuéntanos que necesitas cotizar (detalles, cantidades, características, plazos)...'
+      : formData.service === 'soporte'
+        ? 'Describe el problema técnico, equipo/modelo y síntomas.'
+        : formData.service === 'instalacion'
+          ? 'Indica qué deseas instalar, cantidades, ubicaciÃ³n y condiciones del sitio.'
+          : formData.service === 'mantenimiento'
+            ? 'Cuéntanos el mantenimiento requerido, frecuencia y equipos involucrados.'
+            : 'Cuéntanos sobre tu proyecto o consulta...';
 
   // Update message template when products are selected
   useEffect(() => {
@@ -225,14 +254,65 @@ const Contact = () => {
         }));
       }
     }
-  }, [formData.selectedProducts, isQuotationService]);
+    }, [formData.selectedProducts, isQuotationService, formData.service]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsSubmitting(true);
-    
+
+    // 1) ValidaciÃ³n bÃ¡sica adicional
+    if (!formData.name || !formData.email || !formData.phone || !formData.message) {
+      setIsSubmitting(false);
+      alert('Por favor completa todos los campos requeridos.');
+      return;
+    }
+
+    // Helper para limpiar â€œsaltos extraâ€ que a veces quedan por ediciones previas
+    const collapseBlankLines = (s) => s.replace(/\r/g, '').replace(/\n{3,}/g, '\n\n').trim();
+
+    // 2) ConstrucciÃ³n del mensaje para WhatsApp segÃºn el servicio
+    let fullMessage = '';
+
+    if (formData.service === 'cotizacion') {
+      // --- Flujo: Solicitar CotizaciÃ³n -> incluir plantilla base + Ã­tems ---
+      const productsForWA = (formData.selectedProducts || []).map((s) => {
+        // s viene como "Producto (CategorÃ­a)" segÃºn tu estado actual
+        const m = String(s).match(/^(.*)\s+\((.*)\)\s*$/);
+        return m ? { name: m[1].trim(), category: m[2].trim() } : { name: String(s).trim() };
+      });
+
+      const base = formatWhatsAppQuoteMessage(productsForWA);
+
+      const extra = [
+        '',
+        'Mensaje del usuario:',
+        formData.message || '(sin mensaje)',
+        '',
+        `Nombre: ${formData.name}`,
+        `Email: ${formData.email}`,
+        `Teléfono: ${formData.phone}`
+      ].join('\n');
+
+      fullMessage = `${base}\n\n${extra}`;
+    } else {
+      // --- Flujo: otros servicios -> NO incluir la plantilla base ---
+      fullMessage = [
+        'Mensaje del usuario:',
+        formData.message || '(sin mensaje)',
+        '',
+        `Nombre: ${formData.name}`,
+        `Email: ${formData.email}`,
+        `Teléfono: ${formData.phone}`
+      ].join('\n');
+    }
+
+    fullMessage = collapseBlankLines(fullMessage);
+
     try {
-      // Prepare form data for backend
+      // 3) Abrir WhatsApp primero (mejor para pop-up blockers)
+      openWhatsAppWithText(fullMessage);
+
+      // 4) EnvÃ­o a tu backend (igual que antes)
       const contactFormData = {
         name: formData.name,
         email: formData.email,
@@ -243,12 +323,9 @@ const Contact = () => {
         message: formData.message
       };
 
-      // Send to backend API
       const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/contact`, {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(contactFormData),
       });
 
@@ -258,10 +335,10 @@ const Contact = () => {
 
       const result = await response.json();
       console.log('Form submitted successfully:', result);
-      
+
       setSubmitStatus('success');
-      
-      // Reset form
+
+      // 5) Reset (igual que tu lÃ³gica original)
       setFormData({
         name: '',
         email: '',
@@ -273,18 +350,13 @@ const Contact = () => {
         selectedProducts: []
       });
       setAvailableProducts([]);
-      
-      // Clear success message after 5 seconds
-      setTimeout(() => {
-        setSubmitStatus(null);
-      }, 5000);
-      
+
+      setTimeout(() => setSubmitStatus(null), 5000);
+
     } catch (error) {
       console.error('Error sending form:', error);
       setSubmitStatus('error');
-      setTimeout(() => {
-        setSubmitStatus(null);
-      }, 5000);
+      setTimeout(() => setSubmitStatus(null), 5000);
     } finally {
       setIsSubmitting(false);
     }
@@ -306,7 +378,7 @@ const Contact = () => {
     {
       icon: MapPin,
       title: 'Oficina Principal',
-      info: 'Carrera 61 # 162 - 21, Bogotá',
+      info: 'Carrera 61 # 162 - 21, BogotÃ¡',
       subtitle: 'Colombia'
     },
     {
@@ -330,10 +402,12 @@ const Contact = () => {
     { icon: Linkedin, href: 'https://www.linkedin.com', label: 'LinkedIn', color: 'text-blue-700' }
   ];
 
+  
+
   return (
 
     <Helmet>
-      <title>Contáctanos — Grupo Feyod</title>
+      <title>Contáctanos - Grupo Feyod</title>
       <meta name="description" content="Contáctanos." />
     </Helmet>,
 
@@ -341,7 +415,7 @@ const Contact = () => {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      className="pt-20 min-h-screen"
+      className="pt-20 min-h-screen min-h-screen-ios"
     >
       {/* Hero Banner */}
       <section className="pt-32 pb-20 bg-gradient-to-r from-primary to-primary-600 text-white relative overflow-hidden">
@@ -411,7 +485,7 @@ const Contact = () => {
               className="order-2 lg:order-1"
             >
               <h2 className="text-2xl sm:text-3xl md:text-4xl font-neue font-bold text-primary mb-6 sm:mb-8">
-                Envíanos un Mensaje
+                Envínos un Mensaje
               </h2>
               
               {/* Success Message */}
@@ -545,7 +619,7 @@ const Contact = () => {
                         onChange={handleChange}
                         className="w-full px-3 sm:px-4 py-2 sm:py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary/20 focus:border-primary transition-colors font-nexa text-sm sm:text-base"
                       >
-                        <option value="">Selecciona una categoría</option>
+                        <option value="">Selecciona una categorÃ­a</option>
                         {categories.map((category) => (
                           <option key={category} value={category}>
                             {category}
@@ -614,13 +688,14 @@ const Contact = () => {
                     required
                     rows={5}
                     className="w-full px-3 sm:px-4 py-2 sm:py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary/20 focus:border-primary transition-colors font-nexa resize-none text-sm sm:text-base"
-                    placeholder="Cuéntanos sobre tu proyecto o consulta..."
+                    placeholder={placeholderMessage}
                   />
                 </div>
 
                 <motion.button
                   type="submit"
                   disabled={isSubmitting}
+                  aria-label="Enviar por WhatsApp"
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
                   className={`w-full py-3 sm:py-4 rounded-lg font-nexa font-semibold text-base sm:text-lg transition-all flex items-center justify-center space-x-2 ${
@@ -664,7 +739,7 @@ const Contact = () => {
                     allowFullScreen=""
                     loading="lazy"
                     referrerPolicy="no-referrer-when-downgrade"
-                    title="Ubicación Grupo Feyod"
+                    title="UbicaciÃ³n Grupo Feyod"
                   ></iframe>
                 </div>
               </div>

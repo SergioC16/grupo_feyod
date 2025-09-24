@@ -2,17 +2,16 @@ import React, { useState, useEffect } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { Menu, X, Home, Package, Users, Phone, Settings } from 'lucide-react';
-
+import { useQuote } from '@/contexts/QuoteContext';
 
 const Header = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const location = useLocation();
+  const { count, openModal } = useQuote();
 
   useEffect(() => {
-    const handleScroll = () => {
-      setScrolled(window.scrollY > 50);
-    };
+    const handleScroll = () => setScrolled(window.scrollY > 50);
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
@@ -27,29 +26,26 @@ const Header = () => {
 
   const isContactPage = location.pathname === '/contacto';
   const navigate = useNavigate();
-  
 
   return (
     <motion.header
       initial={{ y: -100 }}
       animate={{ y: 0 }}
-      className={`fixed top-0 w-full z-50 transition-all duration-300 ${
-        scrolled 
-          ? 'bg-white/40 backdrop-blur-xl shadow-lg' 
-          : 'bg-white/80 backdrop-blur-lg shadow-sm'
+      className={`fixed top-0 w-full z-50 pt-safe transition-all duration-300 ${scrolled
+        ? 'bg-white/40 backdrop-blur-xl shadow-lg'
+        : 'bg-white/80 backdrop-blur-lg shadow-sm'
       }`}
     >
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16 lg:h-20">
           {/* Logo */}
           <Link to="/" className="flex items-center space-x-2 flex-shrink-0">
-            {/* responsive logo container to match Footer.js */}
             <div className="h-8 sm:h-10 w-auto">
               <img src="/images/general/logo.png" alt="Grupo Feyod" className="w-full h-full object-contain" />
             </div>
           </Link>
 
-          {/* Desktop Navigation */}
+          {/* Navegación escritorio */}
           <nav className="hidden md:flex items-center space-x-8">
             {navigation.map((item) => {
               const Icon = item.icon;
@@ -58,10 +54,9 @@ const Header = () => {
                 <Link
                   key={item.name}
                   to={item.href}
-                  className={`flex items-center space-x-2 px-4 py-2 rounded-full transition-all duration-300 ${
-                    isActive
-                      ? 'bg-primary text-white shadow-lg'
-                      : 'text-primary hover:bg-primary/10 hover:text-primary'
+                  className={`flex items-center space-x-2 px-4 py-2 rounded-full transition-all duration-300 ${isActive
+                    ? 'bg-primary text-white shadow-lg'
+                    : 'text-primary hover:bg-primary/10 hover:text-primary'
                   }`}
                 >
                   <Icon size={18} />
@@ -71,35 +66,37 @@ const Header = () => {
             })}
           </nav>
 
-          {/* CTA Button - Hidden on Contact page */}
-            {/* CTA Button - keep visible always and centered */}
+          {/* Botón CTA */}
           <motion.div
-              className="hidden md:block"
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-            >
+            className="hidden md:block"
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+          >
             <button
-              onClick={() => navigate('/productos?cotizar=1')}
-              className="btn-primary bg-accent hover:bg-accent-600 text-white px-6 py-3 rounded-full font-nexa font-semibold shadow-lg hover:shadow-xl"
+              onClick={openModal}
+              className="relative btn-primary bg-accent hover:bg-accent-600 text-white px-6 py-3 rounded-full font-nexa font-semibold shadow-lg hover:shadow-xl"
               aria-label="Abrir cotización"
             >
-            Cotizar Ahora
+              Cotizar ahora
+              {count > 0 && (
+                <span className="absolute -top-1 -right-1 flex h-5 min-w-5 items-center justify-center rounded-full bg-green-100 px-1 text-xs font-semibold text-green-700 shadow">
+                  {count}
+                </span>
+              )}
             </button>
           </motion.div>
 
-          
-
-          {/* Mobile menu button */}
+          {/* Botón menú móvil */}
           <button
             onClick={() => setIsOpen(!isOpen)}
             className="md:hidden p-2 rounded-lg text-primary hover:bg-primary/10 transition-colors z-50 relative"
-            aria-label="Toggle menu"
+            aria-label="Abrir o cerrar menú"
           >
             {isOpen ? <X size={24} /> : <Menu size={24} />}
           </button>
         </div>
 
-        {/* Mobile Navigation */}
+        {/* Navegación móvil */}
         <motion.div
           initial={false}
           animate={isOpen ? { height: 'auto', opacity: 1 } : { height: 0, opacity: 0 }}
@@ -114,10 +111,9 @@ const Header = () => {
                   key={item.name}
                   to={item.href}
                   onClick={() => setIsOpen(false)}
-                  className={`flex items-center space-x-3 px-4 py-3 mx-2 rounded-lg transition-all duration-300 ${
-                    isActive
-                      ? 'bg-primary text-white shadow-md'
-                      : 'text-primary hover:bg-primary/10'
+                  className={`flex items-center space-x-3 px-4 py-3 mx-2 rounded-lg transition-all duration-300 ${isActive
+                    ? 'bg-primary text-white shadow-md'
+                    : 'text-primary hover:bg-primary/10'
                   }`}
                 >
                   <Icon size={20} />
@@ -126,18 +122,21 @@ const Header = () => {
               );
             })}
             {!isContactPage && (
-              <Link
-                to="/productos?cotizar=1"
-                onClick={() => setIsOpen(false)}
+              <button
+                onClick={() => { openModal(); setIsOpen(false); }}
                 aria-label="Abrir cotización"
-                className="block w-auto mx-2 mt-4 bg-accent hover:bg-accent-600 text-primary px-4 py-3 rounded-lg font-nexa font-semibold text-center shadow-md"
+                className="relative block w-auto mx-2 mt-4 bg-accent hover:bg-accent-600 text-primary px-4 py-3 rounded-lg font-nexa font-semibold text-center shadow-md"
               >
-                Cotizar Ahora
-              </Link>
-          )}
+                Cotizar ahora
+                {count > 0 && (
+                  <span className="absolute -top-1 -right-1 flex h-5 min-w-5 items-center justify-center rounded-full bg-green-100 px-1 text-xs font-semibold text-green-700 shadow">
+                    {count}
+                  </span>
+                )}
+              </button>
+            )}
           </div>
         </motion.div>
-    
       </div>
     </motion.header>
   );
