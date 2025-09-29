@@ -12,8 +12,8 @@ export const productsData = {
         images: [
           'images/products/accesoriosparasanitarios/valvula-smart-cuadrada.png',
           'images/products/accesoriosparasanitarios/vidrio-color.jpg',
-          'images/products/accesoriosparasanitarios/corian.jpg',
-          'images/products/accesoriosparasanitarios/acero-inox.jpg',
+          'images/products/accesoriosparasanitarios/corian.png',
+          'images/products/accesoriosparasanitarios/acero-inox.png',
         ],        
         videos: [
                   { src: 'videos/products/accesoriosparasanitarios/valvula-smart.mp4', poster: 'images/general/banner.jpg' },
@@ -32,13 +32,13 @@ export const productsData = {
         hasDetailsButton: false, 
         hasTechnicalSheet: true,       
         images: [
-          'images/products/accesoriosparasanitarios/valvula-de-descarga-para-orinal.png'
+          'images/products/orinalesycartuchos/valvula-de-descarga-para-orinal.png'
         ],
-        //video:'videos/products/accesoriosparasanitarios/cosumo-valvula-smart.mp4',
+        //video:'videos/products/orinalesycartuchos/cosumo-valvula-smart.mp4',
         //videoPoster:'images/general/banner.jpg',
-        pdf: '/pdfs/products/accesoriosparasanitarios/valvula-descarga-orinal.pdf',
+        pdf: '/pdfs/products/orinalesycartuchos/valvula-descarga-orinal.pdf',
         keywords: ['válvula', 'descarga', 'orinal', 'sensor', 'acero', 'inoxidable'],
-        category: 'Accesorios para Sanitarios'
+        category: 'Orinales y Cartuchos'
       },
       {
         id: 2,
@@ -137,7 +137,7 @@ export const productsData = {
         hasDetailsButton: true,
         hasTechnicalSheet: true,
         images: [
-          'images/products/accesoriosparasanitarios/sensor-power-light.png'
+          'images/products/accesoriosparasanitarios/sensor-power-light.jpg'
         ],
         video:'videos/products/accesoriosparasanitarios/power-light.mp4',
         videoPoster:'images/general/banner.jpg',

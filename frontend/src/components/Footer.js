@@ -36,7 +36,7 @@ const Footer = () => {
 
   const socialLinks = [
     { icon: Instagram, href: 'https://www.instagram.com/grupofeyodrd/', label: 'Instagram', color: 'hover:text-pink-600' },
-    { icon: Linkedin, href: 'https://www.linkedin.com/', label: 'LinkedIn', color: 'hover:text-blue-700' }
+    { icon: Linkedin, href: 'https://www.linkedin.com/company/grupo-feyod-sas/', label: 'LinkedIn', color: 'hover:text-blue-700' }
   ];
 
   return (
@@ -102,7 +102,13 @@ const Footer = () => {
           {/* Services */}
           <div>
             <h3 className="font-neue font-bold text-xl mb-6 text-white">
-              Nuestros Servicios
+              <Link
+                to="/servicios"
+                onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+                className="inline-block hover:text-accent transition-colors duration-300"
+              >
+                <u>Nuestros Servicios</u> 
+              </Link>
             </h3>
             <ul className="space-y-3">
               {services.map((service, index) => (

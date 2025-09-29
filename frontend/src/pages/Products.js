@@ -1,4 +1,4 @@
-﻿import React, { useState, useMemo, useCallback, useEffect } from 'react';
+import React, { useState, useMemo, useCallback, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, Search, ChevronLeft, ChevronRight, ChevronUp } from 'lucide-react';
 import { productsData } from '../data/productsData';
@@ -134,16 +134,16 @@ const Products = () => {
         />
 
         {/* --- BOTONES SOBRE LA IMAGEN (DENTRO DEL WRAPPER RELATIVE) --- */}
-        {/* IZQ: â€œ+â€ (z-50) */}
+        {/* IZQ: “+” (z-50) */}
         <AddToQuoteButton
           onClick={() => {
             const exists = items.some(p => (p.id ?? p.name) === (product.id ?? product.name));
             if (exists) {
-              showToast({ type: 'info', message: 'Este producto ya está en la cotización' });
+              showToast({ type: 'info', message: 'Este producto ya est� en la cotizaci�n' });
               return;
             }
             addItem({ ...product, image: product.image || product.images?.[0] });
-            showToast({ type: 'success', message: 'âœ“ Agregado a cotización' });
+            showToast({ type: 'success', message: '✓ Agregado a cotizaci�n' });
           }}
         />
         {/* DER: lupa (z-40) */}
@@ -171,7 +171,7 @@ const Products = () => {
         <h3 className="font-neue font-bold text-lg sm:text-xl text-primary mb-2 sm:mb-3">
           {product.name}
         </h3>
-        {/* DescripciÃ³n: Ã¡rea con altura fija y scroll interno para mantener los botones en el fondo */}
+        {/* Descripción: área con altura fija y scroll interno para mantener los botones en el fondo */}
         <div className="hidden md:block h-24 md:h-28 overflow-y-auto pr-2">
           <p className="text-gray-600 font-nexa text-sm leading-relaxed">
             {product.description}
@@ -219,16 +219,16 @@ const Products = () => {
         />
 
         {/* --- BOTONES SOBRE LA IMAGEN (DENTRO DEL WRAPPER RELATIVE) --- */}
-        {/* IZQ: â€œ+â€ (z-50) */}
+        {/* IZQ: “+” (z-50) */}
         <AddToQuoteButton
           onClick={() => {
             const exists = items.some(p => (p.id ?? p.name) === (product.id ?? product.name));
             if (exists) {
-              showToast({ type: 'info', message: 'Este producto ya está en la cotización' });
+              showToast({ type: 'info', message: 'Este producto ya est� en la cotizaci�n' });
               return;
             }
             addItem({ ...product, image: product.image || product.images?.[0] });
-            showToast({ type: 'success', message: 'Agregado a cotización' });
+            showToast({ type: 'success', message: 'Agregado a cotizaci�n' });
           }}
         />
         {/* DER: lupa (z-40) */}
@@ -268,7 +268,7 @@ const Products = () => {
             <h4 className="font-nexa font-semibold text-primary mb-2 text-sm sm:text-base">Variantes disponibles:</h4>
             <ul className="space-y-1">
               {product.variants.map((variant) => (
-                <li key={variant} className="text-gray-600 font-nexa text-xs sm:text-sm">â€¢ {variant}</li>
+                <li key={variant} className="text-gray-600 font-nexa text-xs sm:text-sm">• {variant}</li>
               ))}
             </ul>
           </div>
@@ -306,7 +306,7 @@ const Products = () => {
   const media = useMemo(() => {
     if (!selectedProduct) return [];
 
-    // ImÃ¡genes
+    // Imágenes
     const imgs = (selectedProduct.images || []).map((src) => ({
       type: 'image',
       src,
@@ -327,7 +327,7 @@ const Products = () => {
         }]
         : []);
 
-    // Orden: primero TODAS las imÃ¡genes, despuÃ©s los videos
+    // Orden: primero TODAS las imágenes, después los videos
     return [...imgs, ...vids];
   }, [selectedProduct]);
 
@@ -347,7 +347,7 @@ const Products = () => {
 
   return (
     <Helmet>
-      <title>Productos â€” Grupo Feyod</title>
+      <title>Productos — Grupo Feyod</title>
       <meta name="description" content="Nuestros Productos." />
     </Helmet>,
     <div className="min-h-screen min-h-screen-ios bg-gradient-to-br from-gray-50 to-white">
@@ -413,7 +413,7 @@ const Products = () => {
                 <button
                   onClick={handleClearSearch}
                   className="ml-2 w-8 h-8 sm:w-10 sm:h-10 bg-gray-200 hover:bg-gray-300 rounded-lg flex items-center justify-center transition-colors"
-                  aria-label="Limpiar búsqueda"
+                  aria-label="Limpiar b�squeda"
                 >
                   <X size={16} className="text-gray-600 sm:hidden" />
                   <X size={20} className="text-gray-600 hidden sm:block" />
@@ -423,7 +423,7 @@ const Products = () => {
           </div>
 
           {/* Products Grid */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6 md:[grid-template-columns:repeat(auto-fit,minmax(280px,320px))] lg:[grid-template-columns:repeat(auto-fit,minmax(280px,320px))] md:justify-center lg:justify-center xl:justify-start">
             {filteredProducts.map((product, i) => (
               <React.Fragment key={product.id || product.name || `p-${i}`}>
                 {product.isDoubleCard ? (
@@ -445,7 +445,7 @@ const Products = () => {
                 No se encontraron productos
               </h3>
               <p className="text-gray-500 font-nexa">
-                Intenta ajustar los filtros o buscar con otros tÃ©rminos.
+                Intenta ajustar los filtros o buscar con otros términos.
               </p>
             </div>
           )}
@@ -479,7 +479,7 @@ const Products = () => {
             className="relative bg-white rounded-2xl shadow-2xl max-w-3xl w-full overflow-hidden"
             onClick={(e) => e.stopPropagation()} // Evita cierre al click dentro
           >
-            {/* BotÃ³n X para cerrar */}
+            {/* Botón X para cerrar */}
             <button
               type="button"
               aria-label="Cerrar"
@@ -611,7 +611,7 @@ const Products = () => {
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                       {selectedProduct.variants.map((variant) => (
                         <div key={variant} className="bg-gray-50 p-3 rounded-lg">
-                          <span className="text-gray-700 font-nexa">â€¢ {variant}</span>
+                          <span className="text-gray-700 font-nexa">• {variant}</span>
                         </div>
                       ))}
                     </div>
@@ -627,5 +627,6 @@ const Products = () => {
 };
 
 export default Products;
+
 
 

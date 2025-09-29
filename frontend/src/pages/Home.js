@@ -1,4 +1,4 @@
-﻿import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { ArrowRight, Shield, Zap, Users, Award, CheckCircle, Star } from 'lucide-react';
@@ -8,7 +8,7 @@ import { Helmet } from 'react-helmet-async';
 const Home = () => {
   // Carousel state and functionality
   const heroImages = [
-    '/images/general/banner.jpg',
+    '/images/general/banner.png',
     '/images/general/banner1.png',
     '/images/general/banner2.png',
     '/images/general/banner3.png',
@@ -60,7 +60,7 @@ const Home = () => {
     { number: '500+', label: 'Instalaciones' },
     { number: '98%', label: 'Satisfacción' },
     { number: '40%', label: 'Ahorro de Agua' },
-    { number: '5.0', label: 'CalificaciÃ³n' }
+    { number: '5.0', label: 'Calificación' }
   ];
 
   return (
@@ -77,17 +77,42 @@ const Home = () => {
 
       {/* Hero Section */}
       <section className="relative min-h-screen min-h-screen-ios flex items-center overflow-hidden">
-        {/* Carrusel con transiciÃ³n para todas las imÃ¡genes */}
+        {/* Carrusel con transición para todas las imÃ¡genes */}
         <div className="absolute inset-0">
           {heroImages.map((image, index) => (
-            <div
-              key={index}
-              className={`absolute inset-0 bg-cover bg-center bg-no-repeat transition-opacity duration-1000 ease-in-out ${
-                index === currentImageIndex ? 'opacity-100' : 'opacity-0'
-              }`}
-              style={{ backgroundImage: `url(${image})` }}
-            />
+            index === 0 ? (
+              // Banner inicial
+              <div
+                key="banner"
+                className={`absolute inset-0 transition-opacity duration-1000 ease-in-out ${index === currentImageIndex ? 'opacity-100' : 'opacity-0'
+                  }`}
+              >
+                <img
+                  src={image}
+                  alt="Banner Grupo Feyod"
+                  loading="eager"
+                  className="
+                    w-full h-full
+                    object-cover object-center
+                    md:object-cover
+                    select-none
+                  "
+                  draggable="false"
+                />
+              </div>
+            ) : (
+              // Resto de slides: igual que antes
+              <div
+                key={index}
+                className={`absolute inset-0 bg-cover bg-center bg-no-repeat transition-opacity duration-1000 ease-in-out ${index === currentImageIndex ? 'opacity-100' : 'opacity-0'
+                  }`}
+                style={{ backgroundImage: `url(${image})` }}
+              />
+            )
           ))}
+
+
+
           {/* Solo mostrar el gradiente si NO es la primera imagen */}
           {currentImageIndex !== 0 && <div className="hero-gradient absolute inset-0"></div>}
         </div>
@@ -183,7 +208,7 @@ const Home = () => {
               ¿Por Qué Elegir Grupo Feyod?
             </h2>
             <p className="text-xl text-gray-600 font-nexa max-w-3xl mx-auto">
-              Lideramos la innovación en tecnología sanitaria con soluciones que combinan 
+              Lideramos la innovación en tecnología sanitaria con soluciones que combinan
               innovación y tecnología, diseño premium y máxima funcionalidad.
             </p>
           </motion.div>
@@ -223,7 +248,7 @@ const Home = () => {
             backgroundImage: `url('https://images.pexels.com/photos/4957793/pexels-photo-4957793.jpeg')`
           }}
         />
-        
+
         <div className="relative z-10 container mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <motion.div
             initial={{ y: 50, opacity: 0 }}
@@ -234,7 +259,7 @@ const Home = () => {
               Transforma Tu Espacio Hoy
             </h2>
             <p className="text-xl text-white/90 font-nexa mb-8 leading-relaxed">
-              Descubre cómo nuestras soluciones inteligentes pueden revolucionar 
+              Descubre cómo nuestras soluciones inteligentes pueden revolucionar
               tu hogar, empresa o establecimiento comercial.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">

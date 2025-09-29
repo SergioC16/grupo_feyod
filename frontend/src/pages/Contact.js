@@ -419,7 +419,7 @@ const Contact = () => {
     {
       icon: MapPin,
       title: 'Oficina Principal',
-      info: 'Carrera 61 # 162 - 21, BogotÃ¡',
+      info: 'Carrera 61 # 162 - 21, Bogotá',
       subtitle: 'Colombia'
     },
     {
@@ -440,26 +440,26 @@ const Contact = () => {
 
   const socialLinks = [
     { icon: Instagram, href: 'https://www.instagram.com/grupofeyodrd/', label: 'Instagram', color: 'text-pink-600' },
-    { icon: Linkedin, href: 'https://www.linkedin.com', label: 'LinkedIn', color: 'text-blue-700' }
+    { icon: Linkedin, href: 'https://www.linkedin.com/company/grupo-feyod-sas/', label: 'LinkedIn', color: 'text-blue-700' }
   ];
 
 
 
   return (
-
+    <>
     <Helmet>
       <title>Contáctanos - Grupo Feyod</title>
       <meta name="description" content="Contáctanos." />
-    </Helmet>,
+    </Helmet>
 
     <motion.div
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      className="pt-20 min-h-screen min-h-screen-ios"
+      className="pt-6 md:pt-8 min-h-screen min-h-screen-ios"
     >
       {/* Hero Banner */}
-      <section className="pt-32 pb-20 bg-gradient-to-r from-primary to-primary-600 text-white relative overflow-hidden">
+      <section className="pt-10 md:pt-16 pb-20 bg-gradient-to-r from-primary to-primary-600 text-white relative overflow-hidden">
         <div className="absolute inset-0 bg-black/20" />
         <div className="absolute top-0 left-0 w-full h-full opacity-10">
           <div className="absolute top-10 left-10 w-64 h-64 bg-white rounded-full blur-3xl" />
@@ -526,7 +526,7 @@ const Contact = () => {
               className="order-2 lg:order-1"
             >
               <h2 className="text-2xl sm:text-3xl md:text-4xl font-neue font-bold text-primary mb-6 sm:mb-8">
-                Envínos un Mensaje
+                Envíanos un Mensaje
               </h2>
 
               {/* Success Message */}
@@ -830,6 +830,7 @@ const Contact = () => {
         </div>
       </section>
     </motion.div>
+    </>
   );
 };
 
