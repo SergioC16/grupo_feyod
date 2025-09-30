@@ -139,11 +139,11 @@ const Products = () => {
           onClick={() => {
             const exists = items.some(p => (p.id ?? p.name) === (product.id ?? product.name));
             if (exists) {
-              showToast({ type: 'info', message: 'Este producto ya est� en la cotizaci�n' });
+              showToast({ type: 'info', message: 'Este producto ya está en la cotización' });
               return;
             }
             addItem({ ...product, image: product.image || product.images?.[0] });
-            showToast({ type: 'success', message: '✓ Agregado a cotizaci�n' });
+            showToast({ type: 'success', message: '✓ Agregado a cotización' });
           }}
         />
         {/* DER: lupa (z-40) */}

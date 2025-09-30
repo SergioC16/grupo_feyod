@@ -71,7 +71,7 @@ const Home = () => {
       className="overflow-hidden"
     >
       <Helmet>
-        <title>Inicio - Grupo Feyod</title>
+        <title>Grupo Feyod</title>
         <meta name="description" content="Inicio." />
       </Helmet>
 
