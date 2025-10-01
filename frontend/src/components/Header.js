@@ -10,14 +10,13 @@ const Header = () => {
   const location = useLocation();
   const { count, openModal } = useQuote();
 
-  // Sombra / blur al hacer scroll
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 50);
     window.addEventListener("scroll", onScroll);
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  // Cerrar menú al navegar (evita duplicados y estados “colgados”)
+  // Cierra el menú al cambiar de ruta
   useEffect(() => {
     setIsOpen(false);
   }, [location.pathname]);
@@ -40,13 +39,15 @@ const Header = () => {
         sticky top-0 z-50 w-full relative
         pt-[env(safe-area-inset-top)]
         transition-[background-color,backdrop-filter,box-shadow] duration-300
-        ${scrolled ? "bg-white/40 backdrop-blur-xl shadow-lg" : "bg-white/80 backdrop-blur-lg shadow-sm"}
+        ${scrolled
+          ? "bg-white/40 backdrop-blur-xl shadow-lg"
+          : "bg-white/80 backdrop-blur-lg shadow-none"}
+
       `}
     >
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-
         {/* Fila principal */}
-        <div className="flex items-center justify-between h-14 sm:h-16 lg:h-[68px] xl:h-20 relative">
+        <div className="flex items-center justify-between h-14 sm:h-16 lg:h-[68px] xl:h-20">
           {/* Logo (izquierda) */}
           <Link to="/" className="inline-flex items-center shrink-0">
             <img
@@ -57,7 +58,7 @@ const Header = () => {
             />
           </Link>
 
-          {/* NAV DESKTOP (centrado) — solo >= xl */}
+          {/* NAV DESKTOP (centrado) — sólo ≥ xl */}
           <nav
             className="
               hidden xl:flex
@@ -65,7 +66,7 @@ const Header = () => {
               flex-1 min-w-0
               gap-4 2xl:gap-6
               whitespace-nowrap
-          "
+            "
           >
             {navigation.map((item) => {
               const Icon = item.icon;
@@ -75,17 +76,15 @@ const Header = () => {
                   key={item.name}
                   to={item.href}
                   className={`
-            flex items-center gap-2
-            px-4 2xl:px-5
-            py-2
-            border-2 border-transparent
-            rounded-full
-            text-sm 2xl:text-base
-            transition-colors duration-300
-            ${isActive
-                      ? "bg-primary text-white border-primary shadow-lg"
-                      : "text-primary hover:bg-primary/10"}
-          `}
+                    flex items-center gap-2
+                    px-4 2xl:px-5
+                    py-2
+                    border-2 border-transparent
+                    rounded-full
+                    text-sm 2xl:text-base
+                    transition-colors duration-300
+                    ${isActive ? "bg-primary text-white border-primary shadow-lg" : "text-primary hover:bg-primary/10"}
+                  `}
                 >
                   <Icon size={20} />
                   <span className="font-nexa font-medium">{item.name}</span>
@@ -94,26 +93,9 @@ const Header = () => {
             })}
           </nav>
 
-          {/* HAMBURGUESA CENTRADA — visible en md–lg (tablets/laptops) */}
-          <button
-            onClick={() => setIsOpen(v => !v)}
-            aria-label="Abrir o cerrar menú"
-            aria-expanded={isOpen}
-            aria-controls="mobile-menu"
-            className="
-              hidden md:flex xl:hidden
-              absolute left-1/2 -translate-x-1/2
-              h-10 w-10 items-center justify-center
-              rounded-full text-primary hover:bg-primary/10
-              transition-colors shadow-sm
-            "
-          >
-            {isOpen ? <X size={22} /> : <Menu size={22} />}
-          </button>
-
-          {/* CTA (derecha) — visible desde md */}
+          {/* CTA (derecha) — visible sólo ≥ xl */}
           <motion.div
-            className="hidden md:inline-flex shrink-0"
+            className="hidden xl:inline-flex shrink-0"
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
           >
@@ -131,21 +113,32 @@ const Header = () => {
             </button>
           </motion.div>
 
-          {/* HAMBURGUESA MÓVIL (derecha) — solo < md */}
-          <button
-            onClick={() => setIsOpen(v => !v)}
-            className="md:hidden p-3 rounded-lg text-primary hover:bg-primary/10 transition-colors relative"
-            aria-label="Abrir o cerrar menú"
-            aria-expanded={isOpen}
-            aria-controls="mobile-menu"
-          >
-            {isOpen ? <X size={24} /> : <Menu size={24} />}
-          </button>
+          {/* DERECHA: X (si abierto) + Hamburguesa — visible en < xl */}
+          <div className={`flex xl:hidden items-center gap-3 ${isOpen ? "relative z-[70]" : ""}`}>
+            {isOpen && (
+              <button
+                type="button"
+                aria-label="Cerrar menú"
+                onClick={() => setIsOpen(false)}
+                className="inline-flex h-9 w-9 items-center justify-center rounded-full bg-white/90 text-primary shadow-md hover:bg-white focus:outline-none"
+              >
+                <X size={20} />
+              </button>
+            )}
+            <button
+              onClick={() => setIsOpen((v) => !v)}
+              className="p-3 rounded-lg text-primary hover:bg-primary/10 transition-colors"
+              aria-label="Abrir o cerrar menú"
+              aria-expanded={isOpen}
+              aria-controls="mobile-menu"
+            >
+              <Menu size={24} />
+            </button>
+          </div>
         </div>
-
       </div>
 
-      {/* Menú móvil como OVERLAY ÚNICO (no empuja el layout) */}
+      {/* Menú móvil / tablets / laptops como overlay */}
       {isOpen && (
         <motion.div
           id="mobile-menu"
@@ -160,21 +153,6 @@ const Header = () => {
             className="absolute inset-0 bg-black/40 md:bg-black/30"
             onClick={() => setIsOpen(false)}
           />
-
-          {/* Botón Cerrar sobre el overlay */}
-          <button
-            type="button"
-            aria-label="Cerrar menú"
-            onClick={(e) => { e.stopPropagation(); setIsOpen(false); }}
-            className="
-        absolute right-3 top-3 md:right-5 md:top-4 z-[61]
-        inline-flex h-9 w-9 items-center justify-center
-        rounded-full bg-white/90 text-primary shadow-md
-        hover:bg-white focus:outline-none
-      "
-          >
-            <X size={20} />
-          </button>
 
           {/* Contenido del menú */}
           <div className="relative pt-16 md:pt-16 lg:pt-[72px] xl:pt-20">
@@ -198,28 +176,30 @@ const Header = () => {
                     );
                   })}
 
-                  {!isContactPage && (
-                    <button
-                      onClick={() => { openModal(); setIsOpen(false); }}
-                      aria-label="Abrir cotización"
-                      className="relative w-full mt-3 bg-accent hover:bg-accent-600 text-white px-4 py-3 rounded-lg font-nexa font-semibold text-center shadow-md"
-                    >
-                      Cotizar ahora
-                      {count > 0 && (
-                        <span className="absolute -top-1 -right-1 flex h-5 min-w-5 items-center justify-center rounded-full bg-green-100 px-1 text-xs font-semibold text-green-700 shadow">
-                          {count}
-                        </span>
-                      )}
-                    </button>
-                  )}
+                  {/* CTA dentro del overlay para < xl */}
+
+                  <button
+                    onClick={() => {
+                      openModal();
+                      setIsOpen(false);
+                    }}
+                    aria-label="Abrir cotización"
+                    className="relative w-full mt-3 bg-accent hover:bg-accent-600 text-white px-4 py-3 rounded-lg font-nexa font-semibold text-center shadow-md"
+                  >
+                    Cotizar ahora
+                    {count > 0 && (
+                      <span className="absolute -top-1 -right-1 flex h-5 min-w-5 items-center justify-center rounded-full bg-green-100 px-1 text-xs font-semibold text-green-700 shadow">
+                        {count}
+                      </span>
+                    )}
+                  </button>
+
                 </div>
               </div>
             </div>
           </div>
         </motion.div>
       )}
-
-
     </motion.header>
   );
 };

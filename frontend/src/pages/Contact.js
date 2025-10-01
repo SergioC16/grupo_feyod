@@ -456,10 +456,10 @@ const Contact = () => {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      className="pt-6 md:pt-8 min-h-screen min-h-screen-ios"
+      className="min-h-screen min-h-screen-ios"
     >
       {/* Hero Banner */}
-      <section className="pt-10 md:pt-16 pb-20 bg-gradient-to-r from-primary to-primary-600 text-white relative overflow-hidden">
+        <section className="pt-12 md:pt-18 pb-20 bg-gradient-to-r from-primary to-primary-600 text-white relative overflow-hidden">
         <div className="absolute inset-0 bg-black/20" />
         <div className="absolute top-0 left-0 w-full h-full opacity-10">
           <div className="absolute top-10 left-10 w-64 h-64 bg-white rounded-full blur-3xl" />

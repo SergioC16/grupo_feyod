@@ -2,6 +2,20 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Evita scroll horizontal y recorta cualquier desborde lateral */
+html, body, #root {
+  width: 100%;
+  max-width: 100vw;
+  overflow-x: clip; /* mejor que hidden: no genera compositing extra */
+}
+
+@supports not (overflow: clip) {
+  html, body, #root { overflow-x: hidden; } /* fallback para Safari viejo */
+}
+
+/* Opcional pero recomendable: el box-sizing evita que bordes/paddings sumen ancho extra */
+*, *::before, *::after { box-sizing: border-box; }
+
 body {
     margin: 0;
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto",
